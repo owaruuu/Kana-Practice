@@ -13,32 +13,31 @@ window.onpopstate = function (event) {
 }
 
 function Render(state){
-switch (state.currentPage) {
-    case "home":
-        //render home
-        ReloadPage();
-        break;
-    case "learnSetup":
-        BuildLearnSetupPage();
-        //render learn setup
-        break;
-    case "learn":
-        BuildLearnSetupPage();
-        //render learn
-        break;
-    case "practiceSetup":
-        BuildPracticeSetupPage()
-        //render practice setup
-        break;
-    case "practice":
-        BuildPracticeSetupPage()
-        //render pratice
-        break;
-    default:
-        break;
+    switch (state.currentPage) {
+        case "home":
+            //render home
+            ReloadPage();
+            break;
+        case "learnSetup":
+            BuildLearnSetupPage();
+            //render learn setup
+            break;
+        case "learn":
+            BuildLearnSetupPage();
+            //render learn
+            break;
+        case "practiceSetup":
+            BuildPracticeSetupPage()
+            //render practice setup
+            break;
+        case "practice":
+            BuildPracticeSetupPage()
+            //render pratice
+            break;
+        default:
+            break;
+    }
 }
-}
-
 
 let learnSets = [];
 
@@ -71,33 +70,33 @@ function KanaToInfo(kana){
 const infotext = {
     あ : 'La letra あ(a) se puede confundir con la letra お(o).',
     い : 'El orden de las vocales es diferente en Japones.',
-    う : 'El orden de las vocales es diferente en Japones.',
+    う : 'El orden es: a, i, u, e, o.',
     え : 'El orden de las vocales es diferente en Japones.',
     お : 'La letra お(o) se puede confundir con la letra あ(a).',
-    か : '',
-    き : '',
+    か : `Las letras de la fila 'ka' tambien reemplazan algunas silabas de la letra 'C' como 'Ca' en 'Camion', 'Cu' como en 'Cuello' y 'Co' de 'Comida'.`,
+    き : 'La parte superior de き se puede ocupar para recordar su contraparte Katakana キ',
     く : '',
     け : '',
-    こ : '',
-    さ : '',
+    こ : 'La letras こ se parece a su contraparte Katakana コ',
+    さ : `La fila de 'sa' suena como uno lo esperaria, con la excepcion de 'si' que pasa a ser 'shi'.`,
     し : '',
-    す : '',
-    せ : '',
+    す : `Para lograr los sonidos con Z se ocupan estas mismas letras pero con la marca 'dakuten' ゛.`,
+    せ : 'Por ejemplo せ = se, pero ぜ = ze.',
     そ : '',
-    た : '',
-    ち : '',
-    つ : '',
-    て : '',
+    た : 'La letra た se puede confundir con la letra な(na), nota que las dos comparten un tipo de cruz a la izquierda.',
+    ち : `Esta letra es una excepcion en la fila de た, su lectura es 'chi'.`,
+    つ : `Esta letra es una excepcion en la fila de た, su lectura es 'tsu'`,
+    て : `La fila de た se puede transformar del sonido de 'T' a el sonido de 'D' con la marca Dakuten ゛`,
     と : '',
-    な : '',
-    に : '',
-    ぬ : '',
-    ね : '',
-    の : '',
-    は : '',
-    ひ : '',
-    ふ : '',
-    へ : '',
+    な : 'La letra な se puede confundir con la letra た(ta), nota que las dos comparten un tipo de cruz a la izquierda.',
+    に : 'La letra に se puede confundir con la letra こ(ko), no olvides escribir la varita vertical en に.',
+    ぬ : 'Esta letra comparte la base con otras 2 letras: の(no), め(me), ぬ(nu).',
+    ね : 'Esta letra comparte la base con otras 2 letras: わ(wa), れ(re), ね(ne).',
+    の : 'Esta letra comparte la base con otras 2 letras: の(no), め(me), ぬ(nu).',
+    は : `La lectura de la fila は es como la J en el español, 'ja' en 'jabon'. cuando は es ocupado de particula su lectura es 'wa'.`,
+    ひ : `Esta fila puede pasar del sonido 'j' al sonido 'b' y 'p' con Dakuten ゛ y Handakuten ゜respectivamente`,
+    ふ : `Esta letra es un excepcion y su lectura es 'fu'.`,
+    へ : `Su lectura es 'je' como en 'jefe', tambien puede ser ocupado como particula y su lectura pasa a ser 'e'.`,
     ほ : '',
     ま : '',
     み : '',
