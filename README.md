@@ -1,2 +1,2 @@
-# Kana-Practice
+# KanaPractice
  
