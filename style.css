@@ -722,6 +722,7 @@ button:focus-visible{
 .info {
     color: #595758;
     font-size: clamp(1rem + 0.5vw,0.5em + 1.5vw,2rem);
+    font-family: 'Noto Serif JP', serif;
 }
 
 
