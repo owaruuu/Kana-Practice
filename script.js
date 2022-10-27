@@ -57,7 +57,7 @@ function KanaToInfo(kana){
         return;
     }
 
-    let symbol = '🛈 ';
+    let symbol = 'ⓘ ';
     let info = symbol.concat(infotext[kana]);
 
     if(info != null){
