@@ -71,7 +71,7 @@ const infotext = {
     あ : 'La letra あ(a) se puede confundir con la letra お(o).',
     い : 'El orden de las vocales es diferente en Japones.',
     う : 'El orden es: a, i, u, e, o.',
-    え : '',
+    え : '...',
     お : 'La letra お(o) se puede confundir con la letra あ(a).',
     か : `Las letras de la fila 'ka' tambien reemplazan algunas silabas de la letra 'C' del español como 'Ca' en 'Camion', 'Cu' como en 'Cuello' y 'Co' de 'Comida'.`,
     き : 'La parte superior de き se puede ocupar para recordar su contraparte Katakana キ',
@@ -1205,37 +1205,53 @@ function TurnBothButtons(buttonsattribute, onoff){
 }
 
 function StartLearning(){
+    //Push history state
     state.currentPage = "learn";
     window.history.pushState(state, null, "");
 
+    //Clean App
     let app = document.getElementById('app');
     app.innerHTML = "";
 
-    //instrucciones
+    //Populate instrucciones
     let instContent = document.getElementById('instruccionescontent');
     instContent.textContent = instrucciones.kanalearn;
 
-    //armar divs
+    let spacer = CreateAndClass('div', app, classes = ['spacer'] );
+
+    let titleKana = CreateAndClass('div', app, classes = ['titleKana']);
+    titleKana.textContent = JapaneseComaSeparatedArray(allkana[currentSet[0]])
+
+    spacer = CreateAndClass('div', app, classes = ['spacer'] );
+
+    //Armar divs
     let learnDiv = CreateAndClass('div', app, classes = ['learndiv']);
     let learnCard = CreateAndClass('div', learnDiv, classes = ['learncard']);
-    let learnKanaSection = CreateAndClass('div', learnCard, classes = ['kanasection']);
-    let learnKanaTitle = CreateAndClass('div', learnKanaSection, classes = ['learnkanatitle']);
-    let learnKana = CreateAndClass('div', learnKanaSection, classes = ['learnkana']);
-    let learnRomajiSection = CreateAndClass('div', learnCard, classes = ['romajisection']);
-    let learnRomaji = CreateAndClass('div', learnRomajiSection, classes = ['learnromaji']);
-    let learnRomajiTitle = CreateAndClass('div', learnRomajiSection, classes = ['learnromajititle']);
 
-    //popular contenido
-    
-    learnKanaTitle.textContent = 'Kana';
-    learnKana.textContent = currentSet[0];
-    learnRomaji.textContent = kanaAnswers[currentSet[0]];
-    learnRomajiTitle.textContent = 'Romaji';
+    //Antes de armar estos div tengo que preguntarme si el base kana existe en explications
 
-    let spacer = CreateAndClass('div',learnDiv , classes = ['spacer'] );
+    let explanationExist = CheckForExplanation(learnCard);
+
+    // let learnKanaSection = CreateAndClass('div', learnCard, classes = ['kanasection']);
+    // let learnKanaTitle = CreateAndClass('div', learnKanaSection, classes = ['learnkanatitle']);
+    // let learnKana = CreateAndClass('div', learnKanaSection, classes = ['learnkana']);
+    // let learnRomajiSection = CreateAndClass('div', learnCard, classes = ['romajisection']);
+    // let learnRomaji = CreateAndClass('div', learnRomajiSection, classes = ['learnromaji']);
+    // let learnRomajiTitle = CreateAndClass('div', learnRomajiSection, classes = ['learnromajititle']);
+
+    // //popular contenido    
+    // learnKanaTitle.textContent = 'Kana';
+    // learnKana.textContent = currentSet[0];
+    // learnRomaji.textContent = kanaAnswers[currentSet[0]];
+    // learnRomajiTitle.textContent = 'Romaji';
+
+    //despues de aqui sigue igual
+
+    spacer = CreateAndClass('div',learnDiv , classes = ['spacer'] );
     let info = CreateAndClass('div', spacer, classes = ['info']);
 
-    info.textContent = KanaToInfo(currentSet[0]);
+    if(!explanationExist)
+        info.textContent = KanaToInfo(currentSet[0]);
 
     let buttonsdiv = CreateAndClass('div',learnDiv , classes = ['btn-div'] );
 
@@ -1249,86 +1265,135 @@ function StartLearning(){
     nextButton.textContent = 'Siguiente';
 }
 
-function PreviousButton(){
-    let kanaelement = document.querySelector('.learnkana');
-    let kana = kanaelement.textContent
-
-    let index = currentSet.indexOf(kana);
-
-    let indexminusone = index - 1;
-    let prevkana = currentSet[indexminusone];
-
-    if(indexminusone < 0){
-        console.log('estoy al principio');       
+function CheckForExplanation(cardParent){
+    //aqui agregar check, if true, hacer otro tipo de tarjeta
+    let explanation = explanationtext[currentSet[0]];
+    
+    if(explanation.length > 0){
+        let explanationSection = CreateAndClass('div', cardParent, claases = ['explanation']);
+        explanationSection.textContent = explanation;
+        return true;
     }else{
-        kanaelement.textContent = prevkana;
+        CreateLearnCard(cardParent);
+        return false;
+    }
+}
 
-        //buscar el romaji correspondiente al nuevo kana y ponerlo tambien
-        let romaji = kanaAnswers[prevkana];
-        let info = document.querySelector('.info');
-        info.textContent = KanaToInfo(prevkana);
+function CreateLearnCard(cardParent){
+    let explanation = document.querySelector('.explanation');
+    explanation.remove(); 
 
-        let romajielement = document.querySelector('.learnromaji');
-        romajielement.textContent = romaji;
+    let learnKanaSection = CreateAndClass('div', cardParent, classes = ['kanasection']);
+    let learnKanaTitle = CreateAndClass('div', learnKanaSection, classes = ['learnkanatitle']);
+    let learnKana = CreateAndClass('div', learnKanaSection, classes = ['learnkana']);
+    let learnRomajiSection = CreateAndClass('div', cardParent, classes = ['romajisection']);
+    let learnRomaji = CreateAndClass('div', learnRomajiSection, classes = ['learnromaji']);
+    let learnRomajiTitle = CreateAndClass('div', learnRomajiSection, classes = ['learnromajititle']);
 
-        //aqui tengo que cambiar el comportamiento del button
-        //necesito revisar si quede en el primer kana y desactivar el button
-        let previndex = indexminusone - 1;
-        if(previndex < 0){
-            let prevbutton = document.querySelector('.prevbtn');
-            prevbutton.disabled = true;
+    //popular contenido    
+    learnKanaTitle.textContent = 'Kana';
+    learnKana.textContent = currentSet[0];
+    learnRomaji.textContent = kanaAnswers[currentSet[0]];
+    learnRomajiTitle.textContent = 'Romaji';
+}
+
+function PreviousButton(){
+    //aqui decidir si estoy en una explicacion o no ?
+    //get kana div
+    let kanaelement = document.querySelector('.learnkana');
+
+    if(kanaelement != null){
+        let kana = kanaelement.textContent
+
+        let index = currentSet.indexOf(kana);
+
+        let indexminusone = index - 1;
+        let prevkana = currentSet[indexminusone];
+
+        if(indexminusone >= 0){
+            kanaelement.textContent = prevkana;
+
+            //buscar el romaji correspondiente al nuevo kana y ponerlo tambien
+            let romaji = kanaAnswers[prevkana];
+            let info = document.querySelector('.info');
+            info.textContent = KanaToInfo(prevkana);
+
+            let romajielement = document.querySelector('.learnromaji');
+            romajielement.textContent = romaji;
+
+            //aqui tengo que cambiar el comportamiento del button
+            //necesito revisar si quede en el primer kana y desactivar el button
+            let previndex = indexminusone - 1;
+            if(previndex < 0){
+                let prevbutton = document.querySelector('.prevbtn');
+                prevbutton.disabled = true;
+            }
         }
-    }
 
-    let nextbutton = document.querySelector('.nextbtn');
-    if(nextbutton.classList.contains('quiz')){
-        nextbutton.classList.remove('quiz');
-        nextbutton.textContent = 'Siguiente';
-        nextbutton.disabled = false;
-    }
+        let nextbutton = document.querySelector('.nextbtn');
+        if(nextbutton.classList.contains('quiz')){
+            nextbutton.classList.remove('quiz');
+            nextbutton.textContent = 'Siguiente';
+            nextbutton.disabled = false;
+        }
+    }else{
+        console.log("no hay kana");
+}
+
+    
 }
 
 //next button de la parte learn
 function NextButton(){
     //tomando el kana actual, buscarlo en el array y cambiar al siguiente si es posible
     let kanaelement = document.querySelector('.learnkana');
-    let kana = kanaelement.textContent
 
-    let index = currentSet.indexOf(kana);
+    if(kanaelement != null){
+        let kana = kanaelement.textContent
 
-    let indexplusone = index + 1;
-    let nextkana = currentSet[indexplusone];
+        let index = currentSet.indexOf(kana);
 
-    if(indexplusone >= currentSet.length){   
-        BuildQuiz();   
-    }else{
-        kanaelement.textContent = nextkana;
+        let indexplusone = index + 1;
+        let nextkana = currentSet[indexplusone];
 
-        //buscar el romaji correspondiente al nuevo kana y ponerlo tambien
-        let romaji = kanaAnswers[nextkana];
-        let info = document.querySelector('.info');
-        info.textContent = KanaToInfo(nextkana);
+        if(indexplusone >= currentSet.length){   
+            BuildQuiz();   
+        }else{
+            kanaelement.textContent = nextkana;
 
-        let romajielement = document.querySelector('.learnromaji');
-        romajielement.textContent = romaji;
+            //buscar el romaji correspondiente al nuevo kana y ponerlo tambien
+            let romaji = kanaAnswers[nextkana];
+            let info = document.querySelector('.info');
+            info.textContent = KanaToInfo(nextkana);
 
-        //aqui tengo que cambiar el comportamiento del button
-        //necesito revisar si quede en el ultimo kana y cambiar el boton por el quiz
-        let nextindex = indexplusone+1;
-        if(nextindex >= currentSet.length){
-            let nextbutton = document.querySelector('.nextbtn');
-            nextbutton.textContent = 'Quiz! ->';
-            nextbutton.classList.add('quiz');
-            nextbutton.disabled = true;
-            setTimeout(function(){nextbutton.disabled = false;},500);
-        }
-    }    
+            let romajielement = document.querySelector('.learnromaji');
+            romajielement.textContent = romaji;
 
-    let prevbutton = document.querySelector('.prevbtn');
+            //aqui tengo que cambiar el comportamiento del button
+            //necesito revisar si quede en el ultimo kana y cambiar el boton por el quiz
+            let nextindex = indexplusone+1;
+            if(nextindex >= currentSet.length){
+                let nextbutton = document.querySelector('.nextbtn');
+                nextbutton.textContent = 'Quiz! ->';
+                nextbutton.classList.add('quiz');
+                nextbutton.disabled = true;
+                setTimeout(function(){nextbutton.disabled = false;},500);
+                }
+            }    
 
-    if(indexplusone > 0 && prevbutton != null){       
-        prevbutton.disabled = false;
+            //Check for prev button disable
+            let prevbutton = document.querySelector('.prevbtn');
+
+            if(indexplusone > 0 && prevbutton != null){       
+                prevbutton.disabled = false;
+            }
+    }else{   
+        //console.log("no hay kana");
+        let cardParent = document.querySelector('.learncard');        
+
+        CreateLearnCard(cardParent);
     }
+    
 }
 
 function BuildQuiz(){
@@ -1626,7 +1691,6 @@ function BuildLearnSetupPage(){
 function CheckLearnSelected(){
     //get all labels
     let buttons = document.querySelectorAll("div.checkboxes > div > label");
-    //console.log(`esto es lo que tengo en buttons: ${buttons}`);
 
     //hacer un array con todos los 'check'
     let checked = []; 
@@ -1642,10 +1706,6 @@ function CheckLearnSelected(){
         return;
     }
 
-    //construir con lo seleccionado
-    //console.log(checked);
-
-    //console.log('popule el learn set');
     learnSets = PopulateLearnSet(checked);
     currentSet = learnSets[0];
 
@@ -1834,9 +1894,9 @@ function BuildPracticePage(selected){
         kanasBase.push(kanaBase);
     });
 
-    console.log(kanasBase);
+    //console.log(kanasBase);
 
-    //hacer un array de todos los kanas necesarios ocupando los kana base
+    //Hacer un array de todos los kanas necesarios ocupando los kana base
     let kanas = [];
     kanasBase.forEach(basekana => {
         let base = allkana[basekana];
@@ -1845,8 +1905,7 @@ function BuildPracticePage(selected){
         });
     });
 
-
-    console.log(kanas);
+    //console.log(kanas);
 
     //randomizar los kana
     let randomkanas = shuffleArray(kanas);

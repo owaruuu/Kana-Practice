@@ -725,4 +725,15 @@ button:focus-visible{
     font-family: 'Noto Serif JP', serif;
 }
 
+.explanation {
+    background-color: #EAC8F7;
+    color: #8E518D;
+    font-size: 1.5rem;
+    padding: 35px;
+}
 
+.titleKana{
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #5c0575;
+}
