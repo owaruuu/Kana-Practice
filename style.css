@@ -282,6 +282,12 @@ input[type=text] {
     font-family: 'Noto Serif JP', serif;
 }
 
+@media only screen and (min-width: 110rem){
+    .select-box{
+        font-size: clamp(0.5rem,.8rem + 0.2vw,5rem);
+    }   
+}
+
 label:not(.check) .consonantLabel{   
     color: #b56994;
 }
