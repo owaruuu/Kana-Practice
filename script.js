@@ -15,24 +15,19 @@ window.onpopstate = function (event) {
 function Render(state){
     switch (state.currentPage) {
         case "home":
-            //render home
             ReloadPage();
             break;
         case "learnSetup":
             BuildLearnSetupPage();
-            //render learn setup
             break;
         case "learn":
             BuildLearnSetupPage();
-            //render learn
             break;
         case "practiceSetup":
-            BuildPracticeSetupPage()
-            //render practice setup
+            BuildPracticeSetupPage();
             break;
         case "practice":
             BuildPracticeSetupPage()
-            //render pratice
             break;
         default:
             break;
@@ -40,7 +35,6 @@ function Render(state){
 }
 
 let learnSets = [];
-
 let currentSet = [];
 
 let instrucciones = {
@@ -48,13 +42,14 @@ let instrucciones = {
     aprender : `Selecciona cuales Kana quieres aprender y luego presiona 'Aprender' al fondo de la pagina.`,
     practicar : `Selecciona cuales Kana quieres practicar y luego presiona 'Empezar' al fondo de la pagina.`,
     kanatable : 'Escribe en cada tarjeta la lectura en romaji del Kana.',
+    explanation : `Aqui veras un poco de informacion adicional referente a este set de Kanas.`,
     kanalearn : 'Estudia estas tarjetas para luego responder un Quiz.(Intenta escribir un par de veces estas letras si no las conocias.)',
     kanaquiz : 'Selecciona de las opciones abajo el romaji correcto, puedes repetir el Quiz las veces que quieras antes de continuar.',
 };
 
 function KanaToInfo(kana){
     if(infotext[kana] === ''){
-        return;
+        return '...';
     }
 
     let symbol = 'ⓘ ';
@@ -69,34 +64,34 @@ function KanaToInfo(kana){
 
 const infotext = {
     あ : 'La letra あ(a) se puede confundir con la letra お(o).',
-    い : 'El orden de las vocales es diferente en Japones.',
-    う : 'El orden es: a, i, u, e, o.',
-    え : '...',
+    い : '',
+    う : '',
+    え : '',
     お : 'La letra お(o) se puede confundir con la letra あ(a).',
-    か : `Las letras de la fila 'ka' tambien reemplazan algunas silabas de la letra 'C' del español como 'Ca' en 'Camion', 'Cu' como en 'Cuello' y 'Co' de 'Comida'.`,
+    か : `La letra か se parece a su contraparte Katakana カ`,
     き : 'La parte superior de き se puede ocupar para recordar su contraparte Katakana キ',
-    く : `La fila de か se puede transformar del sonido de 'K' a el sonido de 'G' con la marca Dakuten ゛.`,
-    け : 'Por ejemplo け = ke, pero げ = ge.',
+    く : ``,
+    け : '',
     こ : 'La letras こ se parece a su contraparte Katakana コ',
-    さ : `La fila de 'sa' suena como uno lo esperaria, con la excepcion de 'si' que pasa a ser 'shi'.`,
+    さ : ``,
     し : `Sonido 'shi' suave en comparacion a ち'chi'.`,
     す : `El sonido de la 'u' en す es muchas veces omitido, por ejemplo です se suele decir 'des'.`,
-    せ : `Para lograr los sonidos con Z se ocupan estas mismas letras pero con la marca Dakuten ゛.`,
-    そ : 'Por ejemplo そ = so, pero ぞ = zo.',
+    せ : `La letra せ se parece a su contraparte Katakana セ`,
+    そ : `Ten cuidado con confundir esta letra por el sonido 'Zo' por la forma de la letra.`,
     た : 'La letra た se puede confundir con la letra な(na), nota que las dos comparten un tipo de cruz a la izquierda.',
     ち : `Esta letra es una excepcion en la fila de た, su lectura es 'chi'.`,
-    つ : `Su lectura es 'tsu'. Esta letra en su forma mini (つ tsu grande, っ tsu chico) se puede ocupar para 'duplicar' la consonante que la sigue, por ejemplo あさって(asatte), ざっし(zasshi).`,
-    て : `La fila de た se puede transformar del sonido de 'T' a el sonido de 'D' con la marca Dakuten ゛.`,
-    と : 'Por ejemplo と = to, pero ど = do.',
+    つ : `Esta letra es una excepcion en la fila de た, su lectura es 'tsu'.`,
+    て : ``,
+    と : '',
     な : 'La letra な se puede confundir con la letra た(ta), nota que las dos comparten un tipo de cruz a la izquierda.',
     に : 'La letra に se puede confundir con la letra こ(ko), no olvides escribir la varita vertical en に.',
     ぬ : 'Esta letra comparte la base con otras 2 letras: の(no), め(me), ぬ(nu).',
     ね : 'Esta letra comparte la base con otras 2 letras: わ(wa), れ(re), ね(ne).',
     の : 'Esta letra comparte la base con otras 2 letras: の(no), め(me), ぬ(nu).',
-    は : `La lectura de la fila は es como la J en el español, 'ja' en 'jabon'. cuando は es ocupado de particula su lectura es 'wa'.`,
-    ひ : `Esta fila puede pasar del sonido 'j' al sonido 'b' y 'p' con Dakuten ゛ y Handakuten ゜respectivamente. Por ejemplo ひ(hi), び(bi), ぴ(pi)`,
-    ふ : `Esta letra es un excepcion y su lectura es 'fu'.`,
-    へ : `Su lectura es 'je' como en 'jefe', tambien puede ser ocupado como particula y su lectura pasa a ser 'e'.`,
+    は : `La letra は(Ha) se puede confundir con la letra ほ(Ho).`,
+    ひ : ``,
+    ふ : `Esta letra es un excepcion y su lectura es 'Fu'.`,
+    へ : `Tambien puede ser ocupado como particula y su lectura pasa a ser 'E'.`,
     ほ : 'La letra ほ(ho) se puede confundir con la letra は(ha).',
     ま : 'Esta letra se puede confundir con la letra ほ(ho).',
     み : '',
@@ -113,7 +108,7 @@ const infotext = {
     ろ : 'La letra ろ(ro) se puede confundir con la letra る(ru).',
     わ : 'Esta letra comparte la base con otras 2 letras: わ(wa), れ(re), ね(ne).',
     を : `Esta letra es solo ocupada como particula en frases y si bien su escritura Romaji es 'wo' se dice 'o'.`,
-    ん : `La unica consonante solitaria. Recuerda que para los sonidos 'na', 'ni', 'nu', 'ne', 'no' existen kanas y no puedes combinar esta letra con las vocales para crear esos sonidos.`,
+    ん : `La unica consonante solitaria.`,
     が : 'La marca Dakuten: ゛se utiliza para cambiar el sonido de las letras.',
     ぎ : `El sonido de 'K' pasa a ser 'G'.`,
     ぐ : `El sonido de 'K' pasa a ser 'G'.`,
@@ -304,16 +299,43 @@ const infotext = {
 }
 
 const explanationtext = {
-    あ : `Estas 5 kanas corresponden a los sonidos de las vocales, su orden es diferente al del español : 'a, i, u, e, o'.`,
-    か : ``,
-    さ : ``,
-    た : ``,
+    あ : `Estas 5 kanas corresponden a los sonidos de las vocales, su orden es diferente al del español : 
+        \n'a, i, u, e, o'. 
+        \n\n Este mismo orden se repite con las demas letras, por ejemplo : \n 'ka, ki, ku, ke, ko', \n 'ma, mi, mu, me, mo'.`,
+    か : `Las letras de la fila か representan los sonidos:
+        \nKa, Ki, Ku, Ku, Ko.
+        \n\nLa fila de か se puede transformar del sonido de 'K' a el sonido de 'G' con la marca Dakuten ゛.
+        \n\nPor ejemplo け = Ke, pero げ = Ge.`,
+    さ : `La fila de la letra さ representa los sonidos de la letra 'S', suena como uno lo esperaria, con la excepcion de し que se lee y escribe 'Shi'.
+        \n\nPara lograr los sonidos con Z se ocupan estas mismas letras pero con la marca Dakuten ゛.
+        \n\nPor ejemplo そ = so, pero ぞ = zo.
+        \nEl sonido de し pasa a ser 'lli' de 'apellido' cuando se le agrega dakuten, pero es escrito con 'J'.
+        \nEntonces, じ se escribe "ji" pero se dice 'lli'.`,
+    た : `La fila de た representa los sonidos de la letra 'T', existen 2 excepciones, ち y つ que son escritas como "Chi" y "Tsu" respectivamente.
+        \nLa letra つ tiene una forma mini (つ tsu grande, っ tsu chico) se puede ocupar para 'duplicar' la consonante que la sigue, por ejemplo : \nあさって(asatte), ざっし(zasshi).
+        \nSi necesitas escribir esta version mini por si sola o cualquier otra de las versiones minis de las letras solo agrega una 'x' primero, asi : \n'xtsu' = 'っ', 'xya' = 'ゃ'.
+        \nLa fila de た se puede transformar del sonido de 'T' a el sonido de 'D' con la marca Dakuten ゛.
+        \nPor ejemplo と = To, pero ど = Do.
+        \nLa letra ぢ cambia al sonido 'lli' al igual que じ pero para escribir ぢ en teclado tienes que escribir "di".
+        \nLa letra づ cambia a un sonido como 'dzu' y para escribirlo en teclado tienes que escribir "du".`,
     な : ``,
-    は : ``,
+    は : `La lectura de la fila は es como la J en el español, 'Ja' en 'Jabon' pero cuando escribes el romaji debe ser con la letra "H". La letra 'は' en especifico puede ser utilizada como particula y en tal caso su lectura es 'Wa'.
+        \nEsta fila puede pasar del sonido 'J' al sonido 'B' y 'P' con Dakuten ゛ y Handakuten ゜respectivamente. Por ejemplo ひ(hi), び(bi), ぴ(pi).
+        \nLa letra へ puede ser ocupado como particula tambien y en tal caso su lectura es 'E'.
+        \nDentro de esta fila la letra ふ es una excepcion y su lectura y escritura es 'Fu'.`,
     ま : ``,
-    や : ``,
+    や : `Esta fila representa los sonidos de la letra 'Y'.
+        \nSolo contiene 3 letras, estas tambien pueden ser utilizadas mezclandolas con las letras de la linea 'i' como 'き'(ki), 'に'(ni), etc.
+        \nPara hacer estas combinaciones la letra debe estar en su version mini,\n や = Ya grande, ゃ = Ya mini.
+        \nPor ejemplo: きゃ(kya), りゅ(ryu), みょ(myo).
+        \n\nTen cuidado con las letras し y ち ya que combinados con esta fila pierden el sonido 'Y'.
+        \nEntonces: \nしゃ(sha), しゅ(shu)、しょ(sho). \nちゃ(cha), ちゅ(chu), ちょ(cho).`,
     ら : ``,
-    わ : ``,
+    わ : `Esta fila representa los sonidos de la letra 'W' y solo contiene 2 letras, わ y を.
+        \nを es solo ocupada como particula dentro de frases y se dice 'o'.
+        \nLa letras ん no forma parte de esta fila pero fue agregada aqui para simplificar los botones.
+        Para escribir la letra ん en teclado tienes que escribir lo siguiente 'nn'.
+        \nRecuerda que para los sonidos 'na', 'ni', 'nu', 'ne', 'no' ya existen kanas y no puedes combinar esta letra con las vocales para crear esos sonidos.`,
     が : ``,
     ざ : ``,
     だ : ``,
@@ -331,7 +353,8 @@ const explanationtext = {
     びゃ : ``,
     ぴゃ : ``, 
     ア : ``,
-    カ : ``,
+    カ : `Reemplaza algunas silabas de la letra 'C' del español como 'Ca' en 'Camion', 'Cu' como en 'Cuello' y 'Co' de 'Comida'.
+        \nSonidos como 'Que', 'Qui' tambien pueden ser representados con estas letras.`,
     サ : ``,
     タ : ``,
     ナ : ``,
@@ -1205,6 +1228,9 @@ function TurnBothButtons(buttonsattribute, onoff){
 }
 
 function StartLearning(){
+    //SCROLL to top
+    window.scrollTo(0, 0);
+
     //Push history state
     state.currentPage = "learn";
     window.history.pushState(state, null, "");
@@ -1228,41 +1254,34 @@ function StartLearning(){
     let learnDiv = CreateAndClass('div', app, classes = ['learndiv']);
     let learnCard = CreateAndClass('div', learnDiv, classes = ['learncard']);
 
-    //Antes de armar estos div tengo que preguntarme si el base kana existe en explications
+    let info = document.createElement('div');
+    info.classList.add('info');
+
+    spacer = CreateAndClass('div',learnDiv , classes = ['spacer'] );
+    spacer.appendChild(info);
 
     let explanationExist = CheckForExplanation(learnCard);
 
-    // let learnKanaSection = CreateAndClass('div', learnCard, classes = ['kanasection']);
-    // let learnKanaTitle = CreateAndClass('div', learnKanaSection, classes = ['learnkanatitle']);
-    // let learnKana = CreateAndClass('div', learnKanaSection, classes = ['learnkana']);
-    // let learnRomajiSection = CreateAndClass('div', learnCard, classes = ['romajisection']);
-    // let learnRomaji = CreateAndClass('div', learnRomajiSection, classes = ['learnromaji']);
-    // let learnRomajiTitle = CreateAndClass('div', learnRomajiSection, classes = ['learnromajititle']);
-
-    // //popular contenido    
-    // learnKanaTitle.textContent = 'Kana';
-    // learnKana.textContent = currentSet[0];
-    // learnRomaji.textContent = kanaAnswers[currentSet[0]];
-    // learnRomajiTitle.textContent = 'Romaji';
-
-    //despues de aqui sigue igual
-
     spacer = CreateAndClass('div',learnDiv , classes = ['spacer'] );
-    let info = CreateAndClass('div', spacer, classes = ['info']);
-
-    if(!explanationExist)
-        info.textContent = KanaToInfo(currentSet[0]);
-
+    
     let buttonsdiv = CreateAndClass('div',learnDiv , classes = ['btn-div'] );
-
+    
     let prevButton = CreateAndClass('button', buttonsdiv, classes = ['prevbtn']);
     prevButton.addEventListener('click', PreviousButton);
     prevButton.textContent = 'Atras';
     prevButton.disabled = true;
-
+    
     let nextButton = CreateAndClass('button', buttonsdiv, classes = ['nextbtn']);
     nextButton.addEventListener('click', NextButton);
     nextButton.textContent = 'Siguiente';
+    
+    
+    //let info = CreateAndClass('div', spacer, classes = ['info']);
+    //info.textContent = KanaToInfo(currentSet[0]);
+    
+    
+    if(!explanationExist)
+        info.textContent = KanaToInfo(currentSet[0]);
 }
 
 function CheckForExplanation(cardParent){
@@ -1272,6 +1291,9 @@ function CheckForExplanation(cardParent){
     if(explanation.length > 0){
         let explanationSection = CreateAndClass('div', cardParent, claases = ['explanation']);
         explanationSection.textContent = explanation;
+        let instContent = document.getElementById('instruccionescontent');
+        instContent.textContent = instrucciones.explanation;
+
         return true;
     }else{
         CreateLearnCard(cardParent);
@@ -1281,7 +1303,10 @@ function CheckForExplanation(cardParent){
 
 function CreateLearnCard(cardParent){
     let explanation = document.querySelector('.explanation');
-    explanation.remove(); 
+    if(explanation != null)
+        explanation.remove(); 
+
+    PopulateInstructions(instrucciones.kanalearn);
 
     let learnKanaSection = CreateAndClass('div', cardParent, classes = ['kanasection']);
     let learnKanaTitle = CreateAndClass('div', learnKanaSection, classes = ['learnkanatitle']);
@@ -1295,6 +1320,9 @@ function CreateLearnCard(cardParent){
     learnKana.textContent = currentSet[0];
     learnRomaji.textContent = kanaAnswers[currentSet[0]];
     learnRomajiTitle.textContent = 'Romaji';
+
+    let info = document.querySelector('.info');
+    info.textContent = KanaToInfo(currentSet[0]);
 }
 
 function PreviousButton(){
@@ -1348,6 +1376,7 @@ function NextButton(){
     //tomando el kana actual, buscarlo en el array y cambiar al siguiente si es posible
     let kanaelement = document.querySelector('.learnkana');
 
+    //si existe el kana construir la siguiente carta
     if(kanaelement != null){
         let kana = kanaelement.textContent
 
@@ -1387,7 +1416,7 @@ function NextButton(){
             if(indexplusone > 0 && prevbutton != null){       
                 prevbutton.disabled = false;
             }
-    }else{   
+    }else{//si no, construir el kana card desde 0
         //console.log("no hay kana");
         let cardParent = document.querySelector('.learncard');        
 
