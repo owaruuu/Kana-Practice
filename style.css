@@ -248,9 +248,7 @@ input[type=text] {
     }   
 }
 
-
-
-@media only screen and (min-width: 76rem){
+@media only screen and (min-width: 80rem){
     .setupDiv{
         flex: 1;
         display: grid;
@@ -278,7 +276,7 @@ input[type=text] {
     padding: 0.5rem 0;
     padding-right: 10px;
     border-radius: 9px;
-    font-size: clamp(0.5rem,.9rem + 0.1vw,5rem);
+    font-size: clamp(0.5rem,.8rem + 0.1vw,5rem);
     transition: 0.2s ease;
     margin: var(--margin) var(--marginsides) var(--margin) var(--marginsides);
     font-family: 'Noto Serif JP', serif;
@@ -290,6 +288,7 @@ label:not(.check) .consonantLabel{
 
 .consonantLabel {
     padding-left: 15px;
+    padding-right: 15px;
     font-size: clamp(0.2rem,0.9rem,2rem);
 }
 .kanaLabel{
