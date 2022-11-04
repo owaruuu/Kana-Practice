@@ -41,7 +41,7 @@ let instrucciones = {
     home : 'Selecciona la opcion que quieres. Puedes aprender las letras de Hiragana/Katakana desde 0 o practicarlas si ya las sabes.', 
     aprender : `Selecciona cuales Kana quieres aprender y luego presiona 'Aprender' al fondo de la pagina.`,
     practicar : `Selecciona cuales Kana quieres practicar y luego presiona 'Empezar' al fondo de la pagina.`,
-    kanatable : 'Escribe en cada tarjeta la lectura en romaji del Kana.',
+    kanatable : `Ingresa en cada tarjeta la lectura en romaji del Kana.(Recuerda apretar 'Enter' para confirmar tu respuesta)`,
     explanation : `Aqui veras un poco de informacion adicional referente a este set de Kanas.`,
     kanalearn : 'Estudia estas tarjetas para luego responder un Quiz.(Intenta escribir un par de veces estas letras si no las conocias.)',
     kanaquiz : 'Selecciona de las opciones abajo el romaji correcto, puedes repetir el Quiz las veces que quieras antes de continuar.',
@@ -74,10 +74,10 @@ const infotext = {
     け : '',
     こ : 'La letras こ se parece a su contraparte Katakana コ',
     さ : ``,
-    し : `Sonido 'shi' suave en comparacion a ち'chi'.`,
+    し : `Sonido 'Shi' suave en comparacion a ち 'Chi'.`,
     す : `El sonido de la 'u' en す es muchas veces omitido, por ejemplo です se suele decir 'des'.`,
     せ : `La letra せ se parece a su contraparte Katakana セ`,
-    そ : `Ten cuidado con confundir esta letra por el sonido 'Zo' por la forma de la letra.`,
+    そ : `Ten cuidado con confundir esta letra por el sonido 'Zo' por la forma de la letra parecida a una 'Z'`,
     た : 'La letra た se puede confundir con la letra な(na), nota que las dos comparten un tipo de cruz a la izquierda.',
     ち : `Esta letra es una excepcion en la fila de た, su lectura es 'chi'.`,
     つ : `Esta letra es una excepcion en la fila de た, su lectura es 'tsu'.`,
@@ -92,7 +92,7 @@ const infotext = {
     ひ : ``,
     ふ : `Esta letra es un excepcion y su lectura es 'Fu'.`,
     へ : `Tambien puede ser ocupado como particula y su lectura pasa a ser 'E'.`,
-    ほ : 'La letra ほ(ho) se puede confundir con la letra は(ha).',
+    ほ : 'La letra ほ(ho) se puede confundir con la letra は(ha) y la letra ま(ma).',
     ま : 'Esta letra se puede confundir con la letra ほ(ho).',
     み : '',
     む : '',
@@ -304,11 +304,11 @@ const explanationtext = {
         \n\n Este mismo orden se repite con las demas letras, por ejemplo : \n 'ka, ki, ku, ke, ko', \n 'ma, mi, mu, me, mo'.`,
     か : `Las letras de la fila か representan los sonidos:
         \nKa, Ki, Ku, Ku, Ko.
-        \n\nLa fila de か se puede transformar del sonido de 'K' a el sonido de 'G' con la marca Dakuten ゛.
-        \n\nPor ejemplo け = Ke, pero げ = Ge.`,
+        \n\nLa fila de か se puede transformar del sonido de 'K' a el sonido de 'G' suave con la marca Dakuten ゛.
+        \n\nPor ejemplo け = Ke, pero げ = Ge como en 'Guerra'.`,
     さ : `La fila de la letra さ representa los sonidos de la letra 'S', suena como uno lo esperaria, con la excepcion de し que se lee y escribe 'Shi'.
         \n\nPara lograr los sonidos con Z se ocupan estas mismas letras pero con la marca Dakuten ゛.
-        \n\nPor ejemplo そ = so, pero ぞ = zo.
+        \nPor ejemplo そ = so, pero ぞ = zo.
         \nEl sonido de し pasa a ser 'lli' de 'apellido' cuando se le agrega dakuten, pero es escrito con 'J'.
         \nEntonces, じ se escribe "ji" pero se dice 'lli'.`,
     た : `La fila de た representa los sonidos de la letra 'T', existen 2 excepciones, ち y つ que son escritas como "Chi" y "Tsu" respectivamente.
@@ -319,23 +319,25 @@ const explanationtext = {
         \nLa letra ぢ cambia al sonido 'lli' al igual que じ pero para escribir ぢ en teclado tienes que escribir "di".
         \nLa letra づ cambia a un sonido como 'dzu' y para escribirlo en teclado tienes que escribir "du".`,
     な : ``,
-    は : `La lectura de la fila は es como la J en el español, 'Ja' en 'Jabon' pero cuando escribes el romaji debe ser con la letra "H". La letra 'は' en especifico puede ser utilizada como particula y en tal caso su lectura es 'Wa'.
-        \nEsta fila puede pasar del sonido 'J' al sonido 'B' y 'P' con Dakuten ゛ y Handakuten ゜respectivamente. Por ejemplo ひ(hi), び(bi), ぴ(pi).
+    は : `La lectura de la fila は es como la J en el español, は suena como 'Ja' en 'Jabon', へ suena como 'Je' en 'Jefa' pero cuando escribes el romaji debe ser con la letra "H".
+        \nLa letra 'は' en especifico puede ser utilizada como particula y en tal caso su lectura es 'Wa'.
         \nLa letra へ puede ser ocupado como particula tambien y en tal caso su lectura es 'E'.
+        \nEsta fila puede pasar del sonido 'J' al sonido 'B' y 'P' con Dakuten ゛ y Handakuten ゜respectivamente. Por ejemplo ひ(hi), び(bi), ぴ(pi).
         \nDentro de esta fila la letra ふ es una excepcion y su lectura y escritura es 'Fu'.`,
     ま : ``,
     や : `Esta fila representa los sonidos de la letra 'Y'.
-        \nSolo contiene 3 letras, estas tambien pueden ser utilizadas mezclandolas con las letras de la linea 'i' como 'き'(ki), 'に'(ni), etc.
+        \n'Ya, Yu, Yo'
+        \nSolo contiene 3 letras pero estas tambien pueden ser utilizadas mezclandolas con otras Kanas de la linea 'i' como き(ki), に(ni), etc.
         \nPara hacer estas combinaciones la letra debe estar en su version mini,\n や = Ya grande, ゃ = Ya mini.
         \nPor ejemplo: きゃ(kya), りゅ(ryu), みょ(myo).
         \n\nTen cuidado con las letras し y ち ya que combinados con esta fila pierden el sonido 'Y'.
         \nEntonces: \nしゃ(sha), しゅ(shu)、しょ(sho). \nちゃ(cha), ちゅ(chu), ちょ(cho).`,
     ら : ``,
-    わ : `Esta fila representa los sonidos de la letra 'W' y solo contiene 2 letras, わ y を.
-        \nを es solo ocupada como particula dentro de frases y se dice 'o'.
+    わ : `Esta fila representa los sonidos de la letra 'W'* y solo contiene 2 letras, わ(wa) y を(wo).
+        \n*を es solo ocupada como particula dentro de frases y se dice 'o'.
         \nLa letras ん no forma parte de esta fila pero fue agregada aqui para simplificar los botones.
         Para escribir la letra ん en teclado tienes que escribir lo siguiente 'nn'.
-        \nRecuerda que para los sonidos 'na', 'ni', 'nu', 'ne', 'no' ya existen kanas y no puedes combinar esta letra con las vocales para crear esos sonidos.`,
+        \nRecuerda que para los sonidos 'na', 'ni', 'nu', 'ne', 'no' ya existen Kanas y no puedes combinar la letra ん con las vocales para crear esos sonidos.`,
     が : ``,
     ざ : ``,
     だ : ``,
@@ -379,11 +381,11 @@ const explanationtext = {
     ジャ : ``,
     ビャ : ``,
     ピャ : ``, 
-    ァ : ``,
-    ィ : ``,
-    ゥ : ``,
-    ェ : ``,
-    ォ : ``,
+    ツァ : ``,
+    ウィ : ``,
+    トゥ : ``,
+    ウェ : ``,
+    ウォ : ``,
 }
 
 function FindAllBaseGroup(kana){
@@ -492,11 +494,11 @@ function BaseToGroupLabel(base){
 }
 
 const extrasets = {
-    ァ : ['ツァ','ファ','ヴァ'],
-    ィ : ['ウィ','ティ','フィ','ディ','セィ','ヴィ'],
-    ゥ : ['トゥ','ドゥ','デュ','フュ','ジュ'],
-    ェ : ['ウェ','シェ','チェ','ツェ','フェ','ジェ','ヴェ'],
-    ォ : ['ウォ','ツォ','フォ','ヴォ'],
+    ツァ : ['ツァ','ファ','ヴァ'],
+    ウィ : ['ウィ','ティ','フィ','ディ','セィ','ヴィ'],
+    トゥ : ['トゥ','ドゥ','デュ','フュ','ジュ'],
+    ウェ : ['ウェ','シェ','チェ','ツェ','フェ','ジェ','ヴェ'],
+    ウォ : ['ウォ','ツォ','フォ','ヴォ'],
 }
 
 const mainkanasets = {
@@ -597,6 +599,66 @@ const allkana = {
     ...dakutenkatakanasets,
     ...combkatakanasets,
     ...extrasets,
+}
+
+const romajiConsonants = {
+    あ : `a`,
+    か : `ka`,
+    さ : `sa`,
+    た : `ta`,
+    な : `na`,
+    は : `ha`,
+    ま : `ma`,
+    や : `ya`,
+    ら : `ra`,
+    わ : `wa`,
+    が : `ga`,
+    ざ : `za`,
+    だ : `da`,
+    ば : `ba`,
+    ぱ : `pa`,  
+    きゃ : `kya`,
+    しゃ : `sha`,
+    ちゃ : `cha`,
+    にゃ : `nya`,
+    ひゃ : `hya`,
+    みゃ : `mya`,
+    りゃ : `rya`,  
+    ぎゃ : `gya`,
+    じゃ : `ja`,
+    びゃ : `bya`,
+    ぴゃ : `pya`, 
+    ア : `a`,
+    カ : `ka`,
+    サ : `sa`,
+    タ : `ta`,
+    ナ : `na`,
+    ハ : `ha`,
+    マ : `ma`,
+    ヤ : `ya`,
+    ラ : `ra`,
+    ワ : `wa`,
+    ガ : `ga`,
+    ザ : `za`,
+    ダ : `da`,
+    バ : `ba`,
+    パ : `pa`,
+    キャ : `kya`,
+    シャ : `sha`,
+    チャ : `cha`,
+    ニャ : `nya`,
+    ヒャ : `hya`,
+    ミャ : `mya`,
+    リャ : `rya`,  
+    ギャ : `gya`,
+    ジャ : `ja`,
+    ビャ : `bya`,
+    ピャ : `pya`, 
+    ツァ : `a`,
+    ウィ : `i`,
+    トゥ : `u`,
+    ウェ : `e`,
+    ウォ : `o`,
 }
 
 const kanaAnswers = {
@@ -997,8 +1059,6 @@ function Submit(event){
 }
 
 function BuildPracticeSetupPage(){
-    
-
     let app = document.getElementById('app');
     app.innerHTML = "";
 
@@ -1031,7 +1091,7 @@ function CreateSetupButtons(parentDiv){
     let maingroupbuttons = CreateAndClass('div', firstDiv, classes = ['kanagroupbuttons']);   
 
     //boton all base hiragana
-    let btn = CreateGroupLabelInput(maingroupbuttons, 'all-hiragana-base', 'Todos hiragana');
+    let btn = CreateGroupLabelInput(maingroupbuttons, 'all-hiragana-base', 'Todos Hiragana');
     btn.parentElement.classList.add('all-hira');
 
     let maincheckboxes = document.createElement('div');
@@ -1835,6 +1895,7 @@ function CreateUiButton(parent, text){
 function CreateGroupLabelInput(parent, id, text){
     //crea los label en el menu de setup
     let label = CreateAndClass('label', parent, classes = ['select-box']);
+    
     //label.setAttribute('id', id);
     let input = CreateAndId('input', label, id);
     input.classList.add('setup-input');
@@ -1865,12 +1926,19 @@ function CreateAllLabelInput(parent, id, text){
 function CreateLabelInput(parent, id, text){
     //crea los label en el menu de setup
     let label = CreateAndClass('label', parent, classes = ['select-box']);
+    let consonant = CreateAndClass('div', label, classes = ['consonantLabel']);
+    consonant.textContent = romajiConsonants[id];
     //label.setAttribute('id', id);
     let input = CreateAndId('input', label, id);
     input.classList.add('setup-input');
     label.setAttribute('for', id);
-    let node = document.createTextNode (text);
-    label.appendChild(node);
+
+
+    // let node = document.createTextNode (text);
+    // label.appendChild(node);
+    let kanaLabel = CreateAndClass('div', label, claases = ['kanaLabel']);
+    kanaLabel.textContent = text;
+
     input.setAttribute('type', 'checkbox');
     input.addEventListener('change', function() {
         ToggleClass(label, 'check');
@@ -1904,6 +1972,9 @@ function CheckSelected(){
 
 //construye la pagina de practica, basado en los kanas seleccionados
 function BuildPracticePage(selected){
+    //scroll to top
+    window.scrollTo(0, 0);
+
     state.currentPage = "practice";
     window.history.pushState(state, null, "");
 

@@ -250,7 +250,7 @@ input[type=text] {
 
 
 
-@media only screen and (min-width: 69rem){
+@media only screen and (min-width: 76rem){
     .setupDiv{
         flex: 1;
         display: grid;
@@ -269,16 +269,31 @@ input[type=text] {
 .select-box{
     --margin : .3rem;
     --marginsides : .2rem;
-    display: block;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     border: .3vw solid #7f3f5f;
     background-color: #fceefa;
     color: #660636;
     padding: 0.5rem 0;
+    padding-right: 10px;
     border-radius: 9px;
-    font-size: clamp(1rem,1.15rem,2rem);
+    font-size: clamp(0.5rem,.9rem + 0.1vw,5rem);
     transition: 0.2s ease;
     margin: var(--margin) var(--marginsides) var(--margin) var(--marginsides);
     font-family: 'Noto Serif JP', serif;
+}
+
+label:not(.check) .consonantLabel{   
+    color: #b56994;
+}
+
+.consonantLabel {
+    padding-left: 15px;
+    font-size: clamp(0.2rem,0.9rem,2rem);
+}
+.kanaLabel{
+    flex: 2;
 }
 
 label{
@@ -754,3 +769,5 @@ button:focus-visible{
     font-weight: bold;
     color: #5c0575;
 }
+
+
