@@ -67,7 +67,7 @@ To do:
 - Add a go back button to return to the Additional info in a Kana set in the learning page
 - Add a animation to the info tip bar so that it transforms into a circle when no info is available
 - Add animation when you get the correct Kana in the Quiz
-- Add this Readme
+- ~~Add this Readme~~
 - Add git repository link to webapp
 
 
