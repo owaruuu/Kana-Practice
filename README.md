@@ -7,12 +7,12 @@
 * [General Info](#general-information)
 * [Technologies Used](#technologies-used)
 * [Features](#features)
-<!-- * [Screenshots](#screenshots) -->
 * [Usage](#usage)
 * [Project Status](#project-status)
 * [Room for Improvement](#room-for-improvement)
 * [Acknowledgements](#acknowledgements)
 * [Contact](#contact)
+<!-- * [Screenshots](#screenshots) -->
 
 
 ## General Information
@@ -26,7 +26,6 @@
 
 
 ## Features
-List the ready features here:
 - Learn Hiragana and Katakana from 0
 - Works on Desktop and Mobile
 - Highly customize the things you want to learn
@@ -73,10 +72,9 @@ To do:
 
 
 ## Acknowledgements
-Give credit here.
 - This project was inspired by [This Page](https://kana-quiz.tofugu.com)
 - This project was made after learning the basics at [The Odin Project](https://www.theodinproject.com/paths/foundations/courses/foundations).
 
 
 ## Contact
-Created by [@owaruuu](https://www.instagram.com/owaruuu/)) - feel free to contact me!
+Created by [@owaruuu](https://www.instagram.com/owaruuu/) - feel free to contact me!
