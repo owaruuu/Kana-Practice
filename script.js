@@ -1,5 +1,3 @@
-const event2 = new Event('PageBuilt');
-
 let state = {
     currentPage : "home",
 };
