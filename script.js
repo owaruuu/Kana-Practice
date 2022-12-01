@@ -1973,6 +1973,8 @@ function WaitForMouseUp(){
 
 //check if clicked outside input in practice page
 function CheckClick(event){
+    console.log(event.target);
+
     if(event.target.localName != "input"){
         let card = document.querySelector('.focus-card');
         if(card != null)
