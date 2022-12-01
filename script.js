@@ -1,3 +1,5 @@
+const event2 = new Event('PageBuilt');
+
 let state = {
     currentPage : "home",
 };
@@ -1059,8 +1061,12 @@ function Submit(event){
 }
 
 function BuildPracticeSetupPage(){
+    //clean page
     let app = document.getElementById('app');
     app.innerHTML = "";
+
+    //remove listeners
+    window.removeEventListener("click", CheckClick);
 
     let instContent = document.getElementById('instruccionescontent');
     instContent.textContent = instrucciones.practicar;
@@ -1069,13 +1075,10 @@ function BuildPracticeSetupPage(){
     setupDiv.classList.add('setupDiv');
     app.appendChild(setupDiv);
 
-    //crear boton All
-    // CreateLabelInput(setupDiv, 'all-main', 'Todos los Kana');
-
     CreateSetupButtons(setupDiv);
 
     let startButton = CreateUiButton(app, 'Empezar Practica');
-    startButton.addEventListener('click', CheckSelected);
+    startButton.addEventListener('click', CheckPracticeSelected);
 }
 
 //crea los botones para seleccionar los kana, pratice setup page
@@ -1335,11 +1338,6 @@ function StartLearning(){
     nextButton.addEventListener('click', NextButton);
     nextButton.textContent = 'Siguiente';
     
-    
-    //let info = CreateAndClass('div', spacer, classes = ['info']);
-    //info.textContent = KanaToInfo(currentSet[0]);
-    
-    
     if(!explanationExist)
         info.textContent = KanaToInfo(currentSet[0]);
 }
@@ -1477,7 +1475,6 @@ function NextButton(){
                 prevbutton.disabled = false;
             }
     }else{//si no, construir el kana card desde 0
-        //console.log("no hay kana");
         let cardParent = document.querySelector('.learncard');        
 
         CreateLearnCard(cardParent);
@@ -1948,7 +1945,7 @@ function CreateLabelInput(parent, id, text){
 }
 
 //construye pagina de practica basada en seleccion
-function CheckSelected(){
+function CheckPracticeSelected(){
     //get all labels
     let buttons = document.querySelectorAll("div.checkboxes > div > label");
 
@@ -1967,13 +1964,35 @@ function CheckSelected(){
     }
 
     //construir con lo seleccionado
-    BuildPracticePage(checked);
+    BuildPracticePage(checked);  
+}
+
+//dumb but works
+function WaitForMouseUp(){
+    window.removeEventListener("mouseup", WaitForMouseUp);
+    window.addEventListener("click", CheckClick);
+}
+
+//check if clicked outside input in practice page
+function CheckClick(event){
+    if(event.target.localName != "input"){
+        let card = document.querySelector('.focus-card');
+        if(card != null)
+            card.classList.remove('focus-card');
+    }
+}
+
+function AddMissClickListener(){
+    console.log("custom event");
+    window.addEventListener("click", CheckClick);
 }
 
 //construye la pagina de practica, basado en los kanas seleccionados
 function BuildPracticePage(selected){
     //scroll to top
     window.scrollTo(0, 0);
+
+    window.addEventListener("PageBuilt", AddMissClickListener);
 
     state.currentPage = "practice";
     window.history.pushState(state, null, "");
@@ -2019,6 +2038,7 @@ function BuildPracticePage(selected){
         practiceDiv.appendChild(element);
     });
 
+    //select first card
     let firstInput = document.querySelector('input');
     firstInput.focus();
     firstInput.parentElement.parentElement.classList.add('focus-card');
@@ -2034,6 +2054,8 @@ function BuildPracticePage(selected){
     let changeButton = CreateAndClass('button', buttonsDiv, classes = ['practicechangebtn']);
     changeButton.textContent = 'Cambiar Kanas';
     changeButton.addEventListener('click', BuildPracticeSetupPage);
+
+    window.addEventListener("mouseup", WaitForMouseUp);
 }
 
 function BuildCards(kanas){
