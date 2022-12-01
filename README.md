@@ -1,5 +1,5 @@
 # Hiragana & Katakana practice and learning
-> This is a WebApp for learning and practicing the Japanese letters Hiragana and Katakana made with Vanilla JS.
+> This is a WebApp for learning and practicing the Japanese letters, Hiragana and Katakana, made with Vanilla JS.
 > Live demo hosted with github pages [_here_](https://owaruuu.github.io/kanapractice/). 
 
 
