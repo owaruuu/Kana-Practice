@@ -59,8 +59,8 @@ Room for improvement:
 To do:
 - Add page that explains how Kanas and Japanese language in general work
 - Add english and other languages options
-- ~~Deselect card on page click on Practice Page ~~
-    -Make it so click on a card selects the input
+- ~~Deselect card on page click on Practice Page~~
+ -Make it so click on a card selects the input
 - Make it so if you fail 3 times in the Practice Page a hint or the answer shows up
 - Add a stats page after finishing on the Practice Page
 - Add more feedback to the Practice Page
