@@ -1973,9 +1973,9 @@ function WaitForMouseUp(){
 
 //check if clicked outside input in practice page
 function CheckClick(event){
-    console.log(event.target);
+    //console.log(event.target);
 
-    if(event.target.localName != "input"){
+    if(event.target.localName != "input" && event.target.localName != "form"){
         let card = document.querySelector('.focus-card');
         if(card != null)
             card.classList.remove('focus-card');
@@ -2086,6 +2086,7 @@ function BuildKanaCard(kana){
     let input = document.createElement('input'); 
     form.appendChild(input);
     form.addEventListener('submit', Submit);
+    form.addEventListener('click', SelectInput);
     input.addEventListener('focus', checkFocus);
     input.type = 'text';
     input.autocomplete = 'off';
@@ -2094,6 +2095,11 @@ function BuildKanaCard(kana){
     input.autocapitalize = 'off';
 
     return cardDiv;
+}
+
+function SelectInput(event){
+    //console.log(event.target);
+    event.currentTarget[0].focus();
 }
 
 function checkFocus(event){   
