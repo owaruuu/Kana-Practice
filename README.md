@@ -55,12 +55,13 @@ Room for improvement:
 - First time user experience, be it so that people that don't know whats possible in the App understand how to use it and so that people that don't know anything about Japanese language understand how to learn it inside the App.
 - Accept more than one answer on the Practice Page, there are some Kana that can be written in two or more ways, right now the app only accepts one hardcoded answer that the user may be not accustomed to.
 - Refactor code, as most was written in a rush to complete it within two weeks.
+- Rework homepage look.
 
 To do:
 - Add page that explains how Kanas and Japanese language in general work
 - Add english and other languages options
 - ~~Deselect card on page click on Practice Page~~
- -Make it so click on a card selects the input
+- Make it so click on a card selects the input
 - Make it so if you fail 3 times in the Practice Page a hint or the answer shows up
 - Add a stats page after finishing on the Practice Page
 - Add more feedback to the Practice Page
