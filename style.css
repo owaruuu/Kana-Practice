@@ -24,10 +24,10 @@ body{
     max-width: 10vw;
 }
 
-img{
+/* img{
     height: 100%;
     object-fit: contain;
-}
+} */
 
 h1{
     align-items: center;
@@ -101,6 +101,92 @@ p#instruccionescontent{
     text-align: center;
 }
 
+/* Desktop Options Buttons */
+
+#options-container{
+    padding: 3% 15%;
+    display:flex;
+    justify-content:center;
+    gap:10%
+}
+
+h2{
+    font-size:2rem;
+}
+
+.homepage-card{
+    background-color: #F79AD3;
+    border-radius: 10px;
+    text-align:center;
+    max-width:300px;
+    box-shadow: 10px 10px 2px 1px #674fdd6b;
+    overflow: hidden;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+@media only screen and (max-width: 950px){
+    .homepage-card{
+        display: none;
+    }   
+}
+
+.homepage-card:hover{
+    transform: translateY(-15px);
+    box-shadow: 15px 30px 14px 8px #5139fb1a;
+    /* border: 2px solid #0000ff; */
+}
+
+.homepage-card:hover{
+    background-color:#FFE1EE; 
+}
+
+.homepage-card:hover .homepage-card-title{
+    background-color:#F2AEEB; 
+}
+
+.homepage-card:hover .homepage-card-footer{
+    background-color:#F2AEEB; 
+}
+
+.homepage-card-title{
+    font-weight: bold;
+    text-transform: uppercase;
+    color:#420039;
+    background-color: #F79AD3;
+    z-index: 2;
+    position: relative;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+    margin: 0;
+}
+
+.homepage-img{
+    width: 100%;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.homepage-card:hover img{ 
+    transform: rotate(2deg) scale(1.1);
+}
+
+.homepage-card-footer{
+    color:#420039;
+    background-color: #F79AD3;
+    z-index: 2;
+    position: relative;
+    margin: 0;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+/* End */
+
 .homediv{
     display: flex;
     flex-direction: column;
@@ -127,6 +213,12 @@ p#instruccionescontent{
     text-decoration: none;
     -webkit-user-select: none;
     user-select: none; 
+}
+
+@media only screen and (min-width: 950px){
+    .uibtn{
+        display: none;
+    }   
 }
 
 .uibtn-top{
@@ -246,7 +338,7 @@ input[type=text] {
     background-color: #fceefa;
     color: #660636;
     padding: 0.5rem 0;
-    padding-right: 10px;
+    /* padding-right: 10px; */
     border-radius: 9px;
     font-size: clamp(0.5rem,.8rem + 0.1vw,5rem);
     transition: 0.2s ease;
@@ -266,7 +358,7 @@ label:not(.check) .consonantLabel{
 
 .consonantLabel {
     padding-left: 15px;
-    padding-right: 15px;
+    padding-right: 5px;
     font-size: clamp(0.2rem,0.9rem,2rem);
 }
 .kanaLabel{
@@ -760,6 +852,7 @@ button:focus-visible{
 
 .footerdiv{
     flex: 1;
+    text-align: center;
 }
 
 .footerdiv span{
