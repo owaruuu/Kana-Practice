@@ -127,6 +127,7 @@ p#instruccionescontent{
     text-decoration: none;
     -webkit-user-select: none;
     user-select: none; 
+    /* wat */
 }
 
 .uibtn-top{
