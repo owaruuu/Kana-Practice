@@ -1,4 +1,4 @@
-//jshint esversion:6
+//jshint esversion:9
 
 let state = {
     currentPage : "home",
@@ -583,21 +583,21 @@ const combkatakanasets = {
 const allmainbase = {
     ...mainkanasets,
     ...mainkatakanasets,
-}
+};
 
 const alldakuten = {
     ...dakutenkanasets,
     ...dakutenkatakanasets,
-}
+};
 
 const allcomb = {
     ...combkanasets,
     ...combkatakanasets,
-}
+};
 
 const allextra = {
     ...extrasets,
-}
+};
 
 const allkana = { 
     ...mainkanasets,
@@ -607,7 +607,7 @@ const allkana = {
     ...dakutenkatakanasets,
     ...combkatakanasets,
     ...extrasets,
-}
+};
 
 const romajiConsonants = {
     あ : `a`,
@@ -667,7 +667,7 @@ const romajiConsonants = {
     トゥ : `u`,
     ウェ : `e`,
     ウォ : `o`,
-}
+};
 
 const kanaAnswers = {
     あ : 'a',
@@ -891,7 +891,6 @@ const kanaAnswers = {
     ドゥ : 'du',
     デュ : 'dyu',
     フュ : 'fyu',
-    ジュ : 'ju',
     ウェ : 'we',
     シェ : 'she',
     チェ : 'che',
@@ -1314,7 +1313,7 @@ function StartLearning(){
     let spacer = CreateAndClass('div', app, classes = ['spacer'] );
 
     let titleKana = CreateAndClass('div', app, classes = ['titleKana']);
-    titleKana.textContent = JapaneseComaSeparatedArray(allkana[currentSet[0]])
+    titleKana.textContent = JapaneseComaSeparatedArray(allkana[currentSet[0]]);
 
     spacer = CreateAndClass('div', app, classes = ['spacer'] );
 
@@ -1394,7 +1393,7 @@ function PreviousButton(){
     let kanaelement = document.querySelector('.learnkana');
 
     if(kanaelement != null){
-        let kana = kanaelement.textContent
+        let kana = kanaelement.textContent;
 
         let index = currentSet.indexOf(kana);
 
@@ -1441,7 +1440,7 @@ function NextButton(){
 
     //si existe el kana construir la siguiente carta
     if(kanaelement != null){
-        let kana = kanaelement.textContent
+        let kana = kanaelement.textContent;
 
         let index = currentSet.indexOf(kana);
 
@@ -1623,7 +1622,7 @@ function toggleTransitionWithTimeout(element, text){
         requestAnimationFrame(() => {
             element.textContent = text;
             element.classList.add('fade');
-        })
+        });
     }, 225);
 }
 
@@ -2112,7 +2111,7 @@ function FocusNext(event){
             inputs[indexToCheck].focus();        
             return;
         }else{
-            indexToCheck = LoopingIncrement(indexToCheck, inputs.length)
+            indexToCheck = LoopingIncrement(indexToCheck, inputs.length);
         }
     }
 
