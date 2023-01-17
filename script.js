@@ -1,3 +1,5 @@
+//jshint esversion:6
+
 let state = {
     currentPage : "home",
 };
@@ -10,7 +12,7 @@ window.onpopstate = function (event) {
     }
 
     Render(state);
-}
+};
 
 function Render(state){
     switch (state.currentPage) {
@@ -27,7 +29,7 @@ function Render(state){
             BuildPracticeSetupPage();
             break;
         case "practice":
-            BuildPracticeSetupPage()
+            BuildPracticeSetupPage();
             break;
         default:
             break;
@@ -284,7 +286,6 @@ const infotext = {
     ドゥ : '',
     デュ : '',
     フュ : '',
-    ジュ : '',
     ウェ : '',
     シェ : '',
     チェ : '',
@@ -296,7 +297,7 @@ const infotext = {
     ツォ : '',
     フォ : '',
     ヴォ : '',
-}
+};
 
 const explanationtext = {
     あ : `Estas 5 kanas corresponden a los sonidos de las vocales, su orden es diferente al del español : 
@@ -386,7 +387,7 @@ const explanationtext = {
     トゥ : ``,
     ウェ : ``,
     ウォ : ``,
-}
+};
 
 function FindAllBaseGroup(kana){
     let basekey;
@@ -412,7 +413,7 @@ function FindAllBaseGroup(kana){
     }
     
     return 'null';
-};
+}
 
 function FindBaseGroup(kana){
     let basekey;
@@ -453,7 +454,7 @@ function FindBaseGroup(kana){
     }
     
     return 'null';
-};
+}
 
 function BaseToObject(base){
     switch (base) {
@@ -478,28 +479,35 @@ function BaseToObject(base){
         case 'all-extra':
             return extrasets;
     }
-};
+}
 
+//que hace esta funcion ? parece cambiar una base a un label
 function BaseToGroupLabel(base){
+    let groupLabel;
     switch (base) {
         case 'all-base':
-            return fors = ['all-hiragana-base', 'all-katakana-base'];
+            groupLabel = ['all-hiragana-base', 'all-katakana-base'];
+            break;
         case 'all-dakuten':
-            return fors = ['all-hiragana-dakuten', 'all-katakana-dakuten']
+            groupLabel = ['all-hiragana-dakuten', 'all-katakana-dakuten'];
+            break;
         case 'all-comb':
-            return fors = ['all-hiragana-comb', 'all-katakana-comb'];
+            groupLabel = ['all-hiragana-comb', 'all-katakana-comb'];
+            break;
         case 'all-extra':
-            return fors = ['all-extra'];
+            groupLabel = ['all-extra'];
     }
+
+    return groupLabel;
 }
 
 const extrasets = {
     ツァ : ['ツァ','ファ','ヴァ'],
     ウィ : ['ウィ','ティ','フィ','ディ','セィ','ヴィ'],
-    トゥ : ['トゥ','ドゥ','デュ','フュ','ジュ'],
+    トゥ : ['トゥ','ドゥ','デュ','フュ'],
     ウェ : ['ウェ','シェ','チェ','ツェ','フェ','ジェ','ヴェ'],
     ウォ : ['ウォ','ツォ','フォ','ヴォ'],
-}
+};
 
 const mainkanasets = {
     あ : ['あ','い','う','え','お'],
@@ -1207,7 +1215,6 @@ function CreateSetupButtons(parentDiv){
         let text = JapaneseComaSeparatedArray(array);
         CreateLabelInput(katakanabase, key, text);       
     });
-
 }
 
 function TurnOffGroupButton(base){
@@ -1215,19 +1222,16 @@ function TurnOffGroupButton(base){
 }
 
 function ClickAllInput(event){
-    let newState = ToggleGroupClass(event.target.parentElement, 'check');
+    let element = event.target.parentElement;
+    element.classList.toggle('check');
 
-    //si new state es true, significa que prendi el boton
-    //aqui tengo que pasar por todos los botones y ponerles check
-    let base = event.target.parentElement.getAttribute('for');
-    let otherbuttonsattribute = BaseToGroupLabel(base);
-    console.log(otherbuttonsattribute);
-
+    let base = event.target.parentElement.getAttribute('for');    
     let object = BaseToObject(base);
-
     let labels = GetAllLabels(object);
 
-    if(newState){
+    let otherbuttonsattribute = BaseToGroupLabel(base);
+
+    if(element.classList.contains('check')){
         TurnAllOn(labels);
         TurnBothButtons(otherbuttonsattribute, true);
     }else{
@@ -1237,21 +1241,24 @@ function ClickAllInput(event){
 }
 
 function ClickGroupInput(event){
-    let newState = ToggleGroupClass(event.target.parentElement, 'check');
+    let element = event.target.parentElement;
+    element.classList.toggle('check');
 
-    //si new state es true, significa que prendi el boton
-    //aqui tengo que pasar por todos los botones y ponerles check
-    let base = event.target.parentElement.getAttribute('for');
+    let labels = GetAllLabelsFromBase(element);
 
-    let object = BaseToObject(base);
-
-    let labels = GetAllLabels(object);
-
-    if(newState){
+    if(element.classList.contains('check')){
         TurnAllOn(labels);
     }else{
         TurnAllOff(labels);
     }
+}
+
+function GetAllLabelsFromBase(element){
+    let base = element.getAttribute('for');
+    let object = BaseToObject(base);
+    let labels = GetAllLabels(object);
+
+    return labels;
 }
 
 function TurnAllOn(group){
@@ -1733,7 +1740,7 @@ function BuildHomePage(){
     buttonPracticaTop.classList.add('uibtn-top');
     buttonPractica.appendChild(buttonPracticaTop);
 
-    buttonAprender.addEventListener('click' , OnLearnButtonPress)
+    buttonAprender.addEventListener('click' , OnLearnButtonPress);
     buttonPractica.addEventListener('click' , OnPracticeButtonPress);
 }
 
@@ -1837,41 +1844,11 @@ function CreateAndId(component ,parent, id){
     return newComponent;
 }
 
-function ToggleGroupClass(element, clase){
-    let contains = element.classList.contains(clase);
-    if(contains){
-        element.classList.remove(clase);
-        return false;
-    }else{
-        element.classList.add(clase);
-        return true;
-    }
-}
-
+//esto deberia simplemente hacer toggle a la clase 'check'
 function ToggleClass(element, clase){
-    let contains = element.classList.contains(clase);
-    if(contains){
-        //aqui estoy apagando un boton
-        //basado en el kana de este element, por ej: あ obtener el 'all base'
-        let attr = element.getAttribute('for');
+    element.classList.toggle(clase);
 
-        let base = FindAllBaseGroup(attr);
-        let targetlabel = document.querySelector(`[for='${base}']`);
-        targetlabel.classList.remove(clase);
-        
-        base = FindBaseGroup(attr);
-        targetlabel = document.querySelector(`[for='${base}']`);
-
-        targetlabel.classList.remove(clase);
-
-        element.classList.remove(clase);
-        return false;
-    }else{
-        //aqui estoy prendiendo un boton
-        //FIX check si los aprete todos y prender el label de all tambien
-        element.classList.add(clase);
-        return true;
-    }
+    //FIX check si los aprete todos y prender el label de all tambien
 }
 
 function CreateUiButton(parent, text){
@@ -1919,19 +1896,15 @@ function CreateAllLabelInput(parent, id, text){
 }
 
 function CreateLabelInput(parent, id, text){
-    //crea los label en el menu de setup
     let label = CreateAndClass('label', parent, classes = ['select-box']);
     let consonant = CreateAndClass('div', label, classes = ['consonantLabel']);
     consonant.textContent = romajiConsonants[id];
-    //label.setAttribute('id', id);
+
     let input = CreateAndId('input', label, id);
     input.classList.add('setup-input');
     label.setAttribute('for', id);
 
-
-    // let node = document.createTextNode (text);
-    // label.appendChild(node);
-    let kanaLabel = CreateAndClass('div', label, claases = ['kanaLabel']);
+    let kanaLabel = CreateAndClass('div', label, classes = ['kanaLabel']);
     kanaLabel.textContent = text;
 
     input.setAttribute('type', 'checkbox');
