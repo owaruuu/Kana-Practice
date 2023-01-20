@@ -176,13 +176,19 @@ h2{
 .homepage-card-footer{
     color:#420039;
     background-color: #F79AD3;
+    height: 116px;
+    font-size: 0.75rem;
     z-index: 2;
     position: relative;
     margin: 0;
     padding-top: 25px;
     padding-bottom: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 600;
 }
 
 /* End */
@@ -803,7 +809,7 @@ label{
 
 .focus-card{
     border: 5px #420039 solid;
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
 }
 
 a{
