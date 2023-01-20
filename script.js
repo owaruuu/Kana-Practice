@@ -1016,6 +1016,8 @@ const kanaWrongs = {
 
 //const container = document.querySelector('.container');
 
+let failCounter = 0;
+
 BuildHomePage();
 
 function BuildHomePage(){
@@ -1114,7 +1116,6 @@ function CreateBigButton(cardTitle, explanationText){
     return button;
 }
 
-
 function Submit(event){
     let cardDiv = event.target.parentElement;
     let form = event.target;
@@ -1125,6 +1126,8 @@ function Submit(event){
     
     if(inputValue == answer )
     {
+        failCounter = 0;
+        form.children[1].classList.remove('show');
         event.target[0].disabled = true;
         form.classList.remove('incorrect');
         form.parentElement.classList.remove('focus-card');
@@ -1132,6 +1135,12 @@ function Submit(event){
         //pass focus
         FocusNext(event);
     }else{
+        //TODO aqui incrementar contador
+        failCounter += 1;
+        if(failCounter > 1){
+            form.children[1].classList.add('show');
+        }
+
         form.classList.add('incorrect');
         input.value = '';
     }
@@ -1973,7 +1982,7 @@ function CheckPracticeSelected(){
     });
 
     if(checked.length < 1){
-        alert('Por favor selecciona lo que quieres practicar.');
+        alert('Por favor selecciona cuales Kanas quieres practicar.');
         return;
     }
 
@@ -2008,6 +2017,8 @@ function BuildPracticePage(selected){
     //scroll to top
     window.scrollTo(0, 0);
 
+    failCounter = 0;
+
     window.addEventListener("PageBuilt", AddMissClickListener);
 
     state.currentPage = "practice";
@@ -2029,8 +2040,6 @@ function BuildPracticePage(selected){
         kanasBase.push(kanaBase);
     });
 
-    //console.log(kanasBase);
-
     //Hacer un array de todos los kanas necesarios ocupando los kana base
     let kanas = [];
     kanasBase.forEach(basekana => {
@@ -2040,12 +2049,9 @@ function BuildPracticePage(selected){
         });
     });
 
-    //console.log(kanas);
-
     //randomizar los kana
     let randomkanas = shuffleArray(kanas);
     //mandar a construir tarjetas con el array
-    //return un array de elementos ?
     let elements = BuildCards(randomkanas);
     //agregar cada elemento al div correcto
     let practiceDiv = CreateAndClass('div', app, classes = ['practiceDiv']);
@@ -2109,6 +2115,13 @@ function BuildKanaCard(kana){
     input.size = 4;
     input.maxLength = 5;
     input.autocapitalize = 'off';
+    
+    let tooltipText = document.createElement('span');
+    tooltipText.classList.add('tooltiptext');
+
+    let text = `Respuesta: '${kanaAnswers[kana]}'`;
+    tooltipText.textContent = text;
+    form.appendChild(tooltipText);  
 
     return cardDiv;
 }
