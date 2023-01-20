@@ -2136,7 +2136,9 @@ function checkFocus(event){
     if(card != null)
         card.classList.remove('focus-card');
     event.target.parentElement.parentElement.classList.add('focus-card');
+    failCounter = 0;
 }
+
 function shuffleArray(arr){
     let currentIndex = arr.length,  randomIndex;
 
