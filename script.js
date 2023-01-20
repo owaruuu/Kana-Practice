@@ -39,7 +39,7 @@ function Render(state){
 let learnSets = [];
 let currentSet = [];
 
-let instrucciones = {
+const instrucciones = {
     home : 'Selecciona la opcion que quieres. Puedes aprender las letras de Hiragana/Katakana desde 0 o practicarlas si ya las sabes.', 
     aprender : `Selecciona cuales Kana quieres aprender y luego presiona 'Aprender' al fondo de la pagina.`,
     practicar : `Selecciona cuales Kana quieres practicar y luego presiona 'Empezar' al fondo de la pagina.`,
@@ -304,7 +304,7 @@ const explanationtext = {
         \n'a, i, u, e, o'. 
         \n\n Este mismo orden se repite con las demas letras, por ejemplo : \n 'ka, ki, ku, ke, ko', \n 'ma, mi, mu, me, mo'.`,
     か : `Las letras de la fila か representan los sonidos:
-        \nKa, Ki, Ku, Ku, Ko.
+        \nKa, Ki, Ku, Ke, Ko.
         \n\nLa fila de か se puede transformar del sonido de 'K' a el sonido de 'G' suave con la marca Dakuten ゛.
         \n\nPor ejemplo け = Ke, pero げ = Ge como en 'Guerra'.`,
     さ : `La fila de la letra さ representa los sonidos de la letra 'S', suena como uno lo esperaria, con la excepcion de し que se lee y escribe 'Shi'.
@@ -387,6 +387,11 @@ const explanationtext = {
     トゥ : ``,
     ウェ : ``,
     ウォ : ``,
+};
+
+const bigButtonExplanations = {
+    learn: 'explicacion de la seccion Aprender en detalle',
+    practice: 'explicacion de la seccion Practicar en detalle',
 };
 
 function FindAllBaseGroup(kana){
@@ -481,7 +486,6 @@ function BaseToObject(base){
     }
 }
 
-//que hace esta funcion ? parece cambiar una base a un label
 function BaseToGroupLabel(base){
     let groupLabel;
     switch (base) {
@@ -562,8 +566,7 @@ const dakutenkatakanasets = {
     ザ : ['ザ','ジ','ズ','ゼ','ゾ'],
     ダ : ['ダ','ヂ','ヅ','デ','ド'],
     バ : ['バ','ビ','ブ','ベ','ボ'],
-    パ : ['パ','ピ','プ','ペ','ポ'],
-    
+    パ : ['パ','ピ','プ','ペ','ポ'],   
 };
 
 const combkatakanasets = {   
@@ -1011,29 +1014,106 @@ const kanaWrongs = {
     ぴょ : 'pyo',
 };
 
-const container = document.querySelector('.container');
+//const container = document.querySelector('.container');
 
 BuildHomePage();
 
-function BuildCard(kana){
-    let cardDiv = document.createElement('div');
-    container.appendChild(cardDiv);
-    cardDiv.classList.add('card');
-    cardDiv.setAttribute('data-answer', kana.answer);
-    let question = document.createElement('div');
-    cardDiv.appendChild(question);
-    question.classList.add('question');
-    question.textContent = kana.kana;
-    let form = document.createElement('form');
-    cardDiv.appendChild(form);
-    form.classList.add('form');
-    let input = document.createElement('input'); 
-    form.appendChild(input);
-    input.type = 'text';
-    input.autocomplete = 'off';
-    input.size = 4;
-    input.maxLength = 5;
+function BuildHomePage(){
+    //first load
+    let title = document.getElementById('title');
+    title.addEventListener('click', OnTitleClick); 
+
+    //popular instrucciones
+    let instContent = document.getElementById('instruccionescontent');
+    instContent.textContent = instrucciones.home;
+
+    //cargar ambos botones
+    let contentDiv = document.getElementById('app');
+
+    let optionsContainer = document.createElement('div');
+    optionsContainer.setAttribute('id', 'options-container');
+    contentDiv.appendChild(optionsContainer);
+
+    let desktopHomeDiv = document.createElement('div');
+    desktopHomeDiv.classList.add('desktopHomeDiv');
+    contentDiv.appendChild(desktopHomeDiv);
+
+    let homeDiv = document.createElement('div');
+    homeDiv.classList.add('homediv');
+    contentDiv.appendChild(homeDiv);
+
+    let bigButtonLearn = CreateBigButton('Aprender', bigButtonExplanations.learn);
+    optionsContainer.appendChild(bigButtonLearn);
+
+    let bigButtonPractice = CreateBigButton('Practicar', bigButtonExplanations.practice);
+    optionsContainer.appendChild(bigButtonPractice);
+
+    let buttonAprender = document.createElement('button');
+    buttonAprender.classList.add('uibtn');
+    buttonAprender.classList.add('homepage-button');
+    homeDiv.appendChild(buttonAprender);
+
+    let buttonAprenderTop = document.createElement('span');
+    buttonAprenderTop.textContent = 'Aprender';
+    buttonAprenderTop.classList.add('uibtn-top');
+    buttonAprender.appendChild(buttonAprenderTop);
+
+    let buttonPractica = document.createElement('button');
+    buttonPractica.classList.add('uibtn');
+    buttonPractica.classList.add('homepage-button');
+    homeDiv.appendChild(buttonPractica);
+
+    let buttonPracticaTop = document.createElement('span');
+    buttonPracticaTop.textContent = 'Practicar';
+    buttonPracticaTop.classList.add('uibtn-top');
+    buttonPractica.appendChild(buttonPracticaTop);
+
+    bigButtonLearn.addEventListener('click', OnLearnButtonPress);
+    bigButtonPractice.addEventListener('click' , OnPracticeButtonPress);
+
+    buttonAprender.addEventListener('click' , OnLearnButtonPress);
+    buttonPractica.addEventListener('click' , OnPracticeButtonPress);
 }
+
+function CreateBigButton(cardTitle, explanationText){
+    let button = document.createElement('button');
+    button.classList.add('desktopButton');
+
+    let card = document.createElement('div');
+    card.classList.add('homepage-card');
+    button.appendChild(card);
+
+    let title = document.createElement('h2');
+    title.textContent = cardTitle;
+    title.classList.add('homepage-card-title');
+    card.appendChild(title);
+
+    let img = document.createElement('img');
+    img.classList.add('homepage-img');
+
+    let imgFile = '';
+
+    switch(cardTitle){
+        case 'Aprender':
+            imgFile = 'images/LearnButtonImg3.png';
+            break;
+        case 'Practicar':
+            imgFile = 'images/PracticeButtonImg1.png';
+            break;
+    }
+
+    img.setAttribute('src', imgFile);
+    img.setAttribute('alt', `Imagenes de la seccion ${cardTitle}`);
+    card.appendChild(img);
+
+    let explanation = document.createElement('p');
+    explanation.classList.add('homepage-card-footer');
+    explanation.textContent = explanationText;
+    card.appendChild(explanation);
+
+    return button;
+}
+
 
 function Submit(event){
     let cardDiv = event.target.parentElement;
@@ -1705,43 +1785,7 @@ function PopulateInstructions(e){
     instContent.textContent = e;
 }
 
-function BuildHomePage(){
-    //first load
-    let title = document.getElementById('title');
-    title.addEventListener('click', OnTitleClick); 
 
-    //popular instrucciones
-    let instContent = document.getElementById('instruccionescontent');
-    instContent.textContent = instrucciones.home;
-
-    //cargar ambos botones
-    let contentDiv = document.getElementById('app');
-
-    let homeDiv = document.createElement('div');
-    homeDiv.classList.add('homediv');
-    contentDiv.appendChild(homeDiv);
-
-    let buttonAprender = document.createElement('button');
-    buttonAprender.classList.add('uibtn');
-    homeDiv.appendChild(buttonAprender);
-
-    let buttonAprenderTop = document.createElement('span');
-    buttonAprenderTop.textContent = 'Aprender';
-    buttonAprenderTop.classList.add('uibtn-top');
-    buttonAprender.appendChild(buttonAprenderTop);
-
-    let buttonPractica = document.createElement('button');
-    buttonPractica.classList.add('uibtn');
-    homeDiv.appendChild(buttonPractica);
-
-    let buttonPracticaTop = document.createElement('span');
-    buttonPracticaTop.textContent = 'Practicar';
-    buttonPracticaTop.classList.add('uibtn-top');
-    buttonPractica.appendChild(buttonPracticaTop);
-
-    buttonAprender.addEventListener('click' , OnLearnButtonPress);
-    buttonPractica.addEventListener('click' , OnPracticeButtonPress);
-}
 
 function OnLearnButtonPress(){
     //aqui deberia revisar que esta seleccionado y setear el 'learnsets'
@@ -2204,3 +2248,23 @@ function AppendQuizButtons(arr, parent){
 function JapaneseComaSeparatedArray(array){
     return array.join('、');
 }
+
+// function BuildCard(kana){
+//     let cardDiv = document.createElement('div');
+//     container.appendChild(cardDiv);
+//     cardDiv.classList.add('card');
+//     cardDiv.setAttribute('data-answer', kana.answer);
+//     let question = document.createElement('div');
+//     cardDiv.appendChild(question);
+//     question.classList.add('question');
+//     question.textContent = kana.kana;
+//     let form = document.createElement('form');
+//     cardDiv.appendChild(form);
+//     form.classList.add('form');
+//     let input = document.createElement('input'); 
+//     form.appendChild(input);
+//     input.type = 'text';
+//     input.autocomplete = 'off';
+//     input.size = 4;
+//     input.maxLength = 5;
+// }
