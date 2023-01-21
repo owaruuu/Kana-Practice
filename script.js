@@ -390,7 +390,7 @@ const explanationtext = {
 };
 
 const bigButtonExplanations = {
-    learn: 'Selecciona cuales kana quieres aprender, te mostraremos información y tips sobre ellos para que los puedas recordar y diferenciar entre sí, después de cada set tendrás un pequeño quiz para reforzar lo que aprendiste.',
+    learn: 'Selecciona cuales Kana quieres aprender, te mostraremos información y tips sobre ellos para que los puedas recordar y diferenciar entre sí, después de cada set tendrás un pequeño quiz para reforzar lo que aprendiste.',
     practice: `Si ya sabes algunos Kanas pero quieres practicar su lectura.
     Los Kanas que selecciones para practicar serán revueltos para que nunca estén en el mismo orden. Puedes seguir estudiando el mismo set o seleccionar otro set de Kanas.
 `,
