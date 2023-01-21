@@ -1,3 +1,5 @@
+//jshint esversion:9
+
 let state = {
     currentPage : "home",
 };
@@ -10,7 +12,7 @@ window.onpopstate = function (event) {
     }
 
     Render(state);
-}
+};
 
 function Render(state){
     switch (state.currentPage) {
@@ -27,7 +29,7 @@ function Render(state){
             BuildPracticeSetupPage();
             break;
         case "practice":
-            BuildPracticeSetupPage()
+            BuildPracticeSetupPage();
             break;
         default:
             break;
@@ -37,7 +39,7 @@ function Render(state){
 let learnSets = [];
 let currentSet = [];
 
-let instrucciones = {
+const instrucciones = {
     home : 'Selecciona la opcion que quieres. Puedes aprender las letras de Hiragana/Katakana desde 0 o practicarlas si ya las sabes.', 
     aprender : `Selecciona cuales Kana quieres aprender y luego presiona 'Aprender' al fondo de la pagina.`,
     practicar : `Selecciona cuales Kana quieres practicar y luego presiona 'Empezar' al fondo de la pagina.`,
@@ -284,7 +286,6 @@ const infotext = {
     ドゥ : '',
     デュ : '',
     フュ : '',
-    ジュ : '',
     ウェ : '',
     シェ : '',
     チェ : '',
@@ -296,14 +297,14 @@ const infotext = {
     ツォ : '',
     フォ : '',
     ヴォ : '',
-}
+};
 
 const explanationtext = {
     あ : `Estas 5 kanas corresponden a los sonidos de las vocales, su orden es diferente al del español : 
         \n'a, i, u, e, o'. 
         \n\n Este mismo orden se repite con las demas letras, por ejemplo : \n 'ka, ki, ku, ke, ko', \n 'ma, mi, mu, me, mo'.`,
     か : `Las letras de la fila か representan los sonidos:
-        \nKa, Ki, Ku, Ku, Ko.
+        \nKa, Ki, Ku, Ke, Ko.
         \n\nLa fila de か se puede transformar del sonido de 'K' a el sonido de 'G' suave con la marca Dakuten ゛.
         \n\nPor ejemplo け = Ke, pero げ = Ge como en 'Guerra'.`,
     さ : `La fila de la letra さ representa los sonidos de la letra 'S', suena como uno lo esperaria, con la excepcion de し que se lee y escribe 'Shi'.
@@ -386,7 +387,14 @@ const explanationtext = {
     トゥ : ``,
     ウェ : ``,
     ウォ : ``,
-}
+};
+
+const bigButtonExplanations = {
+    learn: 'Selecciona cuales kana quieres aprender, te mostraremos información y tips sobre ellos para que los puedas recordar y diferenciar entre sí, después de cada set tendrás un pequeño quiz para reforzar lo que aprendiste.',
+    practice: `Si ya sabes algunos Kanas pero quieres practicar su lectura.
+    Los Kanas que selecciones para practicar serán revueltos para que nunca estén en el mismo orden. Puedes seguir estudiando el mismo set o seleccionar otro set de Kanas.
+`,
+};
 
 function FindAllBaseGroup(kana){
     let basekey;
@@ -412,7 +420,7 @@ function FindAllBaseGroup(kana){
     }
     
     return 'null';
-};
+}
 
 function FindBaseGroup(kana){
     let basekey;
@@ -453,7 +461,7 @@ function FindBaseGroup(kana){
     }
     
     return 'null';
-};
+}
 
 function BaseToObject(base){
     switch (base) {
@@ -478,28 +486,34 @@ function BaseToObject(base){
         case 'all-extra':
             return extrasets;
     }
-};
+}
 
 function BaseToGroupLabel(base){
+    let groupLabel;
     switch (base) {
         case 'all-base':
-            return fors = ['all-hiragana-base', 'all-katakana-base'];
+            groupLabel = ['all-hiragana-base', 'all-katakana-base'];
+            break;
         case 'all-dakuten':
-            return fors = ['all-hiragana-dakuten', 'all-katakana-dakuten']
+            groupLabel = ['all-hiragana-dakuten', 'all-katakana-dakuten'];
+            break;
         case 'all-comb':
-            return fors = ['all-hiragana-comb', 'all-katakana-comb'];
+            groupLabel = ['all-hiragana-comb', 'all-katakana-comb'];
+            break;
         case 'all-extra':
-            return fors = ['all-extra'];
+            groupLabel = ['all-extra'];
     }
+
+    return groupLabel;
 }
 
 const extrasets = {
     ツァ : ['ツァ','ファ','ヴァ'],
     ウィ : ['ウィ','ティ','フィ','ディ','セィ','ヴィ'],
-    トゥ : ['トゥ','ドゥ','デュ','フュ','ジュ'],
+    トゥ : ['トゥ','ドゥ','デュ','フュ'],
     ウェ : ['ウェ','シェ','チェ','ツェ','フェ','ジェ','ヴェ'],
     ウォ : ['ウォ','ツォ','フォ','ヴォ'],
-}
+};
 
 const mainkanasets = {
     あ : ['あ','い','う','え','お'],
@@ -554,8 +568,7 @@ const dakutenkatakanasets = {
     ザ : ['ザ','ジ','ズ','ゼ','ゾ'],
     ダ : ['ダ','ヂ','ヅ','デ','ド'],
     バ : ['バ','ビ','ブ','ベ','ボ'],
-    パ : ['パ','ピ','プ','ペ','ポ'],
-    
+    パ : ['パ','ピ','プ','ペ','ポ'],   
 };
 
 const combkatakanasets = {   
@@ -575,21 +588,21 @@ const combkatakanasets = {
 const allmainbase = {
     ...mainkanasets,
     ...mainkatakanasets,
-}
+};
 
 const alldakuten = {
     ...dakutenkanasets,
     ...dakutenkatakanasets,
-}
+};
 
 const allcomb = {
     ...combkanasets,
     ...combkatakanasets,
-}
+};
 
 const allextra = {
     ...extrasets,
-}
+};
 
 const allkana = { 
     ...mainkanasets,
@@ -599,7 +612,7 @@ const allkana = {
     ...dakutenkatakanasets,
     ...combkatakanasets,
     ...extrasets,
-}
+};
 
 const romajiConsonants = {
     あ : `a`,
@@ -659,7 +672,7 @@ const romajiConsonants = {
     トゥ : `u`,
     ウェ : `e`,
     ウォ : `o`,
-}
+};
 
 const kanaAnswers = {
     あ : 'a',
@@ -883,7 +896,6 @@ const kanaAnswers = {
     ドゥ : 'du',
     デュ : 'dyu',
     フュ : 'fyu',
-    ジュ : 'ju',
     ウェ : 'we',
     シェ : 'she',
     チェ : 'che',
@@ -1004,28 +1016,106 @@ const kanaWrongs = {
     ぴょ : 'pyo',
 };
 
-const container = document.querySelector('.container');
+//const container = document.querySelector('.container');
+
+let failCounter = 0;
 
 BuildHomePage();
 
-function BuildCard(kana){
-    let cardDiv = document.createElement('div');
-    container.appendChild(cardDiv);
-    cardDiv.classList.add('card');
-    cardDiv.setAttribute('data-answer', kana.answer);
-    let question = document.createElement('div');
-    cardDiv.appendChild(question);
-    question.classList.add('question');
-    question.textContent = kana.kana;
-    let form = document.createElement('form');
-    cardDiv.appendChild(form);
-    form.classList.add('form');
-    let input = document.createElement('input'); 
-    form.appendChild(input);
-    input.type = 'text';
-    input.autocomplete = 'off';
-    input.size = 4;
-    input.maxLength = 5;
+function BuildHomePage(){
+    //first load
+    let title = document.getElementById('title');
+    title.addEventListener('click', OnTitleClick); 
+
+    //popular instrucciones
+    let instContent = document.getElementById('instruccionescontent');
+    instContent.textContent = instrucciones.home;
+
+    //cargar ambos botones
+    let contentDiv = document.getElementById('app');
+
+    let optionsContainer = document.createElement('div');
+    optionsContainer.setAttribute('id', 'options-container');
+    contentDiv.appendChild(optionsContainer);
+
+    let desktopHomeDiv = document.createElement('div');
+    desktopHomeDiv.classList.add('desktopHomeDiv');
+    contentDiv.appendChild(desktopHomeDiv);
+
+    let homeDiv = document.createElement('div');
+    homeDiv.classList.add('homediv');
+    contentDiv.appendChild(homeDiv);
+
+    let bigButtonLearn = CreateBigButton('Aprender', bigButtonExplanations.learn);
+    optionsContainer.appendChild(bigButtonLearn);
+
+    let bigButtonPractice = CreateBigButton('Practicar', bigButtonExplanations.practice);
+    optionsContainer.appendChild(bigButtonPractice);
+
+    let buttonAprender = document.createElement('button');
+    buttonAprender.classList.add('uibtn');
+    buttonAprender.classList.add('homepage-button');
+    homeDiv.appendChild(buttonAprender);
+
+    let buttonAprenderTop = document.createElement('span');
+    buttonAprenderTop.textContent = 'Aprender';
+    buttonAprenderTop.classList.add('uibtn-top');
+    buttonAprender.appendChild(buttonAprenderTop);
+
+    let buttonPractica = document.createElement('button');
+    buttonPractica.classList.add('uibtn');
+    buttonPractica.classList.add('homepage-button');
+    homeDiv.appendChild(buttonPractica);
+
+    let buttonPracticaTop = document.createElement('span');
+    buttonPracticaTop.textContent = 'Practicar';
+    buttonPracticaTop.classList.add('uibtn-top');
+    buttonPractica.appendChild(buttonPracticaTop);
+
+    bigButtonLearn.addEventListener('click', OnLearnButtonPress);
+    bigButtonPractice.addEventListener('click' , OnPracticeButtonPress);
+
+    buttonAprender.addEventListener('click' , OnLearnButtonPress);
+    buttonPractica.addEventListener('click' , OnPracticeButtonPress);
+}
+
+function CreateBigButton(cardTitle, explanationText){
+    let button = document.createElement('button');
+    button.classList.add('desktopButton');
+
+    let card = document.createElement('div');
+    card.classList.add('homepage-card');
+    button.appendChild(card);
+
+    let title = document.createElement('h2');
+    title.textContent = cardTitle;
+    title.classList.add('homepage-card-title');
+    card.appendChild(title);
+
+    let img = document.createElement('img');
+    img.classList.add('homepage-img');
+
+    let imgFile = '';
+
+    switch(cardTitle){
+        case 'Aprender':
+            imgFile = 'images/LearnButtonImg3.png';
+            break;
+        case 'Practicar':
+            imgFile = 'images/PracticeButtonImg1.png';
+            break;
+    }
+
+    img.setAttribute('src', imgFile);
+    img.setAttribute('alt', `Imagenes de la seccion ${cardTitle}`);
+    card.appendChild(img);
+
+    let explanation = document.createElement('p');
+    explanation.classList.add('homepage-card-footer');
+    explanation.textContent = explanationText;
+    card.appendChild(explanation);
+
+    return button;
 }
 
 function Submit(event){
@@ -1038,6 +1128,8 @@ function Submit(event){
     
     if(inputValue == answer )
     {
+        failCounter = 0;
+        form.children[1].classList.remove('show');
         event.target[0].disabled = true;
         form.classList.remove('incorrect');
         form.parentElement.classList.remove('focus-card');
@@ -1045,6 +1137,12 @@ function Submit(event){
         //pass focus
         FocusNext(event);
     }else{
+        //TODO aqui incrementar contador
+        failCounter += 1;
+        if(failCounter > 1){
+            form.children[1].classList.add('show');
+        }
+
         form.classList.add('incorrect');
         input.value = '';
     }
@@ -1207,7 +1305,6 @@ function CreateSetupButtons(parentDiv){
         let text = JapaneseComaSeparatedArray(array);
         CreateLabelInput(katakanabase, key, text);       
     });
-
 }
 
 function TurnOffGroupButton(base){
@@ -1215,19 +1312,16 @@ function TurnOffGroupButton(base){
 }
 
 function ClickAllInput(event){
-    let newState = ToggleGroupClass(event.target.parentElement, 'check');
+    let element = event.target.parentElement;
+    element.classList.toggle('check');
 
-    //si new state es true, significa que prendi el boton
-    //aqui tengo que pasar por todos los botones y ponerles check
-    let base = event.target.parentElement.getAttribute('for');
-    let otherbuttonsattribute = BaseToGroupLabel(base);
-    console.log(otherbuttonsattribute);
-
+    let base = event.target.parentElement.getAttribute('for');    
     let object = BaseToObject(base);
-
     let labels = GetAllLabels(object);
 
-    if(newState){
+    let otherbuttonsattribute = BaseToGroupLabel(base);
+
+    if(element.classList.contains('check')){
         TurnAllOn(labels);
         TurnBothButtons(otherbuttonsattribute, true);
     }else{
@@ -1237,21 +1331,24 @@ function ClickAllInput(event){
 }
 
 function ClickGroupInput(event){
-    let newState = ToggleGroupClass(event.target.parentElement, 'check');
+    let element = event.target.parentElement;
+    element.classList.toggle('check');
 
-    //si new state es true, significa que prendi el boton
-    //aqui tengo que pasar por todos los botones y ponerles check
-    let base = event.target.parentElement.getAttribute('for');
+    let labels = GetAllLabelsFromBase(element);
 
-    let object = BaseToObject(base);
-
-    let labels = GetAllLabels(object);
-
-    if(newState){
+    if(element.classList.contains('check')){
         TurnAllOn(labels);
     }else{
         TurnAllOff(labels);
     }
+}
+
+function GetAllLabelsFromBase(element){
+    let base = element.getAttribute('for');
+    let object = BaseToObject(base);
+    let labels = GetAllLabels(object);
+
+    return labels;
 }
 
 function TurnAllOn(group){
@@ -1307,7 +1404,7 @@ function StartLearning(){
     let spacer = CreateAndClass('div', app, classes = ['spacer'] );
 
     let titleKana = CreateAndClass('div', app, classes = ['titleKana']);
-    titleKana.textContent = JapaneseComaSeparatedArray(allkana[currentSet[0]])
+    titleKana.textContent = JapaneseComaSeparatedArray(allkana[currentSet[0]]);
 
     spacer = CreateAndClass('div', app, classes = ['spacer'] );
 
@@ -1387,7 +1484,7 @@ function PreviousButton(){
     let kanaelement = document.querySelector('.learnkana');
 
     if(kanaelement != null){
-        let kana = kanaelement.textContent
+        let kana = kanaelement.textContent;
 
         let index = currentSet.indexOf(kana);
 
@@ -1434,7 +1531,7 @@ function NextButton(){
 
     //si existe el kana construir la siguiente carta
     if(kanaelement != null){
-        let kana = kanaelement.textContent
+        let kana = kanaelement.textContent;
 
         let index = currentSet.indexOf(kana);
 
@@ -1616,7 +1713,7 @@ function toggleTransitionWithTimeout(element, text){
         requestAnimationFrame(() => {
             element.textContent = text;
             element.classList.add('fade');
-        })
+        });
     }, 225);
 }
 
@@ -1699,43 +1796,7 @@ function PopulateInstructions(e){
     instContent.textContent = e;
 }
 
-function BuildHomePage(){
-    //first load
-    let title = document.getElementById('title');
-    title.addEventListener('click', OnTitleClick); 
 
-    //popular instrucciones
-    let instContent = document.getElementById('instruccionescontent');
-    instContent.textContent = instrucciones.home;
-
-    //cargar ambos botones
-    let contentDiv = document.getElementById('app');
-
-    let homeDiv = document.createElement('div');
-    homeDiv.classList.add('homediv');
-    contentDiv.appendChild(homeDiv);
-
-    let buttonAprender = document.createElement('button');
-    buttonAprender.classList.add('uibtn');
-    homeDiv.appendChild(buttonAprender);
-
-    let buttonAprenderTop = document.createElement('span');
-    buttonAprenderTop.textContent = 'Aprender';
-    buttonAprenderTop.classList.add('uibtn-top');
-    buttonAprender.appendChild(buttonAprenderTop);
-
-    let buttonPractica = document.createElement('button');
-    buttonPractica.classList.add('uibtn');
-    homeDiv.appendChild(buttonPractica);
-
-    let buttonPracticaTop = document.createElement('span');
-    buttonPracticaTop.textContent = 'Practicar';
-    buttonPracticaTop.classList.add('uibtn-top');
-    buttonPractica.appendChild(buttonPracticaTop);
-
-    buttonAprender.addEventListener('click' , OnLearnButtonPress)
-    buttonPractica.addEventListener('click' , OnPracticeButtonPress);
-}
 
 function OnLearnButtonPress(){
     //aqui deberia revisar que esta seleccionado y setear el 'learnsets'
@@ -1837,41 +1898,11 @@ function CreateAndId(component ,parent, id){
     return newComponent;
 }
 
-function ToggleGroupClass(element, clase){
-    let contains = element.classList.contains(clase);
-    if(contains){
-        element.classList.remove(clase);
-        return false;
-    }else{
-        element.classList.add(clase);
-        return true;
-    }
-}
-
+//esto deberia simplemente hacer toggle a la clase 'check'
 function ToggleClass(element, clase){
-    let contains = element.classList.contains(clase);
-    if(contains){
-        //aqui estoy apagando un boton
-        //basado en el kana de este element, por ej: あ obtener el 'all base'
-        let attr = element.getAttribute('for');
+    element.classList.toggle(clase);
 
-        let base = FindAllBaseGroup(attr);
-        let targetlabel = document.querySelector(`[for='${base}']`);
-        targetlabel.classList.remove(clase);
-        
-        base = FindBaseGroup(attr);
-        targetlabel = document.querySelector(`[for='${base}']`);
-
-        targetlabel.classList.remove(clase);
-
-        element.classList.remove(clase);
-        return false;
-    }else{
-        //aqui estoy prendiendo un boton
-        //FIX check si los aprete todos y prender el label de all tambien
-        element.classList.add(clase);
-        return true;
-    }
+    //FIX check si los aprete todos y prender el label de all tambien
 }
 
 function CreateUiButton(parent, text){
@@ -1919,19 +1950,15 @@ function CreateAllLabelInput(parent, id, text){
 }
 
 function CreateLabelInput(parent, id, text){
-    //crea los label en el menu de setup
     let label = CreateAndClass('label', parent, classes = ['select-box']);
     let consonant = CreateAndClass('div', label, classes = ['consonantLabel']);
     consonant.textContent = romajiConsonants[id];
-    //label.setAttribute('id', id);
+
     let input = CreateAndId('input', label, id);
     input.classList.add('setup-input');
     label.setAttribute('for', id);
 
-
-    // let node = document.createTextNode (text);
-    // label.appendChild(node);
-    let kanaLabel = CreateAndClass('div', label, claases = ['kanaLabel']);
+    let kanaLabel = CreateAndClass('div', label, classes = ['kanaLabel']);
     kanaLabel.textContent = text;
 
     input.setAttribute('type', 'checkbox');
@@ -1957,7 +1984,7 @@ function CheckPracticeSelected(){
     });
 
     if(checked.length < 1){
-        alert('Por favor selecciona lo que quieres practicar.');
+        alert('Por favor selecciona cuales Kanas quieres practicar.');
         return;
     }
 
@@ -1992,6 +2019,8 @@ function BuildPracticePage(selected){
     //scroll to top
     window.scrollTo(0, 0);
 
+    failCounter = 0;
+
     window.addEventListener("PageBuilt", AddMissClickListener);
 
     state.currentPage = "practice";
@@ -2013,8 +2042,6 @@ function BuildPracticePage(selected){
         kanasBase.push(kanaBase);
     });
 
-    //console.log(kanasBase);
-
     //Hacer un array de todos los kanas necesarios ocupando los kana base
     let kanas = [];
     kanasBase.forEach(basekana => {
@@ -2024,12 +2051,9 @@ function BuildPracticePage(selected){
         });
     });
 
-    //console.log(kanas);
-
     //randomizar los kana
     let randomkanas = shuffleArray(kanas);
     //mandar a construir tarjetas con el array
-    //return un array de elementos ?
     let elements = BuildCards(randomkanas);
     //agregar cada elemento al div correcto
     let practiceDiv = CreateAndClass('div', app, classes = ['practiceDiv']);
@@ -2093,6 +2117,13 @@ function BuildKanaCard(kana){
     input.size = 4;
     input.maxLength = 5;
     input.autocapitalize = 'off';
+    
+    let tooltipText = document.createElement('span');
+    tooltipText.classList.add('tooltiptext');
+
+    let text = `Respuesta: '${kanaAnswers[kana]}'`;
+    tooltipText.textContent = text;
+    form.appendChild(tooltipText);  
 
     return cardDiv;
 }
@@ -2107,7 +2138,9 @@ function checkFocus(event){
     if(card != null)
         card.classList.remove('focus-card');
     event.target.parentElement.parentElement.classList.add('focus-card');
+    failCounter = 0;
 }
+
 function shuffleArray(arr){
     let currentIndex = arr.length,  randomIndex;
 
@@ -2139,7 +2172,7 @@ function FocusNext(event){
             inputs[indexToCheck].focus();        
             return;
         }else{
-            indexToCheck = LoopingIncrement(indexToCheck, inputs.length)
+            indexToCheck = LoopingIncrement(indexToCheck, inputs.length);
         }
     }
 
@@ -2232,3 +2265,23 @@ function AppendQuizButtons(arr, parent){
 function JapaneseComaSeparatedArray(array){
     return array.join('、');
 }
+
+// function BuildCard(kana){
+//     let cardDiv = document.createElement('div');
+//     container.appendChild(cardDiv);
+//     cardDiv.classList.add('card');
+//     cardDiv.setAttribute('data-answer', kana.answer);
+//     let question = document.createElement('div');
+//     cardDiv.appendChild(question);
+//     question.classList.add('question');
+//     question.textContent = kana.kana;
+//     let form = document.createElement('form');
+//     cardDiv.appendChild(form);
+//     form.classList.add('form');
+//     let input = document.createElement('input'); 
+//     form.appendChild(input);
+//     input.type = 'text';
+//     input.autocomplete = 'off';
+//     input.size = 4;
+//     input.maxLength = 5;
+// }
