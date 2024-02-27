@@ -3,6 +3,7 @@
 } */
 
 body{
+    
     margin: 0;
     width: 100%;
     min-height: 100vh;
@@ -10,6 +11,7 @@ body{
     flex-direction: column;
     justify-content: space-between;
     background-color: #f7d4f2;
+    background-color: #0000ff;
 }
 
 #body{
