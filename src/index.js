@@ -18,6 +18,8 @@ import {
 
 import { romajiConsonants, kanaAnswers, kanaWrongs } from "./romaji.js";
 
+import { CreateSimple, CreateAndClass, CreateAndId } from "./helpers.js";
+
 let state = {
     currentPage: "home",
 };
@@ -66,8 +68,6 @@ function KanaToInfo(kana) {
 
     if (info != null) {
         return info;
-    } else {
-        console.log(info);
     }
 }
 
@@ -359,10 +359,6 @@ function Submit(event) {
         input.value = "";
     }
 
-    //console.log(event.target[0].value);
-    //console.log(event.target.parentElement);
-    //console.log(event);
-    //console.log(cardDiv.dataset.answer);
     //cardDiv.setAttribute('data-some', 20);
 
     event.preventDefault();
@@ -403,11 +399,9 @@ function CreateSetupButtons(parentDiv) {
     allbaseinput.parentElement.classList.add("all-main");
     // document.addEventListener('onTurnOffBaseKana', TurnOffGroupButton);
 
-    let maingroupbuttons = CreateAndClass(
-        "div",
-        firstDiv,
-        (classes = ["kanagroupbuttons"])
-    );
+    let maingroupbuttons = CreateAndClass("div", firstDiv, [
+        "kanagroupbuttons",
+    ]);
 
     //boton all base hiragana
     let btn = CreateGroupLabelInput(
@@ -456,11 +450,7 @@ function CreateSetupButtons(parentDiv) {
     );
     alldakuteninput.parentElement.classList.add("all-main");
 
-    maingroupbuttons = CreateAndClass(
-        "div",
-        secondDiv,
-        (classes = ["kanagroupbuttons"])
-    );
+    maingroupbuttons = CreateAndClass("div", secondDiv, ["kanagroupbuttons"]);
 
     //all dakuten hiragana
     btn = CreateGroupLabelInput(
@@ -529,11 +519,7 @@ function CreateSetupButtons(parentDiv) {
     );
     allcombinput.parentElement.classList.add("all-main");
 
-    maingroupbuttons = CreateAndClass(
-        "div",
-        thirdDiv,
-        (classes = ["kanagroupbuttons"])
-    );
+    maingroupbuttons = CreateAndClass("div", thirdDiv, ["kanagroupbuttons"]);
 
     btn = CreateGroupLabelInput(
         maingroupbuttons,
@@ -665,43 +651,35 @@ function StartLearning() {
     let instContent = document.getElementById("instruccionescontent");
     instContent.textContent = instrucciones.kanalearn;
 
-    let spacer = CreateAndClass("div", app, (classes = ["spacer"]));
+    let spacer = CreateAndClass("div", app, ["spacer"]);
 
-    let titleKana = CreateAndClass("div", app, (classes = ["titleKana"]));
+    let titleKana = CreateAndClass("div", app, ["titleKana"]);
     titleKana.textContent = JapaneseComaSeparatedArray(allkana[currentSet[0]]);
 
-    spacer = CreateAndClass("div", app, (classes = ["spacer"]));
+    spacer = CreateAndClass("div", app, ["spacer"]);
 
     //Armar divs
-    let learnDiv = CreateAndClass("div", app, (classes = ["learndiv"]));
-    let learnCard = CreateAndClass("div", learnDiv, (classes = ["learncard"]));
+    let learnDiv = CreateAndClass("div", app, ["learndiv"]);
+    let learnCard = CreateAndClass("div", learnDiv, ["learncard"]);
 
     let info = document.createElement("div");
     info.classList.add("info");
 
-    spacer = CreateAndClass("div", learnDiv, (classes = ["spacer"]));
+    spacer = CreateAndClass("div", learnDiv, ["spacer"]);
     spacer.appendChild(info);
 
     let explanationExist = CheckForExplanation(learnCard);
 
-    spacer = CreateAndClass("div", learnDiv, (classes = ["spacer"]));
+    spacer = CreateAndClass("div", learnDiv, ["spacer"]);
 
-    let buttonsdiv = CreateAndClass("div", learnDiv, (classes = ["btn-div"]));
+    let buttonsdiv = CreateAndClass("div", learnDiv, ["btn-div"]);
 
-    let prevButton = CreateAndClass(
-        "button",
-        buttonsdiv,
-        (classes = ["prevbtn"])
-    );
+    let prevButton = CreateAndClass("button", buttonsdiv, ["prevbtn"]);
     prevButton.addEventListener("click", PreviousButton);
     prevButton.textContent = "Atras";
     prevButton.disabled = true;
 
-    let nextButton = CreateAndClass(
-        "button",
-        buttonsdiv,
-        (classes = ["nextbtn"])
-    );
+    let nextButton = CreateAndClass("button", buttonsdiv, ["nextbtn"]);
     nextButton.addEventListener("click", NextButton);
     nextButton.textContent = "Siguiente";
 
@@ -713,11 +691,9 @@ function CheckForExplanation(cardParent) {
     let explanation = explanationtext[currentSet[0]];
 
     if (explanation.length > 0) {
-        let explanationSection = CreateAndClass(
-            "div",
-            cardParent,
-            (claases = ["explanation"])
-        );
+        let explanationSection = CreateAndClass("div", cardParent, [
+            "explanation",
+        ]);
         explanationSection.textContent = explanation;
         let instContent = document.getElementById("instruccionescontent");
         instContent.textContent = instrucciones.explanation;
@@ -735,36 +711,20 @@ function CreateLearnCard(cardParent) {
 
     PopulateInstructions(instrucciones.kanalearn);
 
-    let learnKanaSection = CreateAndClass(
-        "div",
-        cardParent,
-        (classes = ["kanasection"])
-    );
-    let learnKanaTitle = CreateAndClass(
-        "div",
-        learnKanaSection,
-        (classes = ["learnkanatitle"])
-    );
-    let learnKana = CreateAndClass(
-        "div",
-        learnKanaSection,
-        (classes = ["learnkana"])
-    );
-    let learnRomajiSection = CreateAndClass(
-        "div",
-        cardParent,
-        (classes = ["romajisection"])
-    );
-    let learnRomaji = CreateAndClass(
-        "div",
-        learnRomajiSection,
-        (classes = ["learnromaji"])
-    );
-    let learnRomajiTitle = CreateAndClass(
-        "div",
-        learnRomajiSection,
-        (classes = ["learnromajititle"])
-    );
+    let learnKanaSection = CreateAndClass("div", cardParent, ["kanasection"]);
+    let learnKanaTitle = CreateAndClass("div", learnKanaSection, [
+        "learnkanatitle",
+    ]);
+    let learnKana = CreateAndClass("div", learnKanaSection, ["learnkana"]);
+    let learnRomajiSection = CreateAndClass("div", cardParent, [
+        "romajisection",
+    ]);
+    let learnRomaji = CreateAndClass("div", learnRomajiSection, [
+        "learnromaji",
+    ]);
+    let learnRomajiTitle = CreateAndClass("div", learnRomajiSection, [
+        "learnromajititle",
+    ]);
 
     //popular contenido
     learnKanaTitle.textContent = "Kana";
@@ -815,8 +775,6 @@ function PreviousButton() {
             nextbutton.textContent = "Siguiente";
             nextbutton.disabled = false;
         }
-    } else {
-        console.log("no hay kana");
     }
 }
 
@@ -879,32 +837,23 @@ function BuildQuiz() {
     let app = CleanAppPage();
     PopulateInstructions(instrucciones.kanaquiz);
 
-    let quizDiv = CreateAndClass("div", app, (classes = ["quizdiv"]));
+    let quizDiv = CreateAndClass("div", app, ["quizdiv"]);
 
     //randomize kana set
     let base = getObjKey(allkana, currentSet);
-    //console.log(base);
 
     currentSet = shuffleArray(currentSet);
 
     //build kana
-    let kanaQuizPrompt = CreateAndClass(
-        "div",
-        quizDiv,
-        (classes = ["quizprompt"])
-    );
+    let kanaQuizPrompt = CreateAndClass("div", quizDiv, ["quizprompt"]);
     let kanaQuizPromptText = CreateSimple("p", kanaQuizPrompt);
     kanaQuizPromptText.classList.add("fade");
     kanaQuizPromptText.classList.add("quizprompttext");
     kanaQuizPromptText.textContent = currentSet[0];
 
-    CreateAndClass("div", quizDiv, (classes = ["spacer"]));
+    CreateAndClass("div", quizDiv, ["spacer"]);
 
-    let answerButtons = CreateAndClass(
-        "div",
-        quizDiv,
-        (classes = ["quizbuttonsdiv"])
-    );
+    let answerButtons = CreateAndClass("div", quizDiv, ["quizbuttonsdiv"]);
     //build answer button array
     let answerButtonsArray = [];
     //first the answer button.
@@ -918,10 +867,7 @@ function BuildQuiz() {
     let firstWrongAnswer = document.createElement("button");
     firstWrongAnswer.classList.add("incorrectquizanswerbtn");
 
-    let randomKana = GetRandomKanaFromBaseThatsNot(
-        base,
-        (nots = [currentSet[0]])
-    );
+    let randomKana = GetRandomKanaFromBaseThatsNot(base, [currentSet[0]]);
     firstWrongAnswer.textContent = kanaAnswers[randomKana];
     firstWrongAnswer.addEventListener("click", FailQuiz);
     answerButtonsArray.push(firstWrongAnswer);
@@ -929,10 +875,10 @@ function BuildQuiz() {
     let secondWrongAnswer = document.createElement("button");
     secondWrongAnswer.classList.add("incorrectquizanswerbtn");
     //randomKanaBase = GetRandomThatIsNot(currentSet, nots = [currentSet[0], randomKanaBase]);
-    randomKana = GetRandomKanaFromBaseThatsNot(
-        base,
-        (nots = [currentSet[0], randomKana])
-    );
+    randomKana = GetRandomKanaFromBaseThatsNot(base, [
+        currentSet[0],
+        randomKana,
+    ]);
     secondWrongAnswer.textContent = kanaAnswers[randomKana];
     secondWrongAnswer.addEventListener("click", FailQuiz);
     answerButtonsArray.push(secondWrongAnswer);
@@ -948,7 +894,6 @@ function GoToNextQuiz() {
     let currentindex = currentSet.indexOf(kanaindisplay);
     let nextindex = currentindex + 1;
     if (nextindex >= currentSet.length) {
-        console.log("llegue al final del set");
         //aqui deberia reemplazar los botones
         ShowAgainNextButtons();
     } else {
@@ -980,12 +925,10 @@ function CreateQuizButtons(currentindex, parent) {
     firstWrongAnswer.classList.add("incorrectquizanswerbtn");
     //let randomKanaBase= GetRandomThatIsNot(currentSet, nots = [currentSet[currentindex]]);
     let base = getObjKey(allkana, currentSet);
-    console.log(base);
 
-    let randomKana = GetRandomKanaFromBaseThatsNot(
-        base,
-        (nots = [currentSet[currentindex]])
-    );
+    let randomKana = GetRandomKanaFromBaseThatsNot(base, [
+        currentSet[currentindex],
+    ]);
     firstWrongAnswer.textContent = kanaAnswers[randomKana];
     firstWrongAnswer.addEventListener("click", FailQuiz);
     answerButtonsArray.push(firstWrongAnswer);
@@ -993,10 +936,10 @@ function CreateQuizButtons(currentindex, parent) {
     let secondWrongAnswer = document.createElement("button");
     secondWrongAnswer.classList.add("incorrectquizanswerbtn");
     //randomKanaBase = GetRandomThatIsNot(currentSet, nots = [currentSet[currentindex], randomKanaBase]);
-    randomKana = GetRandomKanaFromBaseThatsNot(
-        base,
-        (nots = [currentSet[currentindex], randomKana])
-    );
+    randomKana = GetRandomKanaFromBaseThatsNot(base, [
+        currentSet[currentindex],
+        randomKana,
+    ]);
     secondWrongAnswer.textContent = kanaAnswers[randomKana];
     secondWrongAnswer.addEventListener("click", FailQuiz);
     answerButtonsArray.push(secondWrongAnswer);
@@ -1005,7 +948,6 @@ function CreateQuizButtons(currentindex, parent) {
 }
 
 function AnswerQuiz(event) {
-    //console.log(event.target);
     event.target.classList.add("correctquiz");
     event.target.disabled = true;
 
@@ -1013,7 +955,6 @@ function AnswerQuiz(event) {
 }
 
 function FailQuiz(event) {
-    console.log("wrong");
     event.preventDefault();
     event.target.classList.add("incorrectquiz");
     //event.target.disabled = true;
@@ -1035,11 +976,7 @@ function ShowAgainNextButtons() {
     let buttonsdiv = document.querySelector(".quizbuttonsdiv");
     buttonsdiv.innerHTML = "";
 
-    let againbutton = CreateAndClass(
-        "button",
-        buttonsdiv,
-        (classes = ["againbtn"])
-    );
+    let againbutton = CreateAndClass("button", buttonsdiv, ["againbtn"]);
     againbutton.textContent = "Una vez mas";
     againbutton.addEventListener("click", OnAgainButtonPress);
 
@@ -1047,20 +984,14 @@ function ShowAgainNextButtons() {
     let nextindex = currentIndex + 1;
     if (nextindex >= learnSets.length) {
         //mostrar boton de salir
-        let exitbutton = CreateAndClass(
-            "button",
-            buttonsdiv,
-            (classes = ["exitbtn"])
-        );
+        let exitbutton = CreateAndClass("button", buttonsdiv, ["exitbtn"]);
         exitbutton.textContent = "Salir";
         exitbutton.addEventListener("click", OnExitButtonPress);
     } else {
         //mostrar boton de next set
-        let nextsetbutton = CreateAndClass(
-            "button",
-            buttonsdiv,
-            (classes = ["nextsetbtn"])
-        );
+        let nextsetbutton = CreateAndClass("button", buttonsdiv, [
+            "nextsetbtn",
+        ]);
         nextsetbutton.textContent = "Seguir";
         nextsetbutton.addEventListener("click", OnTakeNextButtonPress);
     }
@@ -1147,7 +1078,7 @@ function BuildLearnSetupPage() {
 
     PopulateInstructions(instrucciones.aprender);
 
-    let practiceSetupDiv = CreateAndClass("div", app, (classes = ["setupDiv"]));
+    let practiceSetupDiv = CreateAndClass("div", app, ["setupDiv"]);
 
     CreateSetupButtons(practiceSetupDiv);
 
@@ -1186,40 +1117,10 @@ function PopulateLearnSet(arr) {
         learnArray.push(allkana[kana]);
     });
 
-    //console.log(learnArray);
     return learnArray;
 }
 
 // ---------------------- FUNCTIONS ----------------------  //
-function CreateSimple(component, parent) {
-    let newComponent = document.createElement(component);
-    parent.appendChild(newComponent);
-
-    return newComponent;
-}
-
-function CreateAndClass(component, parent, classes) {
-    let newComponent = document.createElement(component);
-
-    classes.forEach((clase) => {
-        newComponent.classList.add(clase);
-    });
-
-    parent.appendChild(newComponent);
-
-    return newComponent;
-}
-
-function CreateAndId(component, parent, id) {
-    let newComponent = document.createElement(component);
-
-    newComponent.setAttribute("id", id);
-
-    parent.appendChild(newComponent);
-
-    return newComponent;
-}
-
 //esto deberia simplemente hacer toggle a la clase 'check'
 function ToggleClass(element, clase) {
     element.classList.toggle(clase);
@@ -1242,7 +1143,7 @@ function CreateUiButton(parent, text) {
 
 function CreateGroupLabelInput(parent, id, text) {
     //crea los label en el menu de setup
-    let label = CreateAndClass("label", parent, (classes = ["select-box"]));
+    let label = CreateAndClass("label", parent, ["select-box"]);
 
     //label.setAttribute('id', id);
     let input = CreateAndId("input", label, id);
@@ -1258,7 +1159,7 @@ function CreateGroupLabelInput(parent, id, text) {
 
 function CreateAllLabelInput(parent, id, text) {
     //crea los label en el menu de setup
-    let label = CreateAndClass("label", parent, (classes = ["select-box"]));
+    let label = CreateAndClass("label", parent, ["select-box"]);
     //label.setAttribute('id', id);
     let input = CreateAndId("input", label, id);
     input.classList.add("setup-input");
@@ -1272,19 +1173,15 @@ function CreateAllLabelInput(parent, id, text) {
 }
 
 function CreateLabelInput(parent, id, text) {
-    let label = CreateAndClass("label", parent, (classes = ["select-box"]));
-    let consonant = CreateAndClass(
-        "div",
-        label,
-        (classes = ["consonantLabel"])
-    );
+    let label = CreateAndClass("label", parent, ["select-box"]);
+    let consonant = CreateAndClass("div", label, ["consonantLabel"]);
     consonant.textContent = romajiConsonants[id];
 
     let input = CreateAndId("input", label, id);
     input.classList.add("setup-input");
     label.setAttribute("for", id);
 
-    let kanaLabel = CreateAndClass("div", label, (classes = ["kanaLabel"]));
+    let kanaLabel = CreateAndClass("div", label, ["kanaLabel"]);
     kanaLabel.textContent = text;
 
     input.setAttribute("type", "checkbox");
@@ -1326,8 +1223,6 @@ function WaitForMouseUp() {
 
 //check if clicked outside input in practice page
 function CheckClick(event) {
-    //console.log(event.target);
-
     if (event.target.localName != "input" && event.target.localName != "form") {
         let card = document.querySelector(".focus-card");
         if (card != null) card.classList.remove("focus-card");
@@ -1335,7 +1230,6 @@ function CheckClick(event) {
 }
 
 function AddMissClickListener() {
-    console.log("custom event");
     window.addEventListener("click", CheckClick);
 }
 
@@ -1381,7 +1275,7 @@ function BuildPracticePage(selected) {
     //mandar a construir tarjetas con el array
     let elements = BuildCards(randomkanas);
     //agregar cada elemento al div correcto
-    let practiceDiv = CreateAndClass("div", app, (classes = ["practiceDiv"]));
+    let practiceDiv = CreateAndClass("div", app, ["practiceDiv"]);
 
     elements.forEach((element) => {
         practiceDiv.appendChild(element);
@@ -1392,27 +1286,19 @@ function BuildPracticePage(selected) {
     firstInput.focus();
     firstInput.parentElement.parentElement.classList.add("focus-card");
 
-    CreateAndClass("div", app, (classes = ["spacer"]));
+    CreateAndClass("div", app, ["spacer"]);
     //crear div para botones de again and exit
-    let buttonsDiv = CreateAndClass(
-        "div",
-        app,
-        (classes = ["practiceagainbuttons"])
-    );
+    let buttonsDiv = CreateAndClass("div", app, ["practiceagainbuttons"]);
 
-    let againButton = CreateAndClass(
-        "button",
-        buttonsDiv,
-        (classes = ["practiceagainbtn"])
-    );
+    let againButton = CreateAndClass("button", buttonsDiv, [
+        "practiceagainbtn",
+    ]);
     againButton.textContent = "Desde 0";
     againButton.addEventListener("click", () => BuildPracticePage(selected));
 
-    let changeButton = CreateAndClass(
-        "button",
-        buttonsDiv,
-        (classes = ["practicechangebtn"])
-    );
+    let changeButton = CreateAndClass("button", buttonsDiv, [
+        "practicechangebtn",
+    ]);
     changeButton.textContent = "Cambiar Kanas";
     changeButton.addEventListener("click", BuildPracticeSetupPage);
 
@@ -1466,7 +1352,6 @@ function BuildKanaCard(kana) {
 }
 
 function SelectInput(event) {
-    //console.log(event.target);
     event.currentTarget[0].focus();
 }
 
@@ -1513,7 +1398,6 @@ function FocusNext(event) {
         }
     }
 
-    console.log("no encontre tarjetas libres");
     document.querySelector(".practiceagainbtn").focus();
 }
 
@@ -1581,7 +1465,7 @@ function IsEqual(obj, prompt) {
     let exit = false;
 
     obj.forEach((key) => {
-        thekey = key;
+        // thekey = key;
         if (key === prompt) {
             exit = true;
         }
