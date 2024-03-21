@@ -163,6 +163,9 @@ const allkana = {
 
 let failCounter = 0;
 
+//Set Title Button
+document.getElementById("title").addEventListener("click", OnTitleClick);
+
 //Esto es lo que deberia quedarse
 BuildHomePage();
 
@@ -981,3 +984,10 @@ function JapaneseComaSeparatedArray(array) {
 //     input.size = 4;
 //     input.maxLength = 5;
 // }
+
+function OnTitleClick() {
+    state.currentPage = "home";
+    window.history.pushState(state, null, "");
+
+    location.reload();
+}

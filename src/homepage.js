@@ -1,97 +1,69 @@
 import { state } from "./helpers.js";
 import { instrucciones, bigButtonExplanations } from "./data.js";
-import {
-    CreateSimple,
-    CreateComplex,
-    CreateAndClass,
-    CreateAndId,
-} from "./domHelpers.js";
+import { CreateComplex, CreateAndClass } from "./domHelpers.js";
 import { BuildLearnSetupPage } from "./learnSetupPage.js";
 
 export function BuildHomePage() {
-    document.getElementById("title").addEventListener("click", OnTitleClick);
-
     //popular instrucciones
     document.getElementById("instruccionescontent").textContent =
         instrucciones.home;
 
-    //cargar ambos botones
-    let contentDiv = document.getElementById("app");
+    //Build both buttons
+    //Get app element
+    let appDiv = document.getElementById("app");
 
-    let optionsContainer = CreateComplex(
+    //Create desktop buttons container
+    let desktopButtonsContainer = CreateComplex(
         "div",
-        contentDiv,
-        "options-container",
-        []
+        appDiv,
+        "desktop-section-button-container",
+        [],
+        null
     );
-    // let optionsContainer = document.createElement("div");
-    // optionsContainer.setAttribute("id", "options-container");
-    // contentDiv.appendChild(optionsContainer);
 
-    CreateComplex("div", contentDiv, null, ["desktopHomeDiv"]);
-    // let desktopHomeDiv = document.createElement("div");
-    // desktopHomeDiv.classList.add("desktopHomeDiv");
-    // contentDiv.appendChild(desktopHomeDiv);
+    //Create mobile buttons container
+    let mobileButtonContainer = CreateComplex(
+        "div",
+        appDiv,
+        "mobile-section-button-container",
+        [],
+        null
+    );
 
-    let homeDiv = CreateComplex("div", contentDiv, null, []);
-    // let homeDiv = document.createElement("div");
-    // homeDiv.classList.add("homediv");
-    // contentDiv.appendChild(homeDiv);
-
-    let bigButtonLearn = CreateBigButton(
+    //Create desktop buttons
+    let desktopButtonLearn = CreateDesktopButton(
         "Aprender",
-        bigButtonExplanations.learn
+        bigButtonExplanations.learn,
+        desktopButtonsContainer
     );
-    optionsContainer.appendChild(bigButtonLearn);
 
-    let bigButtonPractice = CreateBigButton(
+    let desktopButtonPractice = CreateDesktopButton(
         "Practicar",
-        bigButtonExplanations.practice
+        bigButtonExplanations.practice,
+        desktopButtonsContainer
     );
-    optionsContainer.appendChild(bigButtonPractice);
 
-    let buttonAprender = document.createElement("button");
-    buttonAprender.classList.add("uibtn");
-    buttonAprender.classList.add("homepage-button");
-    homeDiv.appendChild(buttonAprender);
+    //Create mobile buttons
+    let buttonAprender = CreateMobileButton("Aprender", mobileButtonContainer);
+    let buttonPractica = CreateMobileButton("Practicar", mobileButtonContainer);
 
-    let buttonAprenderTop = document.createElement("span");
-    buttonAprenderTop.textContent = "Aprender";
-    buttonAprenderTop.classList.add("uibtn-top");
-    buttonAprender.appendChild(buttonAprenderTop);
-
-    let buttonPractica = document.createElement("button");
-    buttonPractica.classList.add("uibtn");
-    buttonPractica.classList.add("homepage-button");
-    homeDiv.appendChild(buttonPractica);
-
-    let buttonPracticaTop = document.createElement("span");
-    buttonPracticaTop.textContent = "Practicar";
-    buttonPracticaTop.classList.add("uibtn-top");
-    buttonPractica.appendChild(buttonPracticaTop);
-
-    bigButtonLearn.addEventListener("click", OnLearnButtonPress);
-    bigButtonPractice.addEventListener("click", OnPracticeButtonPress);
+    //Add click events
+    desktopButtonLearn.addEventListener("click", OnLearnButtonPress);
+    desktopButtonPractice.addEventListener("click", OnPracticeButtonPress);
 
     buttonAprender.addEventListener("click", OnLearnButtonPress);
     buttonPractica.addEventListener("click", OnPracticeButtonPress);
 }
 
-function CreateBigButton(cardTitle, explanationText) {
-    let button = document.createElement("button");
-    button.classList.add("desktopButton");
+//Helper functions
+function CreateDesktopButton(cardTitle, explanationText, parent) {
+    let button = CreateAndClass("button", parent, ["desktopButton"]);
 
-    let card = document.createElement("div");
-    card.classList.add("homepage-card");
-    button.appendChild(card);
+    let card = CreateAndClass("div", button, ["homepage-card"]);
 
-    let title = document.createElement("h2");
-    title.textContent = cardTitle;
-    title.classList.add("homepage-card-title");
-    card.appendChild(title);
+    CreateComplex("h2", card, null, ["homepage-card-title"], cardTitle);
 
-    let img = document.createElement("img");
-    img.classList.add("homepage-img");
+    let img = CreateAndClass("img", card, ["homepage-img"]);
 
     let imgFile = "";
 
@@ -106,16 +78,27 @@ function CreateBigButton(cardTitle, explanationText) {
 
     img.setAttribute("src", imgFile);
     img.setAttribute("alt", `Imagenes de la seccion ${cardTitle}`);
-    card.appendChild(img);
 
-    let explanation = document.createElement("p");
-    explanation.classList.add("homepage-card-footer");
-    explanation.textContent = explanationText;
-    card.appendChild(explanation);
+    CreateComplex("p", card, null, ["homepage-card-footer"], explanationText);
 
     return button;
 }
 
+function CreateMobileButton(textContent, parent) {
+    let button = CreateComplex(
+        "button",
+        parent,
+        null,
+        ["uibtn", "homepage-button"],
+        null
+    );
+
+    CreateComplex("span", button, null, ["uibtn-top"], textContent);
+
+    return button;
+}
+
+//Callbacks
 function OnLearnButtonPress() {
     //aqui deberia revisar que esta seleccionado y setear el 'learnsets'
     //esto deberia depender de lo que seleccione en el setup
@@ -134,11 +117,4 @@ function OnPracticeButtonPress() {
     window.history.pushState(state, null, "");
 
     setTimeout(BuildPracticeSetupPage, 200);
-}
-
-function OnTitleClick() {
-    state.currentPage = "home";
-    window.history.pushState(state, null, "");
-
-    location.reload();
 }

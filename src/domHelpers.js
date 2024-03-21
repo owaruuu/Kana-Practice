@@ -9,8 +9,8 @@ function CreateSimple(component, parent) {
     return newComponent;
 }
 
-function CreateComplex(component, parent, id, classes) {
-    let newComponent = document.createElement(component);
+function CreateComplex(componentType, parent, id, classes, content) {
+    let newComponent = document.createElement(componentType);
 
     if (classes.length > 0) {
         classes.forEach((clase) => {
@@ -20,6 +20,10 @@ function CreateComplex(component, parent, id, classes) {
 
     if (id) {
         newComponent.setAttribute("id", id);
+    }
+
+    if (content) {
+        newComponent.textContent = content;
     }
 
     parent.appendChild(newComponent);
