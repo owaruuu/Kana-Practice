@@ -16,60 +16,23 @@ import {
     combkatakanasets,
 } from "./sets.js";
 
+import { BuildHomePage } from "./homepage.js";
+
+import { state } from "./helpers.js";
+
 import { romajiConsonants, kanaAnswers, kanaWrongs } from "./romaji.js";
 
-import { CreateSimple, CreateAndClass, CreateAndId } from "./helpers.js";
+import { CreateSimple, CreateAndClass, CreateAndId } from "./domHelpers.js";
 
-let state = {
-    currentPage: "home",
-};
+import { SetWindowStateEvent } from "./helpers.js";
 
+//set history starting value
 window.history.replaceState(state, null, "");
 
-window.onpopstate = function (event) {
-    if (event.state) {
-        state = event.state;
-    }
-
-    Render(state);
-};
-
-function Render(state) {
-    switch (state.currentPage) {
-        case "home":
-            ReloadPage();
-            break;
-        case "learnSetup":
-            BuildLearnSetupPage();
-            break;
-        case "learn":
-            BuildLearnSetupPage();
-            break;
-        case "practiceSetup":
-            BuildPracticeSetupPage();
-            break;
-        case "practice":
-            BuildPracticeSetupPage();
-            break;
-        default:
-            break;
-    }
-}
+SetWindowStateEvent();
 
 let learnSets = [];
 let currentSet = [];
-function KanaToInfo(kana) {
-    if (infotext[kana] === "") {
-        return "...";
-    }
-
-    let symbol = "ⓘ ";
-    let info = symbol.concat(infotext[kana]);
-
-    if (info != null) {
-        return info;
-    }
-}
 
 function FindAllBaseGroup(kana) {
     let basekey;
@@ -150,31 +113,6 @@ function FindBaseGroup(kana) {
     return "null";
 }
 
-function BaseToObject(base) {
-    switch (base) {
-        case "all-base":
-            return allmainbase;
-        case "all-dakuten":
-            return alldakuten;
-        case "all-comb":
-            return allcomb;
-        case "all-hiragana-base":
-            return mainkanasets;
-        case "all-hiragana-dakuten":
-            return dakutenkanasets;
-        case "all-hiragana-comb":
-            return combkanasets;
-        case "all-katakana-base":
-            return mainkatakanasets;
-        case "all-katakana-dakuten":
-            return dakutenkatakanasets;
-        case "all-katakana-comb":
-            return combkatakanasets;
-        case "all-extra":
-            return extrasets;
-    }
-}
-
 function BaseToGroupLabel(base) {
     let groupLabel;
     switch (base) {
@@ -223,113 +161,10 @@ const allkana = {
     ...extrasets,
 };
 
-//const container = document.querySelector('.container');
-
 let failCounter = 0;
 
+//Esto es lo que deberia quedarse
 BuildHomePage();
-
-function BuildHomePage() {
-    //first load
-    let title = document.getElementById("title");
-    title.addEventListener("click", OnTitleClick);
-
-    //popular instrucciones
-    let instContent = document.getElementById("instruccionescontent");
-    instContent.textContent = instrucciones.home;
-
-    //cargar ambos botones
-    let contentDiv = document.getElementById("app");
-
-    let optionsContainer = document.createElement("div");
-    optionsContainer.setAttribute("id", "options-container");
-    contentDiv.appendChild(optionsContainer);
-
-    let desktopHomeDiv = document.createElement("div");
-    desktopHomeDiv.classList.add("desktopHomeDiv");
-    contentDiv.appendChild(desktopHomeDiv);
-
-    let homeDiv = document.createElement("div");
-    homeDiv.classList.add("homediv");
-    contentDiv.appendChild(homeDiv);
-
-    let bigButtonLearn = CreateBigButton(
-        "Aprender",
-        bigButtonExplanations.learn
-    );
-    optionsContainer.appendChild(bigButtonLearn);
-
-    let bigButtonPractice = CreateBigButton(
-        "Practicar",
-        bigButtonExplanations.practice
-    );
-    optionsContainer.appendChild(bigButtonPractice);
-
-    let buttonAprender = document.createElement("button");
-    buttonAprender.classList.add("uibtn");
-    buttonAprender.classList.add("homepage-button");
-    homeDiv.appendChild(buttonAprender);
-
-    let buttonAprenderTop = document.createElement("span");
-    buttonAprenderTop.textContent = "Aprender";
-    buttonAprenderTop.classList.add("uibtn-top");
-    buttonAprender.appendChild(buttonAprenderTop);
-
-    let buttonPractica = document.createElement("button");
-    buttonPractica.classList.add("uibtn");
-    buttonPractica.classList.add("homepage-button");
-    homeDiv.appendChild(buttonPractica);
-
-    let buttonPracticaTop = document.createElement("span");
-    buttonPracticaTop.textContent = "Practicar";
-    buttonPracticaTop.classList.add("uibtn-top");
-    buttonPractica.appendChild(buttonPracticaTop);
-
-    bigButtonLearn.addEventListener("click", OnLearnButtonPress);
-    bigButtonPractice.addEventListener("click", OnPracticeButtonPress);
-
-    buttonAprender.addEventListener("click", OnLearnButtonPress);
-    buttonPractica.addEventListener("click", OnPracticeButtonPress);
-}
-
-function CreateBigButton(cardTitle, explanationText) {
-    let button = document.createElement("button");
-    button.classList.add("desktopButton");
-
-    let card = document.createElement("div");
-    card.classList.add("homepage-card");
-    button.appendChild(card);
-
-    let title = document.createElement("h2");
-    title.textContent = cardTitle;
-    title.classList.add("homepage-card-title");
-    card.appendChild(title);
-
-    let img = document.createElement("img");
-    img.classList.add("homepage-img");
-
-    let imgFile = "";
-
-    switch (cardTitle) {
-        case "Aprender":
-            imgFile = "../images/LearnButtonImg3.png";
-            break;
-        case "Practicar":
-            imgFile = "../images/PracticeButtonImg1.png";
-            break;
-    }
-
-    img.setAttribute("src", imgFile);
-    img.setAttribute("alt", `Imagenes de la seccion ${cardTitle}`);
-    card.appendChild(img);
-
-    let explanation = document.createElement("p");
-    explanation.classList.add("homepage-card-footer");
-    explanation.textContent = explanationText;
-    card.appendChild(explanation);
-
-    return button;
-}
 
 function Submit(event) {
     let cardDiv = event.target.parentElement;
@@ -364,220 +199,10 @@ function Submit(event) {
     event.preventDefault();
 }
 
-function BuildPracticeSetupPage() {
-    //clean page
-    let app = document.getElementById("app");
-    app.innerHTML = "";
-
-    //remove listeners
-    window.removeEventListener("click", CheckClick);
-
-    let instContent = document.getElementById("instruccionescontent");
-    instContent.textContent = instrucciones.practicar;
-
-    let setupDiv = document.createElement("div");
-    setupDiv.classList.add("setupDiv");
-    app.appendChild(setupDiv);
-
-    CreateSetupButtons(setupDiv);
-
-    let startButton = CreateUiButton(app, "Empezar Practica");
-    startButton.addEventListener("click", CheckPracticeSelected);
-}
-
 //crea los botones para seleccionar los kana, pratice setup page
-function CreateSetupButtons(parentDiv) {
-    let firstDiv = document.createElement("div");
-    parentDiv.appendChild(firstDiv);
-
-    //creo boton all base
-    let allbaseinput = CreateAllLabelInput(
-        firstDiv,
-        "all-base",
-        "Todos Kana base"
-    );
-    allbaseinput.parentElement.classList.add("all-main");
-    // document.addEventListener('onTurnOffBaseKana', TurnOffGroupButton);
-
-    let maingroupbuttons = CreateAndClass("div", firstDiv, [
-        "kanagroupbuttons",
-    ]);
-
-    //boton all base hiragana
-    let btn = CreateGroupLabelInput(
-        maingroupbuttons,
-        "all-hiragana-base",
-        "Todos Hiragana"
-    );
-    btn.parentElement.classList.add("all-hira");
-
-    let maincheckboxes = document.createElement("div");
-    maincheckboxes.classList.add("checkboxes");
-    firstDiv.appendChild(maincheckboxes);
-
-    let hiraganabase = CreateSimple("div", maincheckboxes);
-
-    Object.keys(mainkanasets).forEach((key) => {
-        let array = mainkanasets[key];
-        let text = JapaneseComaSeparatedArray(array);
-        CreateLabelInput(hiraganabase, key, text);
-    });
-
-    let katakanabase = CreateSimple("div", maincheckboxes);
-
-    //boton all katakana
-    btn = CreateGroupLabelInput(
-        maingroupbuttons,
-        "all-katakana-base",
-        "Todos Katakana"
-    );
-    btn.parentElement.classList.add("all-kata");
-
-    //botones katakana
-    Object.keys(mainkatakanasets).forEach((key) => {
-        let array = mainkatakanasets[key];
-        let text = JapaneseComaSeparatedArray(array);
-        CreateLabelInput(katakanabase, key, text);
-    });
-
-    let secondDiv = document.createElement("div");
-    parentDiv.appendChild(secondDiv);
-
-    let alldakuteninput = CreateAllLabelInput(
-        secondDiv,
-        "all-dakuten",
-        "Todos Dakuten/Handakuten"
-    );
-    alldakuteninput.parentElement.classList.add("all-main");
-
-    maingroupbuttons = CreateAndClass("div", secondDiv, ["kanagroupbuttons"]);
-
-    //all dakuten hiragana
-    btn = CreateGroupLabelInput(
-        maingroupbuttons,
-        "all-hiragana-dakuten",
-        "Todos Hiragana"
-    );
-    btn.parentElement.classList.add("all-hira");
-
-    let dakutencheckboxes = document.createElement("div");
-    dakutencheckboxes.classList.add("checkboxes");
-    secondDiv.appendChild(dakutencheckboxes);
-
-    hiraganabase = CreateSimple("div", dakutencheckboxes);
-
-    Object.keys(dakutenkanasets).forEach((key) => {
-        let array = dakutenkanasets[key];
-        let text = JapaneseComaSeparatedArray(array);
-        CreateLabelInput(hiraganabase, key, text);
-    });
-
-    katakanabase = CreateSimple("div", dakutencheckboxes);
-
-    //all dakuten katakana
-    btn = CreateGroupLabelInput(
-        maingroupbuttons,
-        "all-katakana-dakuten",
-        "Todos Katakana"
-    );
-    btn.parentElement.classList.add("all-kata");
-
-    Object.keys(dakutenkatakanasets).forEach((key) => {
-        let array = dakutenkatakanasets[key];
-        let text = JapaneseComaSeparatedArray(array);
-        CreateLabelInput(katakanabase, key, text);
-    });
-
-    //extra katakana
-    let allextrainput = CreateAllLabelInput(
-        secondDiv,
-        "all-extra",
-        "Todos Katakana Extra"
-    );
-    allextrainput.parentElement.classList.add("all-extra");
-
-    let extracheckboxes = document.createElement("div");
-    extracheckboxes.classList.add("checkboxes");
-    extracheckboxes.classList.add("extra");
-    secondDiv.appendChild(extracheckboxes);
-
-    let extra = CreateSimple("div", extracheckboxes);
-
-    Object.keys(extrasets).forEach((key) => {
-        let array = extrasets[key];
-        let text = JapaneseComaSeparatedArray(array);
-        CreateLabelInput(extra, key, text);
-    });
-
-    let thirdDiv = document.createElement("div");
-    parentDiv.appendChild(thirdDiv);
-
-    let allcombinput = CreateAllLabelInput(
-        thirdDiv,
-        "all-comb",
-        "Todos Combinacion"
-    );
-    allcombinput.parentElement.classList.add("all-main");
-
-    maingroupbuttons = CreateAndClass("div", thirdDiv, ["kanagroupbuttons"]);
-
-    btn = CreateGroupLabelInput(
-        maingroupbuttons,
-        "all-hiragana-comb",
-        "Todos Hiragana"
-    );
-    btn.parentElement.classList.add("all-hira");
-
-    let combcheckboxes = document.createElement("div");
-    combcheckboxes.classList.add("checkboxes");
-    thirdDiv.appendChild(combcheckboxes);
-
-    hiraganabase = CreateSimple("div", combcheckboxes);
-
-    Object.keys(combkanasets).forEach((key) => {
-        let array = combkanasets[key];
-        let text = JapaneseComaSeparatedArray(array);
-        CreateLabelInput(hiraganabase, key, text);
-    });
-
-    katakanabase = CreateSimple("div", combcheckboxes);
-
-    //boton all katakana
-    btn = CreateGroupLabelInput(
-        maingroupbuttons,
-        "all-katakana-comb",
-        "Todos Katakana"
-    );
-    btn.parentElement.classList.add("all-kata");
-    //botones katakana
-    Object.keys(combkatakanasets).forEach((key) => {
-        let array = combkatakanasets[key];
-        let text = JapaneseComaSeparatedArray(array);
-        CreateLabelInput(katakanabase, key, text);
-    });
-}
 
 function TurnOffGroupButton(base) {
     document.querySelector(`[for='${base}']`).classList.remove("check");
-}
-
-function ClickAllInput(event) {
-    let element = event.target.parentElement;
-    element.classList.toggle("check");
-
-    let base = event.target.parentElement.getAttribute("for");
-    let object = BaseToObject(base);
-    let labels = GetAllLabels(object);
-
-    let otherbuttonsattribute = BaseToGroupLabel(base);
-
-    if (element.classList.contains("check")) {
-        TurnAllOn(labels);
-        TurnBothButtons(otherbuttonsattribute, true);
-    } else {
-        TurnAllOff(labels);
-        TurnBothButtons(otherbuttonsattribute, false);
-    }
 }
 
 function ClickGroupInput(event) {
@@ -590,48 +215,6 @@ function ClickGroupInput(event) {
         TurnAllOn(labels);
     } else {
         TurnAllOff(labels);
-    }
-}
-
-function GetAllLabelsFromBase(element) {
-    let base = element.getAttribute("for");
-    let object = BaseToObject(base);
-    let labels = GetAllLabels(object);
-
-    return labels;
-}
-
-function TurnAllOn(group) {
-    //por cada label en el grupo
-    group.forEach((element) => {
-        if (!element.classList.contains("check")) {
-            element.classList.add("check");
-        }
-    });
-    //si no tiene la clase check, agregar clase check
-}
-
-function TurnAllOff(group) {
-    //por cada label en el grupo
-    group.forEach((element) => {
-        if (element.classList.contains("check")) {
-            element.classList.remove("check");
-        }
-    });
-    //si no tiene la clase check, agregar clase check
-}
-
-function TurnBothButtons(buttonsattribute, onoff) {
-    if (onoff) {
-        buttonsattribute.forEach((attr) => {
-            let button = document.querySelector(`[for=${attr}]`);
-            button.classList.add("check");
-        });
-    } else {
-        buttonsattribute.forEach((attr) => {
-            let button = document.querySelector(`[for=${attr}]`);
-            button.classList.remove("check");
-        });
     }
 }
 
@@ -1030,60 +613,8 @@ function ExitQuiz() {
     location.reload();
 }
 
-function OnTitleClick() {
-    state.currentPage = "home";
-    window.history.pushState(state, null, "");
-
-    ReloadPage();
-}
-
 function ReloadPage() {
     location.reload();
-}
-
-function CleanAppPage() {
-    let app = document.getElementById("app");
-    app.innerHTML = "";
-
-    return app;
-}
-
-function PopulateInstructions(e) {
-    let instContent = document.getElementById("instruccionescontent");
-    instContent.textContent = e;
-}
-
-function OnLearnButtonPress() {
-    //aqui deberia revisar que esta seleccionado y setear el 'learnsets'
-    //esto deberia depender de lo que seleccione en el setup
-    //en este punto el 'learnsets' ya deberia estar seteado y solo tengo que acceder al primero
-    //currentSet = learnSets[0];
-
-    // setTimeout(StartLearning,200);
-    state.currentPage = "learnSetup";
-    window.history.pushState(state, null, "");
-
-    setTimeout(BuildLearnSetupPage, 200);
-}
-
-function OnPracticeButtonPress() {
-    state.currentPage = "practiceSetup";
-    window.history.pushState(state, null, "");
-
-    setTimeout(BuildPracticeSetupPage, 200);
-}
-
-function BuildLearnSetupPage() {
-    let app = CleanAppPage();
-
-    PopulateInstructions(instrucciones.aprender);
-
-    let practiceSetupDiv = CreateAndClass("div", app, ["setupDiv"]);
-
-    CreateSetupButtons(practiceSetupDiv);
-
-    let startButton = CreateUiButton(app, "Aprender");
-    startButton.addEventListener("click", CheckLearnSelected);
 }
 
 function CheckLearnSelected() {
@@ -1126,50 +657,6 @@ function ToggleClass(element, clase) {
     element.classList.toggle(clase);
 
     //FIX check si los aprete todos y prender el label de all tambien
-}
-
-function CreateUiButton(parent, text) {
-    let button = document.createElement("button");
-    button.classList.add("uibtn");
-    parent.appendChild(button);
-
-    let buttonTop = document.createElement("span");
-    buttonTop.textContent = text;
-    buttonTop.classList.add("uibtn-top");
-    button.appendChild(buttonTop);
-
-    return button;
-}
-
-function CreateGroupLabelInput(parent, id, text) {
-    //crea los label en el menu de setup
-    let label = CreateAndClass("label", parent, ["select-box"]);
-
-    //label.setAttribute('id', id);
-    let input = CreateAndId("input", label, id);
-    input.classList.add("setup-input");
-    label.setAttribute("for", id);
-    let node = document.createTextNode(text);
-    label.appendChild(node);
-    input.setAttribute("type", "checkbox");
-    input.addEventListener("click", ClickGroupInput);
-
-    return input;
-}
-
-function CreateAllLabelInput(parent, id, text) {
-    //crea los label en el menu de setup
-    let label = CreateAndClass("label", parent, ["select-box"]);
-    //label.setAttribute('id', id);
-    let input = CreateAndId("input", label, id);
-    input.classList.add("setup-input");
-    label.setAttribute("for", id);
-    let node = document.createTextNode(text);
-    label.appendChild(node);
-    input.setAttribute("type", "checkbox");
-    input.addEventListener("click", ClickAllInput);
-
-    return input;
 }
 
 function CreateLabelInput(parent, id, text) {
@@ -1411,17 +898,6 @@ function LoopingIncrement(index, length) {
     }
 
     return newindex;
-}
-
-function GetAllLabels(kanaset) {
-    let labels = [];
-
-    Object.keys(kanaset).forEach((key) => {
-        let label = document.querySelector(`#${key}`);
-        labels.push(label.parentElement);
-    });
-
-    return labels;
 }
 
 function getObjKey(obj, value) {

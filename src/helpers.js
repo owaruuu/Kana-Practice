@@ -1,30 +1,28 @@
-export { CreateSimple, CreateAndClass, CreateAndId };
+import { Render } from "./render.js";
 
-function CreateSimple(component, parent) {
-    let newComponent = document.createElement(component);
-    parent.appendChild(newComponent);
+//global state variables
+export let state = {
+    currentPage: "home",
+};
 
-    return newComponent;
+export function SetWindowStateEvent() {
+    window.onpopstate = function (event) {
+        if (event.state) {
+            state = event.state;
+        }
+
+        Render(state);
+    };
 }
 
-function CreateAndClass(component, parent, classes) {
-    let newComponent = document.createElement(component);
+export function CleanAppPage() {
+    let app = document.getElementById("app");
+    app.innerHTML = "";
 
-    classes.forEach((clase) => {
-        newComponent.classList.add(clase);
-    });
-
-    parent.appendChild(newComponent);
-
-    return newComponent;
+    return app;
 }
 
-function CreateAndId(component, parent, id) {
-    let newComponent = document.createElement(component);
-
-    newComponent.setAttribute("id", id);
-
-    parent.appendChild(newComponent);
-
-    return newComponent;
+export function PopulateInstructions(content) {
+    let instContent = document.getElementById("instruccionescontent");
+    instContent.textContent = content;
 }
