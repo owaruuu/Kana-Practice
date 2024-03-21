@@ -1,6 +1,4 @@
-export { romajiConsonants, kanaAnswers, kanaWrongs };
-
-const romajiConsonants = {
+export const romajiConsonants = {
     あ: `a`,
     か: `ka`,
     さ: `sa`,
@@ -60,7 +58,7 @@ const romajiConsonants = {
     ウォ: `o`,
 };
 
-const kanaAnswers = {
+export const kanaAnswers = {
     あ: "a",
     い: "i",
     う: "u",
@@ -295,7 +293,7 @@ const kanaAnswers = {
     ヴォ: "vo",
 };
 
-const kanaWrongs = {
+export const kanaWrongs = {
     あ: ["e", "o", "u", "i"],
     い: "i",
     う: "u",

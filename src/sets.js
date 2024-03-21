@@ -1,13 +1,3 @@
-export {
-    extrasets,
-    mainkanasets,
-    dakutenkanasets,
-    combkanasets,
-    mainkatakanasets,
-    dakutenkatakanasets,
-    combkatakanasets,
-};
-
 const extrasets = {
     ツァ: ["ツァ", "ファ", "ヴァ"],
     ウィ: ["ウィ", "ティ", "フィ", "ディ", "セィ", "ヴィ"],
@@ -85,3 +75,125 @@ const combkatakanasets = {
     ビャ: ["ビャ", "ビュ", "ビョ"],
     ピャ: ["ピャ", "ピュ", "ピョ"],
 };
+
+const allmainbase = {
+    ...mainkanasets,
+    ...mainkatakanasets,
+};
+
+const alldakuten = {
+    ...dakutenkanasets,
+    ...dakutenkatakanasets,
+};
+
+const allcomb = {
+    ...combkanasets,
+    ...combkatakanasets,
+};
+
+const allextra = {
+    ...extrasets,
+};
+
+const allkana = {
+    ...mainkanasets,
+    ...dakutenkanasets,
+    ...combkanasets,
+    ...mainkatakanasets,
+    ...dakutenkatakanasets,
+    ...combkatakanasets,
+    ...extrasets,
+};
+
+export const sets = {
+    allmainbase,
+    alldakuten,
+    allcomb,
+    mainkanasets,
+    dakutenkanasets,
+    combkanasets,
+    mainkatakanasets,
+    dakutenkatakanasets,
+    combkatakanasets,
+    extrasets,
+};
+console.log("🚀 ~ sets:", sets);
+
+function FindAllBaseGroup(kana) {
+    let basekey;
+
+    if (
+        mainkanasets.hasOwnProperty(kana) ||
+        mainkatakanasets.hasOwnProperty(kana)
+    ) {
+        basekey = "all-base";
+        return basekey;
+    }
+
+    if (
+        dakutenkanasets.hasOwnProperty(kana) ||
+        dakutenkatakanasets.hasOwnProperty(kana)
+    ) {
+        basekey = "all-dakuten";
+        return basekey;
+    }
+
+    if (
+        combkanasets.hasOwnProperty(kana) ||
+        combkatakanasets.hasOwnProperty(kana)
+    ) {
+        basekey = "all-comb";
+        return basekey;
+    }
+
+    if (
+        extrasets.hasOwnProperty(kana) ||
+        combkatakanasets.hasOwnProperty(kana)
+    ) {
+        basekey = "all-extra";
+        return basekey;
+    }
+
+    return "null";
+}
+
+function FindBaseGroup(kana) {
+    let basekey;
+
+    if (mainkanasets.hasOwnProperty(kana)) {
+        basekey = "all-hiragana-base";
+        return basekey;
+    }
+
+    if (dakutenkanasets.hasOwnProperty(kana)) {
+        basekey = "all-hiragana-dakuten";
+        return basekey;
+    }
+
+    if (combkanasets.hasOwnProperty(kana)) {
+        basekey = "all-hiragana-comb";
+        return basekey;
+    }
+
+    if (mainkatakanasets.hasOwnProperty(kana)) {
+        basekey = "all-katakana-base";
+        return basekey;
+    }
+
+    if (dakutenkatakanasets.hasOwnProperty(kana)) {
+        basekey = "all-katakana-dakuten";
+        return basekey;
+    }
+
+    if (combkatakanasets.hasOwnProperty(kana)) {
+        basekey = "all-katakana-comb";
+        return basekey;
+    }
+
+    if (extrasets.hasOwnProperty(kana)) {
+        basekey = "all-extra";
+        return basekey;
+    }
+
+    return "null";
+}

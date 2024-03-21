@@ -6,17 +6,7 @@ import {
     bigButtonExplanations,
 } from "./data.js";
 
-import {
-    extrasets,
-    mainkanasets,
-    dakutenkanasets,
-    combkanasets,
-    mainkatakanasets,
-    dakutenkatakanasets,
-    combkatakanasets,
-} from "./sets.js";
-
-import { BuildHomePage } from "./homepage.js";
+import { BuildHomePage } from "./homePage.js";
 
 import { state } from "./helpers.js";
 
@@ -33,133 +23,6 @@ SetWindowStateEvent();
 
 let learnSets = [];
 let currentSet = [];
-
-function FindAllBaseGroup(kana) {
-    let basekey;
-
-    if (
-        mainkanasets.hasOwnProperty(kana) ||
-        mainkatakanasets.hasOwnProperty(kana)
-    ) {
-        basekey = "all-base";
-        return basekey;
-    }
-
-    if (
-        dakutenkanasets.hasOwnProperty(kana) ||
-        dakutenkatakanasets.hasOwnProperty(kana)
-    ) {
-        basekey = "all-dakuten";
-        return basekey;
-    }
-
-    if (
-        combkanasets.hasOwnProperty(kana) ||
-        combkatakanasets.hasOwnProperty(kana)
-    ) {
-        basekey = "all-comb";
-        return basekey;
-    }
-
-    if (
-        extrasets.hasOwnProperty(kana) ||
-        combkatakanasets.hasOwnProperty(kana)
-    ) {
-        basekey = "all-extra";
-        return basekey;
-    }
-
-    return "null";
-}
-
-function FindBaseGroup(kana) {
-    let basekey;
-
-    if (mainkanasets.hasOwnProperty(kana)) {
-        basekey = "all-hiragana-base";
-        return basekey;
-    }
-
-    if (dakutenkanasets.hasOwnProperty(kana)) {
-        basekey = "all-hiragana-dakuten";
-        return basekey;
-    }
-
-    if (combkanasets.hasOwnProperty(kana)) {
-        basekey = "all-hiragana-comb";
-        return basekey;
-    }
-
-    if (mainkatakanasets.hasOwnProperty(kana)) {
-        basekey = "all-katakana-base";
-        return basekey;
-    }
-
-    if (dakutenkatakanasets.hasOwnProperty(kana)) {
-        basekey = "all-katakana-dakuten";
-        return basekey;
-    }
-
-    if (combkatakanasets.hasOwnProperty(kana)) {
-        basekey = "all-katakana-comb";
-        return basekey;
-    }
-
-    if (extrasets.hasOwnProperty(kana)) {
-        basekey = "all-extra";
-        return basekey;
-    }
-
-    return "null";
-}
-
-function BaseToGroupLabel(base) {
-    let groupLabel;
-    switch (base) {
-        case "all-base":
-            groupLabel = ["all-hiragana-base", "all-katakana-base"];
-            break;
-        case "all-dakuten":
-            groupLabel = ["all-hiragana-dakuten", "all-katakana-dakuten"];
-            break;
-        case "all-comb":
-            groupLabel = ["all-hiragana-comb", "all-katakana-comb"];
-            break;
-        case "all-extra":
-            groupLabel = ["all-extra"];
-    }
-
-    return groupLabel;
-}
-
-const allmainbase = {
-    ...mainkanasets,
-    ...mainkatakanasets,
-};
-
-const alldakuten = {
-    ...dakutenkanasets,
-    ...dakutenkatakanasets,
-};
-
-const allcomb = {
-    ...combkanasets,
-    ...combkatakanasets,
-};
-
-const allextra = {
-    ...extrasets,
-};
-
-const allkana = {
-    ...mainkanasets,
-    ...dakutenkanasets,
-    ...combkanasets,
-    ...mainkatakanasets,
-    ...dakutenkatakanasets,
-    ...combkatakanasets,
-    ...extrasets,
-};
 
 let failCounter = 0;
 
@@ -200,76 +63,6 @@ function Submit(event) {
     //cardDiv.setAttribute('data-some', 20);
 
     event.preventDefault();
-}
-
-//crea los botones para seleccionar los kana, pratice setup page
-
-function TurnOffGroupButton(base) {
-    document.querySelector(`[for='${base}']`).classList.remove("check");
-}
-
-function ClickGroupInput(event) {
-    let element = event.target.parentElement;
-    element.classList.toggle("check");
-
-    let labels = GetAllLabelsFromBase(element);
-
-    if (element.classList.contains("check")) {
-        TurnAllOn(labels);
-    } else {
-        TurnAllOff(labels);
-    }
-}
-
-function StartLearning() {
-    //SCROLL to top
-    window.scrollTo(0, 0);
-
-    //Push history state
-    state.currentPage = "learn";
-    window.history.pushState(state, null, "");
-
-    //Clean App
-    let app = document.getElementById("app");
-    app.innerHTML = "";
-
-    //Populate instrucciones
-    let instContent = document.getElementById("instruccionescontent");
-    instContent.textContent = instrucciones.kanalearn;
-
-    let spacer = CreateAndClass("div", app, ["spacer"]);
-
-    let titleKana = CreateAndClass("div", app, ["titleKana"]);
-    titleKana.textContent = JapaneseComaSeparatedArray(allkana[currentSet[0]]);
-
-    spacer = CreateAndClass("div", app, ["spacer"]);
-
-    //Armar divs
-    let learnDiv = CreateAndClass("div", app, ["learndiv"]);
-    let learnCard = CreateAndClass("div", learnDiv, ["learncard"]);
-
-    let info = document.createElement("div");
-    info.classList.add("info");
-
-    spacer = CreateAndClass("div", learnDiv, ["spacer"]);
-    spacer.appendChild(info);
-
-    let explanationExist = CheckForExplanation(learnCard);
-
-    spacer = CreateAndClass("div", learnDiv, ["spacer"]);
-
-    let buttonsdiv = CreateAndClass("div", learnDiv, ["btn-div"]);
-
-    let prevButton = CreateAndClass("button", buttonsdiv, ["prevbtn"]);
-    prevButton.addEventListener("click", PreviousButton);
-    prevButton.textContent = "Atras";
-    prevButton.disabled = true;
-
-    let nextButton = CreateAndClass("button", buttonsdiv, ["nextbtn"]);
-    nextButton.addEventListener("click", NextButton);
-    nextButton.textContent = "Siguiente";
-
-    if (!explanationExist) info.textContent = KanaToInfo(currentSet[0]);
 }
 
 function CheckForExplanation(cardParent) {
@@ -616,34 +409,6 @@ function ExitQuiz() {
     location.reload();
 }
 
-function ReloadPage() {
-    location.reload();
-}
-
-function CheckLearnSelected() {
-    //get all labels
-    let buttons = document.querySelectorAll("div.checkboxes > div > label");
-
-    //hacer un array con todos los 'check'
-    let checked = [];
-
-    buttons.forEach((button) => {
-        if (button.classList.contains("check")) {
-            checked.push(button);
-        }
-    });
-
-    if (checked.length < 1) {
-        alert("Por favor selecciona lo que quieres practicar.");
-        return;
-    }
-
-    learnSets = PopulateLearnSet(checked);
-    currentSet = learnSets[0];
-
-    StartLearning();
-}
-
 function PopulateLearnSet(arr) {
     let learnArray = [];
     arr.forEach((element) => {
@@ -660,26 +425,6 @@ function ToggleClass(element, clase) {
     element.classList.toggle(clase);
 
     //FIX check si los aprete todos y prender el label de all tambien
-}
-
-function CreateLabelInput(parent, id, text) {
-    let label = CreateAndClass("label", parent, ["select-box"]);
-    let consonant = CreateAndClass("div", label, ["consonantLabel"]);
-    consonant.textContent = romajiConsonants[id];
-
-    let input = CreateAndId("input", label, id);
-    input.classList.add("setup-input");
-    label.setAttribute("for", id);
-
-    let kanaLabel = CreateAndClass("div", label, ["kanaLabel"]);
-    kanaLabel.textContent = text;
-
-    input.setAttribute("type", "checkbox");
-    input.addEventListener("change", function () {
-        ToggleClass(label, "check");
-    });
-
-    return input;
 }
 
 //construye pagina de practica basada en seleccion
@@ -960,30 +705,6 @@ function AppendQuizButtons(arr, parent) {
         parent.appendChild(element);
     });
 }
-
-function JapaneseComaSeparatedArray(array) {
-    return array.join("、");
-}
-
-// function BuildCard(kana){
-//     let cardDiv = document.createElement('div');
-//     container.appendChild(cardDiv);
-//     cardDiv.classList.add('card');
-//     cardDiv.setAttribute('data-answer', kana.answer);
-//     let question = document.createElement('div');
-//     cardDiv.appendChild(question);
-//     question.classList.add('question');
-//     question.textContent = kana.kana;
-//     let form = document.createElement('form');
-//     cardDiv.appendChild(form);
-//     form.classList.add('form');
-//     let input = document.createElement('input');
-//     form.appendChild(input);
-//     input.type = 'text';
-//     input.autocomplete = 'off';
-//     input.size = 4;
-//     input.maxLength = 5;
-// }
 
 function OnTitleClick() {
     state.currentPage = "home";
