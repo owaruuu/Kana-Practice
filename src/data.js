@@ -341,3 +341,16 @@ export const bigButtonExplanations = {
     Los Kanas que selecciones para practicar serán revueltos para que nunca estén en el mismo orden. Puedes seguir estudiando el mismo set o seleccionar otro set de Kanas.
 `,
 };
+
+export function KanaToInfo(kana) {
+    if (infotext[kana] === "") {
+        return "...";
+    }
+
+    let symbol = "ⓘ ";
+    let info = symbol.concat(infotext[kana]);
+
+    if (info != null) {
+        return info;
+    }
+}

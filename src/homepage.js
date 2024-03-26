@@ -1,4 +1,5 @@
-import { state } from "./helpers.js";
+import { CreateStackedButton } from "./helpers.js";
+import { state } from "./state.js";
 import { instrucciones, bigButtonExplanations } from "./data.js";
 import { CreateComplex, CreateAndClass } from "./domHelpers.js";
 import { BuildLearnSetupPage } from "./learnSetupPage.js";
@@ -44,8 +45,11 @@ export function BuildHomePage() {
     );
 
     //Create mobile buttons
-    let buttonAprender = CreateMobileButton("Aprender", mobileButtonContainer);
-    let buttonPractica = CreateMobileButton("Practicar", mobileButtonContainer);
+    let buttonAprender = CreateStackedButton(mobileButtonContainer, "Aprender");
+    let buttonPractica = CreateStackedButton(
+        mobileButtonContainer,
+        "Practicar"
+    );
 
     //Add click events
     desktopButtonLearn.addEventListener("click", OnLearnButtonPress);
@@ -80,20 +84,6 @@ function CreateDesktopButton(cardTitle, explanationText, parent) {
     img.setAttribute("alt", `Imagenes de la seccion ${cardTitle}`);
 
     CreateComplex("p", card, null, ["homepage-card-footer"], explanationText);
-
-    return button;
-}
-
-function CreateMobileButton(textContent, parent) {
-    let button = CreateComplex(
-        "button",
-        parent,
-        null,
-        ["uibtn", "homepage-button"],
-        null
-    );
-
-    CreateComplex("span", button, null, ["uibtn-top"], textContent);
 
     return button;
 }

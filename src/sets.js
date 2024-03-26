@@ -79,16 +79,22 @@ const combkatakanasets = {
 const allmainbase = {
     ...mainkanasets,
     ...mainkatakanasets,
+    "all-hiragana-base": [],
+    "all-katakana-base": [],
 };
 
 const alldakuten = {
     ...dakutenkanasets,
     ...dakutenkatakanasets,
+    "all-hiragana-dakuten": [],
+    "all-katakana-dakuten": [],
 };
 
 const allcomb = {
     ...combkanasets,
     ...combkatakanasets,
+    "all-hiragana-comb": [],
+    "all-katakana-comb": [],
 };
 
 const allextra = {
@@ -106,6 +112,7 @@ const allkana = {
 };
 
 export const sets = {
+    allkana,
     allmainbase,
     alldakuten,
     allcomb,
@@ -117,7 +124,6 @@ export const sets = {
     combkatakanasets,
     extrasets,
 };
-console.log("🚀 ~ sets:", sets);
 
 function FindAllBaseGroup(kana) {
     let basekey;
