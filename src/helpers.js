@@ -72,11 +72,15 @@ export function CreateSetupButtons(parentDiv) {
     let firstDiv = CreateSimple("div", parentDiv);
 
     //Boton Todos kana base
-    CreateGroupConfigButton(
+    const botonAllKanaBase = CreateGroupConfigButton(
         firstDiv,
         "all-base",
         "all-main",
         "Todos Kana base"
+    );
+    console.log(
+        "🚀 ~ CreateSetupButtons ~ botonAllKanaBase:",
+        botonAllKanaBase
     );
 
     let mainGroupButtons = CreateAndClass("div", firstDiv, [
@@ -84,11 +88,15 @@ export function CreateSetupButtons(parentDiv) {
     ]);
 
     //Boton Todos hiragana
-    CreateGroupConfigButton(
+    const botonAllHiragana = CreateGroupConfigButton(
         mainGroupButtons,
         "all-hiragana-base",
         "all-hira",
         "Todos Hiragana"
+    );
+    console.log(
+        "🚀 ~ CreateSetupButtons ~ botonAllHiragana:",
+        botonAllHiragana
     );
 
     let mainCheckBoxes = CreateAndClass("div", firstDiv, ["checkboxes"]);
@@ -98,10 +106,13 @@ export function CreateSetupButtons(parentDiv) {
     Object.keys(sets.mainkanasets).forEach((key) => {
         let array = structuredClone(sets.mainkanasets[key]);
         let text = JapaneseComaSeparatedArray(array);
-        CreateNormalConfigButton(hiraganaBase, key, text);
+        CreateNormalConfigButton(hiraganaBase, key, text, [
+            botonAllKanaBase,
+            botonAllHiragana,
+        ]);
     });
 
-    //boton all katakana
+    //boton todos katakana
     CreateGroupConfigButton(
         mainGroupButtons,
         "all-katakana-base",

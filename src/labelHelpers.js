@@ -32,6 +32,8 @@ export function CreateGroupConfigButton(parent, id, labelClass, text) {
 
     let node = document.createTextNode(text);
     label.appendChild(node);
+
+    return label;
 }
 
 /**
@@ -40,9 +42,11 @@ export function CreateGroupConfigButton(parent, id, labelClass, text) {
  * @param {String} id
  * @param {String} text
  */
-export function CreateNormalConfigButton(parent, id, text) {
+export function CreateNormalConfigButton(parent, id, text, refs) {
+    console.log("🚀 ~ CreateNormalConfigButton ~ refs:", refs);
     let label = CreateConfigButton(parent, id, () => {
-        label.classList.toggle("check");
+        normalButtonChecker(label, refs);
+        // label.classList.toggle("check");
     });
 
     //Create the div for the reference consonant
@@ -52,6 +56,17 @@ export function CreateNormalConfigButton(parent, id, text) {
     //Create the div for the kana letters
     let kanaLabel = CreateAndClass("div", label, ["kanaLabel"]);
     kanaLabel.textContent = text;
+}
+
+function normalButtonChecker(label, refs) {
+    console.log("🚀 ~ normalButtonChecker ~ refs:", refs);
+    refs.forEach((ref) => {
+        if (ref.classList.contains("check")) {
+            ref.classList.remove("check");
+        }
+    });
+
+    label.classList.toggle("check");
 }
 
 /**

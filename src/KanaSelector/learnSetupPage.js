@@ -3,18 +3,18 @@ import {
     PopulateInstructions,
     CreateSetupButtons,
     CreateStackedButton,
-} from "./helpers.js";
-import { instrucciones } from "./data.js";
-import { sets } from "./sets.js";
-import { state } from "./state.js";
+} from "../helpers.js";
+import { instrucciones } from "../data.js";
+import { sets } from "../sets.js";
+import { state } from "../state.js";
 // console.log("🚀 ~ state:", state);
 import {
     CreateSimple,
     CreateComplex,
     CreateAndClass,
     CreateAndId,
-} from "./domHelpers.js";
-import { BuildLearnPage } from "./learnPage.js";
+} from "../domHelpers.js";
+import { BuildLearnPage } from "../learnPage.js";
 
 let { learnSets, currentSet } = state;
 // console.log("🚀 ~ learnSets, currentSet:", learnSets, currentSet);
