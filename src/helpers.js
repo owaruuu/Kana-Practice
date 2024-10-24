@@ -10,14 +10,14 @@ import { sets } from "./sets.js";
 
 //global state variables
 import { state } from "./state.js";
-// export let state = {
-//     currentPage: "home",
-// };
 
+/**
+ * Configura el evento de pila para manejar el estado de la página
+ */
 export function SetWindowStateEvent() {
     window.onpopstate = function (event) {
         if (event.state) {
-            state = event.state;
+            state.currentPage = event.state.currentPage;
         }
 
         Render(state);

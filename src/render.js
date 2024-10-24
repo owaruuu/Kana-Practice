@@ -5,7 +5,6 @@ import {
     CreateAndClass,
     CreateAndId,
 } from "./domHelpers.js";
-// import { state } from "./helpers.js";
 
 export function Render(state) {
     switch (state.currentPage) {
@@ -27,6 +26,10 @@ export function Render(state) {
         default:
             break;
     }
+}
+
+function ReloadPage() {
+    window.location.reload();
 }
 
 function BuildPracticeSetupPage() {

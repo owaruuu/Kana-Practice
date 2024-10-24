@@ -89,22 +89,37 @@ function CreateDesktopButton(cardTitle, explanationText, parent) {
 }
 
 //Callbacks
+
+/**
+ * Cambia la pantalla a la seleccion de kanas para la seccion de aprendizaje
+ */
 function OnLearnButtonPress() {
-    //aqui deberia revisar que esta seleccionado y setear el 'learnsets'
-    //esto deberia depender de lo que seleccione en el setup
-    //en este punto el 'learnsets' ya deberia estar seteado y solo tengo que acceder al primero
-    //currentSet = learnSets[0];
+    // state.currentPage = "learnSetup";
+    // window.history.pushState(state, null, "");
 
-    // setTimeout(StartLearning,200);
-    state.currentPage = "learnSetup";
-    window.history.pushState(state, null, "");
-
-    setTimeout(BuildLearnSetupPage, 200);
+    // setTimeout(BuildLearnSetupPage, 200);
+    ChangeScreen("home", BuildLearnSetupPage);
 }
 
 function OnPracticeButtonPress() {
-    state.currentPage = "practiceSetup";
+    // state.currentPage = "practiceSetup";
+    // window.history.pushState(state, null, "");
+
+    // setTimeout(BuildPracticeSetupPage, 200);
+    ChangeScreen("home", BuildPracticeSetupPage);
+}
+
+/**
+ * Hace todo lo necesario para cambiar de pantalla y crear un nuevo state en el browser history
+ * @var {string} currentPage - la pantalla desde la cual me estoy moviendo
+ * @var {function} pageCallback - la funcion que se ejecuta para cambiar de pantalla
+ * @returns {void} - no devuelve nada, solo cambia la pantalla
+ */
+function ChangeScreen(currentPage, pageCallback) {
+    // Crear nueva state
+    state.currentPage = currentPage;
     window.history.pushState(state, null, "");
 
-    setTimeout(BuildPracticeSetupPage, 200);
+    // Cambiar de pantalla
+    setTimeout(pageCallback, 200);
 }

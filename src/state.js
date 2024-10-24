@@ -3,4 +3,3 @@ export let state = {
     currentSet: [],
     currentPage: "home",
 };
-console.log("🚀 ~ state:", state);

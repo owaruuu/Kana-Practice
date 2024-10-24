@@ -27,15 +27,14 @@ let failCounter = 0;
 //Set Title Button
 document.getElementById("title").addEventListener("click", OnTitleClick);
 
-//Esto es lo que deberia quedarse
-BuildHomePage();
-
 function OnTitleClick() {
     state.currentPage = "home";
     window.history.pushState(state, null, "");
 
     location.reload();
 }
+//Esto es lo que deberia quedarse
+BuildHomePage();
 
 function Submit(event) {
     let cardDiv = event.target.parentElement;

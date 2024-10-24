@@ -7,7 +7,7 @@ import {
 import { instrucciones } from "./data.js";
 import { sets } from "./sets.js";
 import { state } from "./state.js";
-console.log("🚀 ~ state:", state);
+// console.log("🚀 ~ state:", state);
 import {
     CreateSimple,
     CreateComplex,
@@ -17,7 +17,7 @@ import {
 import { BuildLearnPage } from "./learnPage.js";
 
 let { learnSets, currentSet } = state;
-console.log("🚀 ~ learnSets, currentSet:", learnSets, currentSet);
+// console.log("🚀 ~ learnSets, currentSet:", learnSets, currentSet);
 
 export function BuildLearnSetupPage() {
     let app = CleanAppPage();
