@@ -109,6 +109,7 @@ function OnPracticeButtonPress() {
     ChangeScreen("home", BuildPracticeSetupPage);
 }
 
+// TODO - mover funcion a helpers ?
 /**
  * Hace todo lo necesario para cambiar de pantalla y crear un nuevo state en el browser history
  * @var {string} currentPage - la pantalla desde la cual me estoy moviendo

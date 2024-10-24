@@ -14,7 +14,10 @@ import { state } from "./state.js";
 /**
  * Configura el evento de pila para manejar el estado de la página
  */
-export function SetWindowStateEvent() {
+export function SetWindowHistory() {
+    //set history starting value
+    window.history.replaceState(state, null, "");
+
     window.onpopstate = function (event) {
         if (event.state) {
             state.currentPage = event.state.currentPage;

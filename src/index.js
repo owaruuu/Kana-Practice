@@ -15,12 +15,9 @@ import { romajiConsonants, kanaAnswers, kanaWrongs } from "./romaji.js";
 
 import { CreateSimple, CreateAndClass, CreateAndId } from "./domHelpers.js";
 
-import { SetWindowStateEvent } from "./helpers.js";
+import { SetWindowHistory } from "./helpers.js";
 
-//set history starting value
-window.history.replaceState(state, null, "");
-
-SetWindowStateEvent();
+SetWindowHistory();
 
 let failCounter = 0;
 
