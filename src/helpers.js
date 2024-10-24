@@ -11,6 +11,22 @@ import { sets } from "./sets.js";
 //global state variables
 import { state } from "./state.js";
 
+// TODO - mover funcion a helpers ?
+/**
+ * Hace todo lo necesario para cambiar de pantalla y crear un nuevo state en el browser history
+ * @var {string} currentPage - la pantalla desde la cual me estoy moviendo
+ * @var {function} pageCallback - la funcion que se ejecuta para cambiar de pantalla
+ * @returns {void} - no devuelve nada, solo cambia la pantalla
+ */
+export function ChangeScreen(currentPage, pageCallback) {
+    // Crear nueva state
+    state.currentPage = currentPage;
+    window.history.pushState(state, null, "");
+
+    // Cambiar de pantalla
+    setTimeout(pageCallback, 200);
+}
+
 /**
  * Configura el evento de pila para manejar el estado de la página
  */

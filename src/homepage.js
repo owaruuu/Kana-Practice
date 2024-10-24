@@ -1,4 +1,4 @@
-import { CreateStackedButton } from "./helpers.js";
+import { CreateStackedButton, ChangeScreen } from "./helpers.js";
 import { state } from "./state.js";
 import { instrucciones, bigButtonExplanations } from "./data.js";
 import { CreateComplex, CreateAndClass } from "./domHelpers.js";
@@ -107,20 +107,4 @@ function OnPracticeButtonPress() {
 
     // setTimeout(BuildPracticeSetupPage, 200);
     ChangeScreen("home", BuildPracticeSetupPage);
-}
-
-// TODO - mover funcion a helpers ?
-/**
- * Hace todo lo necesario para cambiar de pantalla y crear un nuevo state en el browser history
- * @var {string} currentPage - la pantalla desde la cual me estoy moviendo
- * @var {function} pageCallback - la funcion que se ejecuta para cambiar de pantalla
- * @returns {void} - no devuelve nada, solo cambia la pantalla
- */
-function ChangeScreen(currentPage, pageCallback) {
-    // Crear nueva state
-    state.currentPage = currentPage;
-    window.history.pushState(state, null, "");
-
-    // Cambiar de pantalla
-    setTimeout(pageCallback, 200);
 }

@@ -15,20 +15,22 @@ import { romajiConsonants, kanaAnswers, kanaWrongs } from "./romaji.js";
 
 import { CreateSimple, CreateAndClass, CreateAndId } from "./domHelpers.js";
 
-import { SetWindowHistory } from "./helpers.js";
+import { SetWindowHistory, ChangeScreen } from "./helpers.js";
 
 SetWindowHistory();
 
+//TODO - move to state
 let failCounter = 0;
 
 //Set Title Button
 document.getElementById("title").addEventListener("click", OnTitleClick);
 
 function OnTitleClick() {
-    state.currentPage = "home";
-    window.history.pushState(state, null, "");
+    // state.currentPage = "home";
+    // window.history.pushState(state, null, "");
 
-    location.reload();
+    // location.reload();
+    ChangeScreen("home", () => location.reload());
 }
 //Esto es lo que deberia quedarse
 BuildHomePage();
