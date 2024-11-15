@@ -69,176 +69,9 @@ export function PopulateInstructions(content) {
  * @param {HTMLElement} parentDiv
  */
 export function CreateSetupButtons(parentDiv) {
-    let firstDiv = CreateSimple("div", parentDiv);
-
-    //Boton Todos kana base
-    const botonAllKanaBase = CreateGroupConfigButton(
-        firstDiv,
-        "all-base",
-        "all-main",
-        "Todos Kana base"
-    );
-    console.log(
-        "🚀 ~ CreateSetupButtons ~ botonAllKanaBase:",
-        botonAllKanaBase
-    );
-
-    let mainGroupButtons = CreateAndClass("div", firstDiv, [
-        "kanagroupbuttons",
-    ]);
-
-    //Boton Todos hiragana
-    const botonAllHiragana = CreateGroupConfigButton(
-        mainGroupButtons,
-        "all-hiragana-base",
-        "all-hira",
-        "Todos Hiragana"
-    );
-    console.log(
-        "🚀 ~ CreateSetupButtons ~ botonAllHiragana:",
-        botonAllHiragana
-    );
-
-    let mainCheckBoxes = CreateAndClass("div", firstDiv, ["checkboxes"]);
-
-    let hiraganaBase = CreateSimple("div", mainCheckBoxes);
-
-    Object.keys(sets.mainkanasets).forEach((key) => {
-        let array = structuredClone(sets.mainkanasets[key]);
-        let text = JapaneseComaSeparatedArray(array);
-        CreateNormalConfigButton(hiraganaBase, key, text, [
-            botonAllKanaBase,
-            botonAllHiragana,
-        ]);
-    });
-
-    //boton todos katakana
-    CreateGroupConfigButton(
-        mainGroupButtons,
-        "all-katakana-base",
-        "all-kata",
-        "Todos Katakana"
-    );
-
-    let katakanaBase = CreateSimple("div", mainCheckBoxes);
-
-    //botones katakana
-    Object.keys(sets.mainkatakanasets).forEach((key) => {
-        let array = structuredClone(sets.mainkatakanasets[key]);
-        let text = JapaneseComaSeparatedArray(array);
-        CreateNormalConfigButton(katakanaBase, key, text);
-    });
-
-    let secondDiv = CreateSimple("div", parentDiv);
-
-    CreateGroupConfigButton(
-        secondDiv,
-        "all-dakuten",
-        "all-main",
-        "Todos Dakuten/Handakuten"
-    );
-
-    mainGroupButtons = CreateAndClass("div", secondDiv, ["kanagroupbuttons"]);
-
-    //all dakuten hiragana
-    CreateGroupConfigButton(
-        mainGroupButtons,
-        "all-hiragana-dakuten",
-        "all-hira",
-        "Todos Hiragana"
-    );
-
-    let dakutenCheckBoxes = CreateAndClass("div", secondDiv, ["checkboxes"]);
-
-    hiraganaBase = CreateSimple("div", dakutenCheckBoxes);
-
-    Object.keys(sets.dakutenkanasets).forEach((key) => {
-        let array = structuredClone(sets.dakutenkanasets[key]);
-        let text = JapaneseComaSeparatedArray(array);
-        CreateNormalConfigButton(hiraganaBase, key, text);
-    });
-
-    katakanaBase = CreateSimple("div", dakutenCheckBoxes);
-
-    //all dakuten katakana
-    CreateGroupConfigButton(
-        mainGroupButtons,
-        "all-katakana-dakuten",
-        "all-kata",
-        "Todos Katakana"
-    );
-
-    Object.keys(sets.dakutenkatakanasets).forEach((key) => {
-        let array = structuredClone(sets.dakutenkatakanasets[key]);
-        let text = JapaneseComaSeparatedArray(array);
-        CreateNormalConfigButton(katakanaBase, key, text);
-    });
-
-    //extra katakana
-    CreateGroupConfigButton(
-        secondDiv,
-        "all-extra",
-        "all-extra",
-        "Todos Katakana Extra"
-    );
-
-    let extraCheckBoxes = CreateAndClass("div", secondDiv, [
-        "checkboxes",
-        "extra",
-    ]);
-
-    let extra = CreateSimple("div", extraCheckBoxes);
-
-    Object.keys(sets.extrasets).forEach((key) => {
-        let array = sets.extrasets[key];
-        let text = JapaneseComaSeparatedArray(array);
-        CreateNormalConfigButton(extra, key, text);
-    });
-
-    let thirdDiv = CreateSimple("div", parentDiv);
-
-    CreateGroupConfigButton(
-        thirdDiv,
-        "all-comb",
-        "all-main",
-        "Todos Combinacion"
-    );
-
-    mainGroupButtons = CreateAndClass("div", thirdDiv, ["kanagroupbuttons"]);
-
-    CreateGroupConfigButton(
-        mainGroupButtons,
-        "all-hiragana-comb",
-        "all-hira",
-        "Todos Hiragana"
-    );
-
-    let combCheckBoxes = CreateAndClass("div", thirdDiv, ["checkboxes"]);
-
-    hiraganaBase = CreateSimple("div", combCheckBoxes);
-
-    Object.keys(sets.combkanasets).forEach((key) => {
-        let array = structuredClone(sets.combkanasets[key]);
-        let text = JapaneseComaSeparatedArray(array);
-        CreateNormalConfigButton(hiraganaBase, key, text);
-    });
-
-    katakanaBase = CreateSimple("div", combCheckBoxes);
-
-    //boton all katakana
-    CreateGroupConfigButton(
-        mainGroupButtons,
-        "all-katakana-comb",
-        "all-kata",
-        "Todos Katakana"
-    );
-
-    //botones katakana
-    Object.keys(sets.combkatakanasets).forEach((key) => {
-        let array = structuredClone(sets.combkatakanasets[key]);
-        let text = JapaneseComaSeparatedArray(array);
-        CreateNormalConfigButton(katakanaBase, key, text);
-    });
+    CreateBaseKanaButtons(parentDiv);
+    CreateDakutenButtons(parentDiv);
+    CreateCombinationButtons(parentDiv);
 }
 
 export function CreateStackedButton(parent, textContent) {
@@ -289,3 +122,187 @@ export function shuffleArray(arr) {
 export function getObjKey(obj, value) {
     return Object.keys(obj).find((key) => obj[key] === value);
 }
+
+function CreateBaseKanaButtons(parentDiv) {
+    let firstDiv = CreateSimple("div", parentDiv);
+
+    //Boton Todos Kana Base
+    const botonAllKanaBase = CreateGroupConfigButton(
+        firstDiv,
+        "all-base",
+        "all-main",
+        "Todos Kana Base"
+    );
+
+    let mainGroupButtons = CreateAndClass("div", firstDiv, [
+        "kanagroupbuttons",
+    ]);
+
+    //Boton Todos hiragana
+    const botonAllHiragana = CreateGroupConfigButton(
+        mainGroupButtons,
+        "all-hiragana-base",
+        "all-hira",
+        "Todos Hiragana"
+    );
+    console.log(
+        "🚀 ~ CreateSetupButtons ~ botonAllHiragana:",
+        botonAllHiragana
+    );
+
+    let mainCheckBoxes = CreateAndClass("div", firstDiv, ["checkboxes"]);
+
+    let hiraganaBase = CreateSimple("div", mainCheckBoxes);
+
+    Object.keys(sets.mainkanasets).forEach((key) => {
+        let array = structuredClone(sets.mainkanasets[key]);
+        let text = JapaneseComaSeparatedArray(array);
+        CreateNormalConfigButton(hiraganaBase, key, text, [
+            botonAllKanaBase,
+            botonAllHiragana,
+        ]);
+    });
+
+    //boton todos katakana
+    CreateGroupConfigButton(
+        mainGroupButtons,
+        "all-katakana-base",
+        "all-kata",
+        "Todos Katakana"
+    );
+
+    let katakanaBase = CreateSimple("div", mainCheckBoxes);
+
+    //botones katakana
+    Object.keys(sets.mainkatakanasets).forEach((key) => {
+        let array = structuredClone(sets.mainkatakanasets[key]);
+        let text = JapaneseComaSeparatedArray(array);
+        CreateNormalConfigButton(katakanaBase, key, text);
+    });
+}
+
+function CreateDakutenButtons(parentDiv) {
+    let secondDiv = CreateSimple("div", parentDiv);
+
+    CreateGroupConfigButton(
+        secondDiv,
+        "all-dakuten",
+        "all-main",
+        "Todos Dakuten/Handakuten"
+    );
+
+    let mainGroupButtons = CreateAndClass("div", secondDiv, [
+        "kanagroupbuttons",
+    ]);
+
+    //all dakuten hiragana
+    CreateGroupConfigButton(
+        mainGroupButtons,
+        "all-hiragana-dakuten",
+        "all-hira",
+        "Todos Hiragana"
+    );
+
+    let dakutenCheckBoxes = CreateAndClass("div", secondDiv, ["checkboxes"]);
+
+    let hiraganaBase = CreateSimple("div", dakutenCheckBoxes);
+
+    Object.keys(sets.dakutenkanasets).forEach((key) => {
+        let array = structuredClone(sets.dakutenkanasets[key]);
+        let text = JapaneseComaSeparatedArray(array);
+        CreateNormalConfigButton(hiraganaBase, key, text);
+    });
+
+    let katakanaBase = CreateSimple("div", dakutenCheckBoxes);
+
+    //all dakuten katakana
+    CreateGroupConfigButton(
+        mainGroupButtons,
+        "all-katakana-dakuten",
+        "all-kata",
+        "Todos Katakana"
+    );
+
+    Object.keys(sets.dakutenkatakanasets).forEach((key) => {
+        let array = structuredClone(sets.dakutenkatakanasets[key]);
+        let text = JapaneseComaSeparatedArray(array);
+        CreateNormalConfigButton(katakanaBase, key, text);
+    });
+
+    //extra katakana
+    CreateGroupConfigButton(
+        secondDiv,
+        "all-extra",
+        "all-extra",
+        "Todos Katakana Extra"
+    );
+
+    let extraCheckBoxes = CreateAndClass("div", secondDiv, [
+        "checkboxes",
+        "extra",
+    ]);
+
+    let extra = CreateSimple("div", extraCheckBoxes);
+
+    Object.keys(sets.extrasets).forEach((key) => {
+        let array = sets.extrasets[key];
+        let text = JapaneseComaSeparatedArray(array);
+        CreateNormalConfigButton(extra, key, text);
+    });
+}
+
+function CreateCombinationButtons(parentDiv) {
+    let thirdDiv = CreateSimple("div", parentDiv);
+
+    CreateGroupConfigButton(
+        thirdDiv,
+        "all-comb",
+        "all-main",
+        "Todos Combinacion"
+    );
+
+    let mainGroupButtons = CreateAndClass("div", thirdDiv, [
+        "kanagroupbuttons",
+    ]);
+
+    CreateGroupConfigButton(
+        mainGroupButtons,
+        "all-hiragana-comb",
+        "all-hira",
+        "Todos Hiragana"
+    );
+
+    let combCheckBoxes = CreateAndClass("div", thirdDiv, ["checkboxes"]);
+
+    let hiraganaBase = CreateSimple("div", combCheckBoxes);
+
+    Object.keys(sets.combkanasets).forEach((key) => {
+        let array = structuredClone(sets.combkanasets[key]);
+        let text = JapaneseComaSeparatedArray(array);
+        CreateNormalConfigButton(hiraganaBase, key, text);
+    });
+
+    let katakanaBase = CreateSimple("div", combCheckBoxes);
+
+    //boton all katakana
+    CreateGroupConfigButton(
+        mainGroupButtons,
+        "all-katakana-comb",
+        "all-kata",
+        "Todos Katakana"
+    );
+
+    //botones katakana
+    Object.keys(sets.combkatakanasets).forEach((key) => {
+        let array = structuredClone(sets.combkatakanasets[key]);
+        let text = JapaneseComaSeparatedArray(array);
+        CreateNormalConfigButton(katakanaBase, key, text);
+    });
+}
+
+// /**
+//  * Recibe el evento de cambio de un boton de grupo
+//  */
+// function CheckGroupButtonStatus() {
+//     const pri
+// }
