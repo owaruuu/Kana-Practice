@@ -1,6 +1,36 @@
 import { CreateComplex, CreateAndClass } from "./domHelpers.js";
+import { GroupButtonChangeEvent } from "./events.js";
 import { romajiConsonants } from "./romaji.js";
 import { sets } from "./sets.js";
+
+/**
+ * Creates a config label button with a custom callback
+ * @param {Element} parentDiv
+ * @param {HTMLElement} parentButtonRef Referencia al boton padre
+ * @param {String} id
+ * @param {String} lableClass
+ * @param {String} text
+ */
+export function CreateGroupConfigButton(
+    parentDiv,
+    parentButtonRef,
+    id,
+    labelClass,
+    text
+) {
+    let label = CreateConfigButton(
+        parentDiv,
+        id,
+        ClickGroupInput,
+        parentButtonRef
+    );
+    label.classList.add(labelClass);
+
+    let node = document.createTextNode(text);
+    label.appendChild(node);
+
+    return label;
+}
 
 /**
  * Creates the base for a config label button
@@ -9,29 +39,19 @@ import { sets } from "./sets.js";
  * @param {Function} callback
  * @returns {HTMLElement} the new label element
  */
-function CreateConfigButton(parent, id, callback) {
+function CreateConfigButton(parent, id, callback, parentButtonRef) {
     let label = CreateAndClass("label", parent, ["select-box"]);
     label.setAttribute("for", id);
 
     let input = CreateComplex("input", label, id, ["setup-input"], null);
     input.setAttribute("type", "checkbox");
-    input.addEventListener("click", callback);
+    input.addEventListener("click", (e) => callback(e, parentButtonRef));
 
-    return label;
-}
-
-/**
- * Creates a config label button with a custom callback
- * @param {Element} parent
- * @param {String} id
- * @param {String} text
- */
-export function CreateGroupConfigButton(parent, id, labelClass, text) {
-    let label = CreateConfigButton(parent, id, ClickGroupInput);
-    label.classList.add(labelClass);
-
-    let node = document.createTextNode(text);
-    label.appendChild(node);
+    //esto va a ser necesario para cuando el input cambie como consecuencia de otra accion y no de un click directo
+    //quizas pueda sepaar el callback en uno que ocupe el evento para click y otro que ocupe la ref al padre con change
+    input.addEventListener("change", (e) => {
+        console.log("hubo un cambio en el input");
+    });
 
     return label;
 }
@@ -42,10 +62,9 @@ export function CreateGroupConfigButton(parent, id, labelClass, text) {
  * @param {String} id
  * @param {String} text
  */
-export function CreateNormalConfigButton(parent, id, text, refs) {
-    console.log("🚀 ~ CreateNormalConfigButton ~ refs:", refs);
+export function CreateNormalConfigButton(parent, id, text) {
     let label = CreateConfigButton(parent, id, () => {
-        normalButtonChecker(label, refs);
+        normalButtonChecker(label);
         // label.classList.toggle("check");
     });
 
@@ -58,13 +77,12 @@ export function CreateNormalConfigButton(parent, id, text, refs) {
     kanaLabel.textContent = text;
 }
 
-function normalButtonChecker(label, refs) {
-    console.log("🚀 ~ normalButtonChecker ~ refs:", refs);
-    refs.forEach((ref) => {
-        if (ref.classList.contains("check")) {
-            ref.classList.remove("check");
-        }
-    });
+function normalButtonChecker(label) {
+    // refs.forEach((ref) => {
+    //     if (ref.classList.contains("check")) {
+    //         ref.classList.remove("check");
+    //     }
+    // });
 
     label.classList.toggle("check");
 }
@@ -74,7 +92,12 @@ function normalButtonChecker(label, refs) {
  * with the corresponding group of labels
  * @param {PointerEvent} event
  */
-function ClickGroupInput(event) {
+function ClickGroupInput(event, parentButtonRef) {
+    console.log(
+        "🚀 ~ ClickGroupInput ~ event, parentButtonRef:",
+        event,
+        parentButtonRef
+    );
     //selecciona el label y cambia su clase
     let label = event.target.parentElement;
     label.classList.toggle("check");
@@ -83,6 +106,9 @@ function ClickGroupInput(event) {
     let base = label.getAttribute("for");
     let object = BaseToObject(base);
     let labels = GetAllLabels(object);
+
+    //si tiene listener
+    if (parentButtonRef) parentButtonRef.dispatchEvent(GroupButtonChangeEvent);
 
     if (label.classList.contains("check")) {
         labels.forEach((element) => {

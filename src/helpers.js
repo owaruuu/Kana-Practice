@@ -10,6 +10,7 @@ import { sets } from "./sets.js";
 
 //global state variables
 import { state, setState } from "./state.js";
+import { groupButtonChangeEventName } from "./enums.js";
 
 // TODO - mover funcion a helpers ?
 /**
@@ -130,6 +131,7 @@ function CreateBaseKanaButtons(parentDiv) {
     //Boton Todos Kana Base
     const botonAllKanaBase = CreateGroupConfigButton(
         firstDiv,
+        null,
         "all-base",
         "all-main",
         "Todos Kana Base"
@@ -140,15 +142,12 @@ function CreateBaseKanaButtons(parentDiv) {
     ]);
 
     //Boton Todos hiragana
-    const botonAllHiragana = CreateGroupConfigButton(
+    const allHiraganaButton = CreateGroupConfigButton(
         mainGroupButtons,
+        botonAllKanaBase,
         "all-hiragana-base",
         "all-hira",
         "Todos Hiragana"
-    );
-    console.log(
-        "🚀 ~ CreateSetupButtons ~ botonAllHiragana:",
-        botonAllHiragana
     );
 
     let mainCheckBoxes = CreateAndClass("div", firstDiv, ["checkboxes"]);
@@ -158,15 +157,13 @@ function CreateBaseKanaButtons(parentDiv) {
     Object.keys(sets.mainkanasets).forEach((key) => {
         let array = structuredClone(sets.mainkanasets[key]);
         let text = JapaneseComaSeparatedArray(array);
-        CreateNormalConfigButton(hiraganaBase, key, text, [
-            botonAllKanaBase,
-            botonAllHiragana,
-        ]);
+        CreateNormalConfigButton(hiraganaBase, key, text);
     });
 
     //boton todos katakana
-    CreateGroupConfigButton(
+    const allKatakanaButton = CreateGroupConfigButton(
         mainGroupButtons,
+        botonAllKanaBase,
         "all-katakana-base",
         "all-kata",
         "Todos Katakana"
@@ -180,6 +177,15 @@ function CreateBaseKanaButtons(parentDiv) {
         let text = JapaneseComaSeparatedArray(array);
         CreateNormalConfigButton(katakanaBase, key, text);
     });
+
+    //agregar listener a evento de cambio de ambos botones grupales
+    botonAllKanaBase.addEventListener(groupButtonChangeEventName, () =>
+        CheckGroupButtonStatus(
+            botonAllKanaBase,
+            allHiraganaButton,
+            allKatakanaButton
+        )
+    );
 }
 
 function CreateDakutenButtons(parentDiv) {
@@ -301,9 +307,20 @@ function CreateCombinationButtons(parentDiv) {
     });
 }
 
-// /**
-//  * Recibe el evento de cambio de un boton de grupo
-//  */
-// function CheckGroupButtonStatus() {
-//     const pri
-// }
+/**
+ * Recibe el evento de cambio de un boton de grupo
+ */
+function CheckGroupButtonStatus(
+    parentButton,
+    firstGroupButton,
+    secondGroupButton
+) {
+    if (
+        firstGroupButton.classList.contains("check") &&
+        secondGroupButton.classList.contains("check")
+    ) {
+        parentButton.classList.add("check");
+    } else {
+        parentButton.classList.remove("check");
+    }
+}
