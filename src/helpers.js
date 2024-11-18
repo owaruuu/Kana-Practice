@@ -9,7 +9,7 @@ import { CreateSimple, CreateAndClass, CreateComplex } from "./domHelpers.js";
 import { sets } from "./sets.js";
 
 //global state variables
-import { state } from "./state.js";
+import { state, setState } from "./state.js";
 
 // TODO - mover funcion a helpers ?
 /**
@@ -37,7 +37,7 @@ export function SetWindowHistory() {
     //set event for browser back action
     window.onpopstate = function (event) {
         if (event.state) {
-            state.currentPage = event.state.currentPage;
+            setState({ ...state, currentPage: event.state.currentPage });
         }
 
         Render();
