@@ -1,10 +1,10 @@
 import { CreateComplex, CreateAndClass } from "./domHelpers.js";
-import { GroupButtonChangeEvent } from "./events.js";
+import { GroupButtonChangeEvent, NormalButtonChangeEvent } from "./events.js";
 import { romajiConsonants } from "./romaji.js";
 import { sets } from "./sets.js";
 
 /**
- * Creates a config label button with a custom callback
+ * Creates a group config button, this kind of button changes the state of other buttons and reacts to other buttons change in state
  * @param {Element} parentDiv
  * @param {HTMLElement} parentButtonRef Referencia al boton padre
  * @param {String} id
@@ -18,13 +18,14 @@ export function CreateGroupConfigButton(
     labelClass,
     text
 ) {
-    let label = CreateConfigButton(
-        parentDiv,
-        id,
-        ClickGroupInput,
-        parentButtonRef
-    );
+    let { label, input } = CreateConfigButton(parentDiv, id);
     label.classList.add(labelClass);
+    input.addEventListener("click", (e) => ClickGroupInput(e, parentButtonRef));
+    input.addEventListener("change", (e) => {
+        console.log("hubo un cambio en el input");
+        if (parentButtonRef)
+            parentButtonRef.dispatchEvent(GroupButtonChangeEvent);
+    });
 
     let node = document.createTextNode(text);
     label.appendChild(node);
@@ -36,36 +37,39 @@ export function CreateGroupConfigButton(
  * Creates the base for a config label button
  * @param {HTMLElement} parent
  * @param {String} id
- * @param {Function} callback
- * @returns {HTMLElement} the new label element
+ * @returns {{label: HTMLElement, input: HTMLElement}}} the new label element
  */
-function CreateConfigButton(parent, id, callback, parentButtonRef) {
+function CreateConfigButton(parent, id) {
     let label = CreateAndClass("label", parent, ["select-box"]);
     label.setAttribute("for", id);
 
     let input = CreateComplex("input", label, id, ["setup-input"], null);
     input.setAttribute("type", "checkbox");
-    input.addEventListener("click", (e) => callback(e, parentButtonRef));
+    // input.addEventListener("click", (e) => callback(e, parentButtonRef));
 
     //esto va a ser necesario para cuando el input cambie como consecuencia de otra accion y no de un click directo
     //quizas pueda sepaar el callback en uno que ocupe el evento para click y otro que ocupe la ref al padre con change
-    input.addEventListener("change", (e) => {
-        console.log("hubo un cambio en el input");
-    });
+    // input.addEventListener("change", (e) => {
+    //     console.log("hubo un cambio en el input");
+    // });
 
-    return label;
+    return { label, input };
 }
 
 /**
  * Creates a normal config label button
  * @param {HTMLElement} parent
+ * @param {HTMLElement} parentButton
  * @param {String} id
  * @param {String} text
  */
-export function CreateNormalConfigButton(parent, id, text) {
-    let label = CreateConfigButton(parent, id, () => {
-        normalButtonChecker(label);
-        // label.classList.toggle("check");
+export function CreateNormalConfigButton(parent, parentButton, id, text) {
+    let { label, input } = CreateConfigButton(parent, id);
+    input.addEventListener("click", (e) => {
+        console.log("click buton normal");
+
+        e.target.parentElement.classList.toggle("check");
+        parentButton.dispatchEvent(NormalButtonChangeEvent);
     });
 
     //Create the div for the reference consonant
@@ -75,16 +79,6 @@ export function CreateNormalConfigButton(parent, id, text) {
     //Create the div for the kana letters
     let kanaLabel = CreateAndClass("div", label, ["kanaLabel"]);
     kanaLabel.textContent = text;
-}
-
-function normalButtonChecker(label) {
-    // refs.forEach((ref) => {
-    //     if (ref.classList.contains("check")) {
-    //         ref.classList.remove("check");
-    //     }
-    // });
-
-    label.classList.toggle("check");
 }
 
 /**
@@ -104,8 +98,7 @@ function ClickGroupInput(event, parentButtonRef) {
 
     //obtiene todos los labels del grupo
     let base = label.getAttribute("for");
-    let object = BaseToObject(base);
-    let labels = GetAllLabels(object);
+    let labels = GetAllChildrenButtons(base);
 
     //si tiene listener
     if (parentButtonRef) parentButtonRef.dispatchEvent(GroupButtonChangeEvent);
@@ -167,4 +160,9 @@ function GetAllLabels(kanaset) {
     });
 
     return labels;
+}
+
+export function GetAllChildrenButtons(base) {
+    let object = BaseToObject(base);
+    return GetAllLabels(object);
 }

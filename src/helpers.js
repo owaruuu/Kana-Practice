@@ -4,13 +4,17 @@ import { Render } from "./render.js";
 import {
     CreateGroupConfigButton,
     CreateNormalConfigButton,
+    GetAllChildrenButtons,
 } from "./labelHelpers.js";
 import { CreateSimple, CreateAndClass, CreateComplex } from "./domHelpers.js";
 import { sets } from "./sets.js";
 
 //global state variables
 import { state, setState } from "./state.js";
-import { groupButtonChangeEventName } from "./enums.js";
+import {
+    groupButtonChangeEventName,
+    normalButtonChangeEventName,
+} from "./enums.js";
 
 // TODO - mover funcion a helpers ?
 /**
@@ -157,7 +161,7 @@ function CreateBaseKanaButtons(parentDiv) {
     Object.keys(sets.mainkanasets).forEach((key) => {
         let array = structuredClone(sets.mainkanasets[key]);
         let text = JapaneseComaSeparatedArray(array);
-        CreateNormalConfigButton(hiraganaBase, key, text);
+        CreateNormalConfigButton(hiraganaBase, allHiraganaButton, key, text);
     });
 
     //boton todos katakana
@@ -175,7 +179,7 @@ function CreateBaseKanaButtons(parentDiv) {
     Object.keys(sets.mainkatakanasets).forEach((key) => {
         let array = structuredClone(sets.mainkatakanasets[key]);
         let text = JapaneseComaSeparatedArray(array);
-        CreateNormalConfigButton(katakanaBase, key, text);
+        CreateNormalConfigButton(katakanaBase, allKatakanaButton, key, text);
     });
 
     //agregar listener a evento de cambio de ambos botones grupales
@@ -185,6 +189,14 @@ function CreateBaseKanaButtons(parentDiv) {
             allHiraganaButton,
             allKatakanaButton
         )
+    );
+
+    allHiraganaButton.addEventListener(normalButtonChangeEventName, () =>
+        CheckNormalButtonStatus(allHiraganaButton)
+    );
+
+    allKatakanaButton.addEventListener(normalButtonChangeEventName, () =>
+        CheckNormalButtonStatus(allKatakanaButton)
     );
 }
 
@@ -315,6 +327,10 @@ function CheckGroupButtonStatus(
     firstGroupButton,
     secondGroupButton
 ) {
+    console.log(
+        "se disparo el vento de cambio de estado en los botones grupales"
+    );
+
     if (
         firstGroupButton.classList.contains("check") &&
         secondGroupButton.classList.contains("check")
@@ -322,5 +338,26 @@ function CheckGroupButtonStatus(
         parentButton.classList.add("check");
     } else {
         parentButton.classList.remove("check");
+    }
+}
+
+/**
+ *
+ * @param {HTMLElement} parentButton
+ */
+function CheckNormalButtonStatus(parentButton) {
+    let base = parentButton.getAttribute("for");
+    let labels = GetAllChildrenButtons(base);
+
+    if (
+        labels.every((label) => {
+            return label.classList.contains("check");
+        })
+    ) {
+        parentButton.classList.add("check");
+        parentButton.children[0].dispatchEvent(new Event("change"));
+    } else {
+        parentButton.classList.remove("check");
+        parentButton.children[0].dispatchEvent(new Event("change"));
     }
 }
