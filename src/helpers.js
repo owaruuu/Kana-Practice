@@ -18,13 +18,13 @@ import { state } from "./state.js";
  * @var {function} pageCallback - la funcion que se ejecuta para cambiar de pantalla
  * @returns {void} - no devuelve nada, solo cambia la pantalla
  */
-export function ChangeScreen(currentPage, pageCallback) {
+export function ChangeScreen(currentPage) {
     // Crear nueva state
     state.currentPage = currentPage;
     window.history.pushState(state, null, "");
 
     // Cambiar de pantalla
-    setTimeout(pageCallback, 200);
+    setTimeout(Render, 200);
 }
 
 /**
@@ -34,12 +34,13 @@ export function SetWindowHistory() {
     //set history starting value
     window.history.replaceState(state, null, "");
 
+    //set event for browser back action
     window.onpopstate = function (event) {
         if (event.state) {
             state.currentPage = event.state.currentPage;
         }
 
-        Render(state);
+        Render();
     };
 }
 

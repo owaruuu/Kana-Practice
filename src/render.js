@@ -5,8 +5,10 @@ import {
     CreateAndClass,
     CreateAndId,
 } from "./domHelpers.js";
+import { BuildLearnSetupPage } from "./KanaSelector/learnSetupPage.js";
+import { state } from "./state.js";
 
-export function Render(state) {
+export function Render() {
     switch (state.currentPage) {
         case "home":
             ReloadPage();
@@ -15,15 +17,16 @@ export function Render(state) {
             BuildLearnSetupPage();
             break;
         case "learn":
-            BuildLearnSetupPage();
+            // BuildLearnSetupPage(); //cambiar
             break;
         case "practiceSetup":
-            BuildPracticeSetupPage();
+            // BuildPracticeSetupPage();
             break;
         case "practice":
-            BuildPracticeSetupPage();
+            // BuildPracticeSetupPage(); //cambiar
             break;
         default:
+            console.error("unknown page: " + state.currentPage);
             break;
     }
 }
@@ -32,21 +35,21 @@ function ReloadPage() {
     window.location.reload();
 }
 
-function BuildPracticeSetupPage() {
-    let app = CleanAppPage();
+// function BuildPracticeSetupPage() {
+//     let app = CleanAppPage();
 
-    //remove listeners
-    window.removeEventListener("click", CheckClick);
+//     //remove listeners
+//     window.removeEventListener("click", CheckClick);
 
-    let instContent = document.getElementById("instruccionescontent");
-    instContent.textContent = instrucciones.practicar;
+//     let instContent = document.getElementById("instruccionescontent");
+//     instContent.textContent = instrucciones.practicar;
 
-    let setupDiv = document.createElement("div");
-    setupDiv.classList.add("setupDiv");
-    app.appendChild(setupDiv);
+//     let setupDiv = document.createElement("div");
+//     setupDiv.classList.add("setupDiv");
+//     app.appendChild(setupDiv);
 
-    CreateSetupButtons(setupDiv);
+//     CreateSetupButtons(setupDiv);
 
-    let startButton = CreateUiButton(app, "Empezar Practica");
-    startButton.addEventListener("click", CheckPracticeSelected);
-}
+//     let startButton = CreateUiButton(app, "Empezar Practica");
+//     startButton.addEventListener("click", CheckPracticeSelected);
+// }

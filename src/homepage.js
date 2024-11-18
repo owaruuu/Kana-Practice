@@ -2,7 +2,6 @@ import { CreateStackedButton, ChangeScreen } from "./helpers.js";
 import { state } from "./state.js";
 import { instrucciones, bigButtonExplanations } from "./data.js";
 import { CreateComplex, CreateAndClass } from "./domHelpers.js";
-import { BuildLearnSetupPage } from "./KanaSelector/learnSetupPage.js";
 
 export function BuildHomePage() {
     //popular instrucciones
@@ -94,12 +93,12 @@ function CreateDesktopButton(cardTitle, explanationText, parent) {
  * Cambia la pantalla a la seleccion de kanas para la seccion de aprendizaje
  */
 function OnLearnButtonPress() {
-    ChangeScreen("home", BuildLearnSetupPage);
+    ChangeScreen("learnSetup");
 }
 
 /**
  * Cambia la pantalla a la seleccion de kanas para la seccion de practica
  */
 function OnPracticeButtonPress() {
-    ChangeScreen("home", BuildPracticeSetupPage);
+    ChangeScreen("practiceSetup");
 }
