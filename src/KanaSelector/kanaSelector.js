@@ -78,23 +78,7 @@ function CreateBaseKanaButtons(parentDiv) {
         CreateNormalConfigButton(katakanaBase, allKatakanaButton, key, text);
     });
 
-    //agregar listener a evento de cambio de ambos botones grupales
-    allKanaButton.addEventListener(groupButtonChangeEventName, () =>
-        CheckGroupButtonStatus(
-            allKanaButton,
-            allHiraganaButton,
-            allKatakanaButton
-        )
-    );
-
-    //agregar listener a evento de click de un boton normal
-    allHiraganaButton.addEventListener(normalButtonClickEventName, () =>
-        CheckNormalButtonStatus(allHiraganaButton)
-    );
-
-    allKatakanaButton.addEventListener(normalButtonClickEventName, () =>
-        CheckNormalButtonStatus(allKatakanaButton)
-    );
+    setUpEvents(allKanaButton, [allHiraganaButton, allKatakanaButton, null]);
 }
 
 function CreateDakutenButtons(parentDiv) {
@@ -169,6 +153,12 @@ function CreateDakutenButtons(parentDiv) {
         let text = JapaneseComaSeparatedArray(array);
         CreateNormalConfigButton(extra, allExtraKatakana, key, text);
     });
+
+    setUpEvents(allKanaButton, [
+        allHiraganaButton,
+        allKatakanaButton,
+        allExtraKatakana,
+    ]);
 }
 
 function CreateCombinationButtons(parentDiv) {
@@ -221,6 +211,12 @@ function CreateCombinationButtons(parentDiv) {
         let text = JapaneseComaSeparatedArray(array);
         CreateNormalConfigButton(katakanaBase, allKatakanaButton, key, text);
     });
+
+    setUpEvents(allCombinationButton, [
+        allHiraganaButton,
+        allKatakanaButton,
+        null,
+    ]);
 }
 
 /**
@@ -263,5 +259,39 @@ function CheckNormalButtonStatus(parentButton) {
     } else {
         parentButton.classList.remove("check");
         parentButton.children[0].dispatchEvent(new Event("change"));
+    }
+}
+
+/**
+ *
+ * @param {HTMLElement} parentButton
+ * @param {HTMLElement[]} groupButtons
+ */
+function setUpEvents(parentButton, groupButtons) {
+    const [hiraganaGroupButton, katakanaGroupButton, extraButton] =
+        groupButtons;
+    //agregar listener a evento de cambio de ambos botones grupales
+    parentButton.addEventListener(groupButtonChangeEventName, () =>
+        CheckGroupButtonStatus(
+            parentButton,
+            hiraganaGroupButton,
+            katakanaGroupButton
+        )
+    );
+
+    //agregar listener a evento de click de un boton normal
+    hiraganaGroupButton.addEventListener(normalButtonClickEventName, () =>
+        CheckNormalButtonStatus(hiraganaGroupButton)
+    );
+
+    katakanaGroupButton.addEventListener(normalButtonClickEventName, () =>
+        CheckNormalButtonStatus(katakanaGroupButton)
+    );
+
+    if (extraButton) {
+        //extra katakana
+        extraButton.addEventListener(normalButtonClickEventName, () =>
+            CheckNormalButtonStatus(extraButton)
+        );
     }
 }
