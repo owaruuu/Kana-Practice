@@ -20,8 +20,10 @@ export function CreateGroupConfigButton(
 ) {
     let { label, input } = CreateConfigButton(parentDiv, id);
     label.classList.add(labelClass);
-    input.addEventListener("click", (e) => ClickGroupInput(e, parentButtonRef));
-    input.addEventListener("change", (e) => {
+    input.addEventListener("click", () =>
+        ClickGroupInput(label, parentButtonRef)
+    );
+    input.addEventListener("change", () => {
         if (parentButtonRef)
             parentButtonRef.dispatchEvent(GroupButtonChangeEvent);
     });
@@ -57,10 +59,9 @@ function CreateConfigButton(parent, id) {
  */
 export function CreateNormalConfigButton(parent, parentButton, id, text) {
     let { label, input } = CreateConfigButton(parent, id);
-    input.addEventListener("click", (e) => {
-        e.target.parentElement.classList.toggle("check");
-        parentButton.dispatchEvent(NormalButtonClickEvent);
-    });
+    input.addEventListener("click", () =>
+        ClickNormalInput(label, parentButton)
+    );
 
     //Create the div for the reference consonant
     let consonant = CreateAndClass("div", label, ["consonantLabel"]);
@@ -74,11 +75,10 @@ export function CreateNormalConfigButton(parent, parentButton, id, text) {
 /**
  * Changes the label on of off along
  * with the corresponding group of labels
- * @param {PointerEvent} event
- */
-function ClickGroupInput(event, parentButtonRef) {
-    //selecciona el label y cambia su clase
-    let label = event.target.parentElement;
+ * @param {HTMLElement} label
+ * @param {HTMLElement} parentButtonRef
+ *  */
+function ClickGroupInput(label, parentButtonRef) {
     label.classList.toggle("check");
 
     //obtiene todos los labels del grupo
@@ -97,6 +97,15 @@ function ClickGroupInput(event, parentButtonRef) {
             element.classList.remove("check");
         });
     }
+}
+/**
+ *
+ * @param {HTMLElement} label
+ * @param {HTMLElement} parentButtonRef
+ */
+function ClickNormalInput(label, parentButtonRef) {
+    label.classList.toggle("check");
+    parentButtonRef.dispatchEvent(NormalButtonClickEvent);
 }
 
 /**

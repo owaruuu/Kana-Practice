@@ -17,7 +17,7 @@ export function CreateSimple(componentType, parent) {
  * @param {String} componentType
  * @param {HTMLElement} parent
  * @param {String} id
- * @param {array<String>} classes
+ * @param {String[]} classes
  * @param {String} content
  * @returns {HTMLElement} the new component
  */
@@ -46,7 +46,7 @@ export function CreateComplex(componentType, parent, id, classes, content) {
 /**
  * Creates a HTML component and add classes to it.
  * @param {String} componentType The type of component to create
- * @param {Element} parent
+ * @param {HTMLElement} parent
  * @param {Array<String>} classes An array of strings to add as clasess
  * @returns {HTMLElement} the new component
  */

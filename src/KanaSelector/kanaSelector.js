@@ -81,6 +81,10 @@ function CreateBaseKanaButtons(parentDiv) {
     setUpEvents(allKanaButton, [allHiraganaButton, allKatakanaButton, null]);
 }
 
+/**
+ *
+ * @param {HTMLElement} parentDiv
+ */
 function CreateDakutenButtons(parentDiv) {
     let secondDiv = CreateSimple("div", parentDiv);
 
@@ -161,6 +165,10 @@ function CreateDakutenButtons(parentDiv) {
     ]);
 }
 
+/**
+ *
+ * @param {HTMLElement} parentDiv
+ */
 function CreateCombinationButtons(parentDiv) {
     let thirdDiv = CreateSimple("div", parentDiv);
 
