@@ -70,16 +70,6 @@ export function PopulateInstructions(content) {
     instContent.textContent = content;
 }
 
-/**
- * Creates the buttons to configure which elements to learn/study
- * @param {HTMLElement} parentDiv
- */
-export function CreateSetupButtons(parentDiv) {
-    CreateBaseKanaButtons(parentDiv);
-    CreateDakutenButtons(parentDiv);
-    CreateCombinationButtons(parentDiv);
-}
-
 export function CreateStackedButton(parent, textContent) {
     let button = CreateComplex(
         "button",

@@ -1,9 +1,9 @@
 import {
     CleanAppPage,
     PopulateInstructions,
-    CreateSetupButtons,
     CreateStackedButton,
 } from "../helpers.js";
+import { CreateSetupButtons } from "./kanaSelector.js";
 import { instrucciones } from "../data.js";
 import { sets } from "../sets.js";
 import { state } from "../state.js";
