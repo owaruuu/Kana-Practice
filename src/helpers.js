@@ -1,12 +1,9 @@
-//En Helpers deberian estar todas las funciones que son ocupadas desde distintos lugares
-
 import { Render } from "./render.js";
-import { CreateSimple, CreateAndClass, CreateComplex } from "./domHelpers.js";
+import { CreateComplex } from "./domHelpers.js";
 
 //global state variables
 import { state, setState } from "./state.js";
 
-// TODO - mover funcion a helpers ?
 /**
  * Hace todo lo necesario para cambiar de pantalla y crear un nuevo state en el browser history
  * @var {string} currentPage - la pantalla desde la cual me estoy moviendo
@@ -60,6 +57,12 @@ export function PopulateInstructions(content) {
     instContent.textContent = content;
 }
 
+/**
+ *
+ * @param {HTMLElement} parent
+ * @param {string} textContent
+ * @returns {HTMLElement}
+ */
 export function CreateStackedButton(parent, textContent) {
     let button = CreateComplex(
         "button",
@@ -76,7 +79,7 @@ export function CreateStackedButton(parent, textContent) {
 
 /**
  * Joins a String array with japanese commas.
- * @param {Array<String>} array
+ * @param {String[]} array
  * @returns {String} A string with all the array elements joined with a japanese comma
  */
 export function JapaneseComaSeparatedArray(array) {
@@ -84,6 +87,11 @@ export function JapaneseComaSeparatedArray(array) {
     return newArray.join("、");
 }
 
+/**
+ *
+ * @param {*[]} arr
+ * @returns {*[]}
+ */
 export function shuffleArray(arr) {
     let newArray = arr;
     let currentIndex = arr.length,
@@ -105,6 +113,12 @@ export function shuffleArray(arr) {
     return newArray;
 }
 
+/**
+ *
+ * @param {Record<string, string[]>} obj
+ * @param {String[]} value
+ * @returns {String}
+ */
 export function getObjKey(obj, value) {
     return Object.keys(obj).find((key) => obj[key] === value);
 }
