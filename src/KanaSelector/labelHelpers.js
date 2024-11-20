@@ -22,7 +22,6 @@ export function CreateGroupConfigButton(
     label.classList.add(labelClass);
     input.addEventListener("click", (e) => ClickGroupInput(e, parentButtonRef));
     input.addEventListener("change", (e) => {
-        console.log("hubo un cambio en el input");
         if (parentButtonRef)
             parentButtonRef.dispatchEvent(GroupButtonChangeEvent);
     });
@@ -45,13 +44,6 @@ function CreateConfigButton(parent, id) {
 
     let input = CreateComplex("input", label, id, ["setup-input"], null);
     input.setAttribute("type", "checkbox");
-    // input.addEventListener("click", (e) => callback(e, parentButtonRef));
-
-    //esto va a ser necesario para cuando el input cambie como consecuencia de otra accion y no de un click directo
-    //quizas pueda sepaar el callback en uno que ocupe el evento para click y otro que ocupe la ref al padre con change
-    // input.addEventListener("change", (e) => {
-    //     console.log("hubo un cambio en el input");
-    // });
 
     return { label, input };
 }
@@ -85,11 +77,6 @@ export function CreateNormalConfigButton(parent, parentButton, id, text) {
  * @param {PointerEvent} event
  */
 function ClickGroupInput(event, parentButtonRef) {
-    console.log(
-        "🚀 ~ ClickGroupInput ~ event, parentButtonRef:",
-        event,
-        parentButtonRef
-    );
     //selecciona el label y cambia su clase
     let label = event.target.parentElement;
     label.classList.toggle("check");
