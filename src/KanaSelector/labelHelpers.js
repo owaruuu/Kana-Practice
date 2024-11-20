@@ -1,14 +1,14 @@
-import { CreateComplex, CreateAndClass } from "./domHelpers.js";
-import { GroupButtonChangeEvent, NormalButtonClickEvent } from "./events.js";
-import { romajiConsonants } from "./romaji.js";
-import { sets } from "./sets.js";
+import { CreateComplex, CreateAndClass } from "../domHelpers.js";
+import { GroupButtonChangeEvent, NormalButtonClickEvent } from "../events.js";
+import { romajiConsonants } from "../romaji.js";
+import { sets } from "../sets.js";
 
 /**
  * Creates a group config button, this kind of button changes the state of other buttons and reacts to other buttons change in state
- * @param {Element} parentDiv
+ * @param {HTMLElement} parentDiv
  * @param {HTMLElement} parentButtonRef Referencia al boton padre
  * @param {String} id
- * @param {String} lableClass
+ * @param {String} labelClass
  * @param {String} text
  */
 export function CreateGroupConfigButton(
