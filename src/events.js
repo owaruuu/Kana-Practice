@@ -1,8 +1,8 @@
 import {
     groupButtonChangeEventName,
-    normalButtonChangeEventName,
+    normalButtonClickEventName,
 } from "./enums.js";
 
 export const GroupButtonChangeEvent = new Event(groupButtonChangeEventName);
 
-export const NormalButtonChangeEvent = new Event(normalButtonChangeEventName);
+export const NormalButtonClickEvent = new Event(normalButtonClickEventName);

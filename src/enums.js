@@ -1,2 +1,2 @@
 export const groupButtonChangeEventName = "groupButtonChange";
-export const normalButtonChangeEventName = "normalButtonChange";
+export const normalButtonClickEventName = "normalButtonChange";

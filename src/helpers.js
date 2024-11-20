@@ -13,7 +13,7 @@ import { sets } from "./sets.js";
 import { state, setState } from "./state.js";
 import {
     groupButtonChangeEventName,
-    normalButtonChangeEventName,
+    normalButtonClickEventName,
 } from "./enums.js";
 
 // TODO - mover funcion a helpers ?
@@ -191,11 +191,12 @@ function CreateBaseKanaButtons(parentDiv) {
         )
     );
 
-    allHiraganaButton.addEventListener(normalButtonChangeEventName, () =>
+    //agregar listener a evento de click de un boton normal
+    allHiraganaButton.addEventListener(normalButtonClickEventName, () =>
         CheckNormalButtonStatus(allHiraganaButton)
     );
 
-    allKatakanaButton.addEventListener(normalButtonChangeEventName, () =>
+    allKatakanaButton.addEventListener(normalButtonClickEventName, () =>
         CheckNormalButtonStatus(allKatakanaButton)
     );
 }
@@ -327,10 +328,6 @@ function CheckGroupButtonStatus(
     firstGroupButton,
     secondGroupButton
 ) {
-    console.log(
-        "se disparo el vento de cambio de estado en los botones grupales"
-    );
-
     if (
         firstGroupButton.classList.contains("check") &&
         secondGroupButton.classList.contains("check")

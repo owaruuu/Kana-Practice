@@ -1,5 +1,5 @@
 import { CreateComplex, CreateAndClass } from "./domHelpers.js";
-import { GroupButtonChangeEvent, NormalButtonChangeEvent } from "./events.js";
+import { GroupButtonChangeEvent, NormalButtonClickEvent } from "./events.js";
 import { romajiConsonants } from "./romaji.js";
 import { sets } from "./sets.js";
 
@@ -66,10 +66,8 @@ function CreateConfigButton(parent, id) {
 export function CreateNormalConfigButton(parent, parentButton, id, text) {
     let { label, input } = CreateConfigButton(parent, id);
     input.addEventListener("click", (e) => {
-        console.log("click buton normal");
-
         e.target.parentElement.classList.toggle("check");
-        parentButton.dispatchEvent(NormalButtonChangeEvent);
+        parentButton.dispatchEvent(NormalButtonClickEvent);
     });
 
     //Create the div for the reference consonant
