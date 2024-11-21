@@ -11,7 +11,7 @@ import { state, setState } from "./state.js";
  */
 export function ChangeScreen(currentPage) {
     // Crear nueva state
-    state.currentPage = currentPage;
+    setState({ ...state, currentPage: currentPage });
     window.history.pushState(state, null, "");
 
     // Cambiar de pantalla

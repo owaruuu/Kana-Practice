@@ -2,6 +2,7 @@ import {
     CleanAppPage,
     PopulateInstructions,
     CreateStackedButton,
+    ChangeScreen,
 } from "../helpers.js";
 import { CreateSetupButtons } from "./kanaSelector.js";
 import { instrucciones } from "../data.js";
@@ -13,7 +14,8 @@ import {
     CreateAndClass,
     CreateAndId,
 } from "../domHelpers.js";
-import { BuildLearnPage } from "../learnPage.js";
+
+let startButton = null;
 
 export function BuildLearnSetupPage() {
     let app = CleanAppPage();
@@ -24,21 +26,25 @@ export function BuildLearnSetupPage() {
 
     CreateSetupButtons(practiceSetupDiv);
 
-    // let startButton = CreateStackedButton(app, "Aprender");
-    const startButton = CreateComplex(
+    startButton = CreateComplex(
         "button",
         app,
         null,
         ["start-button"],
         "Aprender"
     );
+
     startButton.addEventListener("click", CheckLearnSelected);
 }
 
 /**
  * Checks which config buttons are pressed and then builds the Learn Page
+ *
  */
 function CheckLearnSelected() {
+    //remove listener
+    startButton.removeEventListener("click", CheckLearnSelected);
+
     //get all labels
     let buttons = document.querySelectorAll("div.checkboxes > div > label");
 
@@ -52,6 +58,7 @@ function CheckLearnSelected() {
     });
 
     if (checked.length < 1) {
+        startButton.addEventListener("click", CheckLearnSelected);
         alert("Por favor selecciona lo que quieres practicar.");
         return;
     }
@@ -59,5 +66,5 @@ function CheckLearnSelected() {
     const sets = GetLearnSets(checked);
     setState({ ...state, learnSets: sets, currentSet: sets[0] });
 
-    BuildLearnPage(); //cambiar por render ?
+    ChangeScreen("learn");
 }

@@ -13,12 +13,11 @@ import { sets } from "./sets.js";
 import { state } from "./state.js";
 
 export function BuildLearnPage() {
-    console.log("🚀 ~ state:", state);
     let app = CleanAppPage();
 
-    //Push history state
-    state.currentPage = "learn";
-    window.history.pushState(state, null, "");
+    // //Push history state
+    // state.currentPage = "learn";
+    // window.history.pushState(state, null, "");
 
     //Populate instrucciones
     PopulateInstructions(instrucciones.kanalearn);

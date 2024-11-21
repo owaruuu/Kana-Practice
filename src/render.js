@@ -6,6 +6,7 @@ import {
     CreateAndId,
 } from "./domHelpers.js";
 import { BuildLearnSetupPage } from "./KanaSelector/learnSetupPage.js";
+import { BuildLearnPage } from "./learnPage.js";
 import { state } from "./state.js";
 
 export function Render() {
@@ -17,7 +18,7 @@ export function Render() {
             BuildLearnSetupPage();
             break;
         case "learn":
-            // BuildLearnSetupPage(); //cambiar
+            BuildLearnPage();
             break;
         case "practiceSetup":
             // BuildPracticeSetupPage();
