@@ -1,0 +1,230 @@
+function BuildQuiz() {
+    let app = CleanAppPage();
+    PopulateInstructions(instrucciones.kanaquiz);
+
+    let quizDiv = CreateAndClass("div", app, ["quizdiv"]);
+
+    //randomize kana set
+    let base = getObjKey(sets.allkana, state.currentSet);
+
+    state.currentSet = shuffleArray(state.currentSet);
+
+    //build kana
+    let kanaQuizPrompt = CreateAndClass("div", quizDiv, ["quizprompt"]);
+    let kanaQuizPromptText = CreateSimple("p", kanaQuizPrompt);
+    kanaQuizPromptText.classList.add("fade");
+    kanaQuizPromptText.classList.add("quizprompttext");
+    kanaQuizPromptText.textContent = state.currentSet[0];
+
+    CreateAndClass("div", quizDiv, ["spacer"]);
+
+    let answerButtons = CreateAndClass("div", quizDiv, ["quizbuttonsdiv"]);
+    //build answer button array
+    let answerButtonsArray = [];
+    //first the answer button.
+    let answerButton = document.createElement("button");
+    answerButton.classList.add("correctquizanswerbtn");
+    let correctAnswer = kanaAnswers[state.currentSet[0]];
+    answerButton.textContent = correctAnswer;
+    answerButton.addEventListener("click", AnswerQuiz);
+    answerButtonsArray.push(answerButton);
+
+    let firstWrongAnswer = document.createElement("button");
+    firstWrongAnswer.classList.add("incorrectquizanswerbtn");
+
+    let randomKana = GetRandomKanaFromBaseThatsNot(base, [state.currentSet[0]]);
+    firstWrongAnswer.textContent = kanaAnswers[randomKana];
+    firstWrongAnswer.addEventListener("click", FailQuiz);
+    answerButtonsArray.push(firstWrongAnswer);
+
+    let secondWrongAnswer = document.createElement("button");
+    secondWrongAnswer.classList.add("incorrectquizanswerbtn");
+    //randomKanaBase = GetRandomThatIsNot(currentSet, nots = [currentSet[0], randomKanaBase]);
+    randomKana = GetRandomKanaFromBaseThatsNot(base, [
+        state.currentSet[0],
+        randomKana,
+    ]);
+    secondWrongAnswer.textContent = kanaAnswers[randomKana];
+    secondWrongAnswer.addEventListener("click", FailQuiz);
+    answerButtonsArray.push(secondWrongAnswer);
+
+    AppendQuizButtons(answerButtonsArray, answerButtons);
+}
+
+function AppendQuizButtons(arr, parent) {
+    console.log("🚀 ~ AppendQuizButtons ~ arr:", arr);
+    arr = shuffleArray(arr);
+
+    arr.forEach((element) => {
+        parent.appendChild(element);
+    });
+}
+
+function GetRandomKanaFromBaseThatsNot(base, nots) {
+    let arr = sets.allkana[base];
+
+    let random;
+
+    do {
+        random = arr[Math.floor(Math.random() * arr.length)];
+    } while (IsEqual(nots, random));
+
+    return random;
+
+    // arr = shuffleArray(arr);
+    // return arr[0];
+}
+
+function IsEqual(obj, prompt) {
+    let exit = false;
+
+    obj.forEach((key) => {
+        // thekey = key;
+        if (key === prompt) {
+            exit = true;
+        }
+    });
+
+    return exit;
+}
+
+function AnswerQuiz(event) {
+    event.target.classList.add("correctquiz");
+    event.target.disabled = true;
+
+    setTimeout(GoToNextQuiz, 850);
+}
+
+function GoToNextQuiz() {
+    //get kana display
+    let kanatext = document.querySelector(".quizprompt p");
+    let kanaindisplay = kanatext.textContent;
+    //see if can get next kana
+    let currentindex = state.currentSet.indexOf(kanaindisplay);
+    let nextindex = currentindex + 1;
+    if (nextindex >= state.currentSet.length) {
+        //aqui deberia reemplazar los botones
+        ShowAgainNextButtons();
+    } else {
+        //change display kana
+        //kanatext.textContent = currentSet[nextindex];
+        toggleTransitionWithTimeout(kanatext, state.currentSet[nextindex]);
+
+        //erase buttons
+        let buttonsdiv = document.querySelector(".quizbuttonsdiv");
+        buttonsdiv.innerHTML = "";
+
+        //create buttons again
+        CreateQuizButtons(nextindex, buttonsdiv);
+    }
+}
+
+function CreateQuizButtons(currentindex, parent) {
+    //build answer button array
+    let answerButtonsArray = [];
+    //first the answer button.
+    let answerButton = document.createElement("button");
+    answerButton.classList.add("correctquizanswerbtn");
+    let correctAnswer = kanaAnswers[state.currentSet[currentindex]];
+    answerButton.textContent = correctAnswer;
+    answerButton.addEventListener("click", AnswerQuiz);
+    answerButtonsArray.push(answerButton);
+
+    let firstWrongAnswer = document.createElement("button");
+    firstWrongAnswer.classList.add("incorrectquizanswerbtn");
+    //let randomKanaBase= GetRandomThatIsNot(currentSet, nots = [currentSet[currentindex]]);
+    let base = getObjKey(sets.allkana, state.currentSet);
+
+    let randomKana = GetRandomKanaFromBaseThatsNot(base, [
+        state.currentSet[currentindex],
+    ]);
+    firstWrongAnswer.textContent = kanaAnswers[randomKana];
+    firstWrongAnswer.addEventListener("click", FailQuiz);
+    answerButtonsArray.push(firstWrongAnswer);
+
+    let secondWrongAnswer = document.createElement("button");
+    secondWrongAnswer.classList.add("incorrectquizanswerbtn");
+    //randomKanaBase = GetRandomThatIsNot(currentSet, nots = [currentSet[currentindex], randomKanaBase]);
+    randomKana = GetRandomKanaFromBaseThatsNot(base, [
+        state.currentSet[currentindex],
+        randomKana,
+    ]);
+    secondWrongAnswer.textContent = kanaAnswers[randomKana];
+    secondWrongAnswer.addEventListener("click", FailQuiz);
+    answerButtonsArray.push(secondWrongAnswer);
+
+    AppendQuizButtons(answerButtonsArray, parent);
+}
+
+function FailQuiz(event) {
+    event.preventDefault();
+    event.target.classList.add("incorrectquiz");
+    //event.target.disabled = true;
+    //event.target.focus();
+    event.target.removeEventListener("click", FailQuiz);
+}
+
+function ShowAgainNextButtons() {
+    let buttonsdiv = /**@type {HTMLElement}*/ (
+        document.querySelector(".quizbuttonsdiv")
+    );
+    buttonsdiv.innerHTML = "";
+
+    let againbutton = CreateAndClass("button", buttonsdiv, ["againbtn"]);
+    againbutton.textContent = "Una vez mas";
+    againbutton.addEventListener("click", OnAgainButtonPress);
+
+    let currentIndex = state.learnSets.indexOf(state.currentSet);
+    let nextindex = currentIndex + 1;
+    if (nextindex >= state.learnSets.length) {
+        //mostrar boton de salir
+        let exitbutton = CreateAndClass("button", buttonsdiv, ["exitbtn"]);
+        exitbutton.textContent = "Salir";
+        exitbutton.addEventListener("click", OnExitButtonPress);
+    } else {
+        //mostrar boton de next set
+        let nextsetbutton = CreateAndClass("button", buttonsdiv, [
+            "nextsetbtn",
+        ]);
+        nextsetbutton.textContent = "Seguir";
+        nextsetbutton.addEventListener("click", OnTakeNextButtonPress);
+    }
+}
+
+function OnAgainButtonPress(event) {
+    event.target.disabled = true;
+    setTimeout(TakeQuizAgain, 300);
+}
+
+function TakeQuizAgain() {
+    BuildQuiz();
+}
+
+function OnExitButtonPress() {
+    setTimeout(() => {
+        location.reload();
+    }, 250);
+}
+
+function OnTakeNextButtonPress(event) {
+    event.target.disabled = true;
+    setTimeout(TakeNextQuizSet, 300);
+}
+
+function toggleTransitionWithTimeout(element, text) {
+    element.classList.remove("fade");
+    setTimeout(() => {
+        requestAnimationFrame(() => {
+            element.textContent = text;
+            element.classList.add("fade");
+        });
+    }, 225);
+}
+
+function TakeNextQuizSet() {
+    let currentIndex = state.learnSets.indexOf(state.currentSet);
+    let nextindex = currentIndex + 1;
+
+    state.currentSet = state.learnSets[nextindex];
+    BuildLearnPage();
+}
