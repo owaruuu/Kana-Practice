@@ -1,7 +1,15 @@
 .start-button {
-  padding: 20px;
-  background-color: aqua;
-  border: none;
+  color: #420039;
+  padding: 10px 30px;
+  background-color: #f7c7db;
+  border: solid 3px #420039;
   border-radius: 15px;
   font-size: medium;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+.start-button:hover {
+  background-color: #f79ad3;
+  cursor: pointer;
 }/*# sourceMappingURL=kanaSelectorStyles.css.map */
