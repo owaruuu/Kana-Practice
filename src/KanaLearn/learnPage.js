@@ -41,7 +41,7 @@ export function BuildLearnPage() {
     if (explanation.length > 0) {
         createExplanationCard(learnCard, explanation);
     } else {
-        CreateLearnCard(learnCard);
+        CreateLearnCard();
         info.textContent = KanaToInfo(state.currentSet[0]);
     }
 
@@ -162,19 +162,15 @@ function NextButton(nextButton, prevButton) {
             prevButton.disabled = false;
         }
     } else {
-        //si no, construir el kana card desde 0
-        let cardParent = document.querySelector(".learncard");
-
-        CreateLearnCard(cardParent);
+        CreateLearnCard();
     }
 }
 
-/**
- *
- * @param {HTMLDivElement} cardParent
- */
-function CreateLearnCard(cardParent) {
+function CreateLearnCard() {
     //remueve el elemento de explicacion detallada si se encuentra activo
+    let cardParent = /**@type {HTMLDivElement} */ (
+        document.querySelector(".learncard")
+    );
     let explanation = document.querySelector(".explanation");
     if (explanation != null) explanation.remove();
 
