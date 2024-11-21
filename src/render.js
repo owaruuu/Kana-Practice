@@ -6,7 +6,7 @@ import {
     CreateAndId,
 } from "./domHelpers.js";
 import { BuildLearnSetupPage } from "./KanaSelector/learnSetupPage.js";
-import { BuildLearnPage } from "./learnPage.js";
+import { BuildLearnPage } from "./KanaLearn/learnPage.js";
 import { state } from "./state.js";
 
 export function Render() {
