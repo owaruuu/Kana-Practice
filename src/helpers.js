@@ -26,13 +26,19 @@ export function SetWindowHistory() {
     window.history.replaceState(state, null, "");
 
     //set event for browser back action
-    window.onpopstate = function (event) {
-        if (event.state) {
-            setState({ ...state, currentPage: event.state.currentPage });
-        }
+    window.onpopstate = onPopState;
+}
 
-        Render();
-    };
+/**
+ *
+ * @param {PopStateEvent} event
+ */
+function onPopState(event) {
+    if (event.state) {
+        setState({ ...state, currentPage: event.state.currentPage });
+    }
+
+    Render();
 }
 
 /**
