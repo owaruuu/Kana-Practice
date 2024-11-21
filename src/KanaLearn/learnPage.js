@@ -37,7 +37,13 @@ export function BuildLearnPage() {
     spacer = CreateAndClass("div", learnDiv, ["spacer"]);
     spacer.appendChild(info);
 
-    let explanationExist = CheckForExplanation(learnCard);
+    let explanation = explanationtext[state.currentSet[0]];
+    if (explanation.length > 0) {
+        createExplanationCard(learnCard, explanation);
+    } else {
+        CreateLearnCard(learnCard);
+        info.textContent = KanaToInfo(state.currentSet[0]);
+    }
 
     spacer = CreateAndClass("div", learnDiv, ["spacer"]);
 
@@ -45,7 +51,7 @@ export function BuildLearnPage() {
 
     let prevButton = CreateAndClass("button", buttonsdiv, ["prevbtn"]);
     prevButton.textContent = "Atras";
-    prevButton.disabled = true; //AQUI VOY
+    prevButton.disabled = true;
 
     let nextButton = CreateAndClass("button", buttonsdiv, ["nextbtn"]);
     nextButton.textContent = "Siguiente";
@@ -56,8 +62,6 @@ export function BuildLearnPage() {
     nextButton.addEventListener("click", () =>
         NextButton(nextButton, prevButton)
     );
-
-    if (!explanationExist) info.textContent = KanaToInfo(state.currentSet[0]);
 }
 
 /**
@@ -165,7 +169,12 @@ function NextButton(nextButton, prevButton) {
     }
 }
 
+/**
+ *
+ * @param {HTMLDivElement} cardParent
+ */
 function CreateLearnCard(cardParent) {
+    //remueve el elemento de explicacion detallada si se encuentra activo
     let explanation = document.querySelector(".explanation");
     if (explanation != null) explanation.remove();
 
@@ -249,23 +258,16 @@ function BuildQuiz() {
     AppendQuizButtons(answerButtonsArray, answerButtons);
 }
 
-function CheckForExplanation(cardParent) {
-    //aqui agregar check, if true, hacer otro tipo de tarjeta
-    let explanation = explanationtext[state.currentSet[0]];
-
-    if (explanation.length > 0) {
-        let explanationSection = CreateAndClass("div", cardParent, [
-            "explanation",
-        ]);
-        explanationSection.textContent = explanation;
-        let instContent = document.getElementById("instruccionescontent");
-        instContent.textContent = instrucciones.explanation;
-
-        return true;
-    } else {
-        CreateLearnCard(cardParent);
-        return false;
-    }
+/**
+ *
+ * @param {HTMLElement} parent
+ * @param {String} explanation
+ */
+function createExplanationCard(parent, explanation) {
+    let explanationSection = CreateAndClass("div", parent, ["explanation"]);
+    explanationSection.textContent = explanation;
+    let instContent = document.getElementById("instruccionescontent");
+    instContent.textContent = instrucciones.explanation;
 }
 
 function AppendQuizButtons(arr, parent) {
