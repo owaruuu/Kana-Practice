@@ -6,8 +6,7 @@ import { state, setState } from "./state.js";
 
 /**
  * Hace todo lo necesario para cambiar de pantalla y crear un nuevo state en el browser history
- * @var {string} currentPage - la pantalla desde la cual me estoy moviendo
- * @var {function} pageCallback - la funcion que se ejecuta para cambiar de pantalla
+ * @param {string} currentPage - la pantalla desde la cual me estoy moviendo
  * @returns {void} - no devuelve nada, solo cambia la pantalla
  */
 export function ChangeScreen(currentPage) {
