@@ -36,7 +36,7 @@ export function setState(newState) {
  * @param {HTMLElement[]} elementsArray
  * @returns {LearnSet[]}
  */
-export function PopulateLearnSet(elementsArray) {
+export function GetLearnSets(elementsArray) {
     let learnArray = [];
     elementsArray.forEach((element) => {
         let kana = element.getAttribute("for");

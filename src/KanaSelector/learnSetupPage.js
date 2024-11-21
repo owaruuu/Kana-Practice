@@ -5,7 +5,7 @@ import {
 } from "../helpers.js";
 import { CreateSetupButtons } from "./kanaSelector.js";
 import { instrucciones } from "../data.js";
-import { PopulateLearnSet, state } from "../state.js";
+import { GetLearnSets, setState, state } from "../state.js";
 
 import {
     CreateSimple,
@@ -56,8 +56,8 @@ function CheckLearnSelected() {
         return;
     }
 
-    state.learnSets = PopulateLearnSet(checked);
-    state.currentSet = state.learnSets[0];
+    const sets = GetLearnSets(checked);
+    setState({ ...state, learnSets: sets, currentSet: sets[0] });
 
     BuildLearnPage(); //cambiar por render ?
 }
