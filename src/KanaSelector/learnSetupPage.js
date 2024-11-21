@@ -5,8 +5,7 @@ import {
 } from "../helpers.js";
 import { CreateSetupButtons } from "./kanaSelector.js";
 import { instrucciones } from "../data.js";
-import { sets } from "../sets.js";
-import { state } from "../state.js";
+import { PopulateLearnSet, state } from "../state.js";
 
 import {
     CreateSimple,
@@ -15,8 +14,6 @@ import {
     CreateAndId,
 } from "../domHelpers.js";
 import { BuildLearnPage } from "../learnPage.js";
-
-let { learnSets, currentSet } = state;
 
 export function BuildLearnSetupPage() {
     let app = CleanAppPage();
@@ -58,24 +55,9 @@ function CheckLearnSelected() {
         alert("Por favor selecciona lo que quieres practicar.");
         return;
     }
+
     state.learnSets = PopulateLearnSet(checked);
-    // learnSets = PopulateLearnSet(checked);
     state.currentSet = state.learnSets[0];
 
-    BuildLearnPage();
-}
-
-/**
- *
- * @param {Array<Element>} elementsArray
- * @returns {Array<String>}
- */
-function PopulateLearnSet(elementsArray) {
-    let learnArray = [];
-    elementsArray.forEach((element) => {
-        let kana = element.getAttribute("for");
-        learnArray.push(sets.allkana[kana]);
-    });
-
-    return learnArray;
+    BuildLearnPage(); //cambiar por render ?
 }
