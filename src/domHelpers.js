@@ -1,9 +1,10 @@
 //Deberian estar las funciones de creacion de DOM basicas
 /**
  * Creates a HTML element and parents it to another HTML element.
- * @param {String} componentType
+ * @template {keyof HTMLElementTagNameMap} T
+ * @param {T} componentType
  * @param {HTMLElement} parent
- * @returns {HTMLElement} the new component
+ * @returns {HTMLElementTagNameMap[T]} the new component
  */
 export function CreateSimple(componentType, parent) {
     let newComponent = document.createElement(componentType);
@@ -45,10 +46,11 @@ export function CreateComplex(componentType, parent, id, classes, content) {
 
 /**
  * Creates a HTML component and add classes to it.
- * @param {String} componentType The type of component to create
+ * @template {keyof HTMLElementTagNameMap} T
+ * @param {T} componentType The type of component to create
  * @param {HTMLElement} parent
- * @param {Array<String>} classes An array of strings to add as clasess
- * @returns {HTMLElement} the new component
+ * @param {String[]} classes An array of strings to add as clasess
+ * @returns {HTMLElementTagNameMap[T]} the new component
  */
 export function CreateAndClass(componentType, parent, classes) {
     let newComponent = CreateSimple(componentType, parent);
@@ -61,10 +63,11 @@ export function CreateAndClass(componentType, parent, classes) {
 
 /**
  * Creates a HTML element and add an id to it.
- * @param {String} componentType
+ * @template {keyof HTMLElementTagNameMap} T
+ * @param {T} componentType
  * @param {HTMLElement} parent
  * @param {String} id
- * @returns {HTMLElement} the new element
+ * @returns {HTMLElementTagNameMap[T]} the new element
  */
 export function CreateAndId(componentType, parent, id) {
     let newComponent = CreateSimple(componentType, parent);

@@ -15,14 +15,8 @@ import { state } from "../state.js";
 export function BuildLearnPage() {
     let app = CleanAppPage();
 
-    // //Push history state
-    // state.currentPage = "learn";
-    // window.history.pushState(state, null, "");
-
     //Populate instrucciones
     PopulateInstructions(instrucciones.kanalearn);
-    // let instContent = document.getElementById("instruccionescontent");
-    // instContent.textContent = instrucciones.kanalearn;
 
     let spacer = CreateAndClass("div", app, ["spacer"]);
 
@@ -50,18 +44,28 @@ export function BuildLearnPage() {
     let buttonsdiv = CreateAndClass("div", learnDiv, ["btn-div"]);
 
     let prevButton = CreateAndClass("button", buttonsdiv, ["prevbtn"]);
-    prevButton.addEventListener("click", PreviousButton);
     prevButton.textContent = "Atras";
-    prevButton.disabled = true;
+    prevButton.disabled = true; //AQUI VOY
 
     let nextButton = CreateAndClass("button", buttonsdiv, ["nextbtn"]);
-    nextButton.addEventListener("click", NextButton);
     nextButton.textContent = "Siguiente";
+
+    prevButton.addEventListener("click", () =>
+        PreviousButton(prevButton, nextButton)
+    );
+    nextButton.addEventListener("click", () =>
+        NextButton(nextButton, prevButton)
+    );
 
     if (!explanationExist) info.textContent = KanaToInfo(state.currentSet[0]);
 }
 
-function PreviousButton() {
+/**
+ *
+ * @param {HTMLButtonElement} prevButton
+ * @param {HTMLButtonElement} nextButton
+ */
+function PreviousButton(prevButton, nextButton) {
     //aqui decidir si estoy en una explicacion o no ?
     //get kana div
     let kanaelement = document.querySelector(".learnkana");
@@ -89,21 +93,26 @@ function PreviousButton() {
             //necesito revisar si quede en el primer kana y desactivar el button
             let previndex = indexminusone - 1;
             if (previndex < 0) {
-                let prevbutton = document.querySelector(".prevbtn");
-                prevbutton.disabled = true;
+                // let prevbutton = document.querySelector(".prevbtn");
+                prevButton.disabled = true;
             }
         }
 
-        let nextbutton = document.querySelector(".nextbtn");
-        if (nextbutton.classList.contains("quiz")) {
-            nextbutton.classList.remove("quiz");
-            nextbutton.textContent = "Siguiente";
-            nextbutton.disabled = false;
+        // let nextbutton = document.querySelector(".nextbtn");
+        if (nextButton.classList.contains("quiz")) {
+            nextButton.classList.remove("quiz");
+            nextButton.textContent = "Siguiente";
+            nextButton.disabled = false;
         }
     }
 }
 
-function NextButton() {
+/**
+ *
+ * @param {HTMLButtonElement} nextButton
+ * @param {HTMLButtonElement} prevButton
+ */
+function NextButton(nextButton, prevButton) {
     //tomando el kana actual, buscarlo en el array y cambiar al siguiente si es posible
     let kanaelement = document.querySelector(".learnkana");
 
@@ -133,21 +142,20 @@ function NextButton() {
             //necesito revisar si quede en el ultimo kana y cambiar el boton por el quiz
             let nextindex = indexplusone + 1;
             if (nextindex >= state.currentSet.length) {
-                let nextbutton = document.querySelector(".nextbtn");
-                nextbutton.textContent = "Quiz! ->";
-                nextbutton.classList.add("quiz");
-                nextbutton.disabled = true;
+                nextButton.textContent = "Quiz! ->";
+                nextButton.classList.add("quiz");
+                nextButton.disabled = true;
                 setTimeout(function () {
-                    nextbutton.disabled = false;
+                    nextButton.disabled = false;
                 }, 500);
             }
         }
 
         //Check for prev button disable
-        let prevbutton = document.querySelector(".prevbtn");
+        // let prevbutton = document.querySelector(".prevbtn");
 
-        if (indexplusone > 0 && prevbutton != null) {
-            prevbutton.disabled = false;
+        if (indexplusone > 0 && prevButton != null) {
+            prevButton.disabled = false;
         }
     } else {
         //si no, construir el kana card desde 0
@@ -374,7 +382,9 @@ function FailQuiz(event) {
 }
 
 function ShowAgainNextButtons() {
-    let buttonsdiv = document.querySelector(".quizbuttonsdiv");
+    let buttonsdiv = /**@type {HTMLElement}*/ (
+        document.querySelector(".quizbuttonsdiv")
+    );
     buttonsdiv.innerHTML = "";
 
     let againbutton = CreateAndClass("button", buttonsdiv, ["againbtn"]);
