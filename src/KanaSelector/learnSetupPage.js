@@ -27,7 +27,14 @@ export function BuildLearnSetupPage() {
 
     CreateSetupButtons(practiceSetupDiv);
 
-    let startButton = CreateStackedButton(app, "Aprender");
+    // let startButton = CreateStackedButton(app, "Aprender");
+    const startButton = CreateComplex(
+        "button",
+        app,
+        null,
+        ["start-button"],
+        "Aprender"
+    );
     startButton.addEventListener("click", CheckLearnSelected);
 }
 

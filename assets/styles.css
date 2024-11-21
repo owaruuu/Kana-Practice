@@ -1,6 +1,7 @@
 /* * {
     border: black solid 1px;
 } */
+ @import url('../src/KanaSelector/kanaSelectorStyles.css');
 
 body{
     
