@@ -1,329 +1,303 @@
-//jshint esversion:9
-import {
-    instrucciones,
-    infotext,
-    explanationtext,
-    bigButtonExplanations,
-} from "./data/data.js";
-
-import { BuildHomePage } from "./homePage.js";
-
-// import { state } from "./helpers.js";
-import { state } from "./state/state.js";
-
-import { romajiConsonants, kanaAnswers, kanaWrongs } from "./data/romaji.js";
-
-import {
-    CreateSimple,
-    CreateAndClass,
-    CreateAndId,
-} from "./helpers/domHelpers.js";
-
 import { SetWindowHistory, ChangeScreen } from "./helpers/helpers.js";
+import { BuildHomePage } from "./homepage.js";
 
 SetWindowHistory();
-
-//TODO - move to state
-let failCounter = 0;
 
 //Set Title Button
 document.getElementById("title").addEventListener("click", OnTitleClick);
 
 function OnTitleClick() {
-    ChangeScreen("home", () => location.reload());
+    ChangeScreen("home");
 }
 
-//Esto es lo que deberia quedarse
 BuildHomePage();
 
-//////////////
+// function Submit(event) {
+//     let cardDiv = event.target.parentElement;
+//     let form = event.target;
+//     let input = event.target[0];
+//     let inputValue = event.target[0].value;
+//     inputValue = inputValue.toLowerCase();
+//     let answer = cardDiv.dataset.answer;
 
-function Submit(event) {
-    let cardDiv = event.target.parentElement;
-    let form = event.target;
-    let input = event.target[0];
-    let inputValue = event.target[0].value;
-    inputValue = inputValue.toLowerCase();
-    let answer = cardDiv.dataset.answer;
+//     if (inputValue == answer) {
+//         failCounter = 0;
+//         form.children[1].classList.remove("show");
+//         event.target[0].disabled = true;
+//         form.classList.remove("incorrect");
+//         form.parentElement.classList.remove("focus-card");
+//         form.classList.add("correct");
+//         //pass focus
+//         FocusNext(event);
+//     } else {
+//         //TODO aqui incrementar contador
+//         failCounter += 1;
+//         if (failCounter > 1) {
+//             form.children[1].classList.add("show");
+//         }
 
-    if (inputValue == answer) {
-        failCounter = 0;
-        form.children[1].classList.remove("show");
-        event.target[0].disabled = true;
-        form.classList.remove("incorrect");
-        form.parentElement.classList.remove("focus-card");
-        form.classList.add("correct");
-        //pass focus
-        FocusNext(event);
-    } else {
-        //TODO aqui incrementar contador
-        failCounter += 1;
-        if (failCounter > 1) {
-            form.children[1].classList.add("show");
-        }
+//         form.classList.add("incorrect");
+//         input.value = "";
+//     }
 
-        form.classList.add("incorrect");
-        input.value = "";
-    }
+//     //cardDiv.setAttribute('data-some', 20);
 
-    //cardDiv.setAttribute('data-some', 20);
+//     event.preventDefault();
+// }
 
-    event.preventDefault();
-}
+// //next button de la parte learn
 
-//next button de la parte learn
+// function toggleTransitionWithTimeout(element, text) {
+//     element.classList.remove("fade");
+//     setTimeout(() => {
+//         requestAnimationFrame(() => {
+//             element.textContent = text;
+//             element.classList.add("fade");
+//         });
+//     }, 225);
+// }
 
-function toggleTransitionWithTimeout(element, text) {
-    element.classList.remove("fade");
-    setTimeout(() => {
-        requestAnimationFrame(() => {
-            element.textContent = text;
-            element.classList.add("fade");
-        });
-    }, 225);
-}
+// //pregunta denuevo el set de kanas actual
 
-//pregunta denuevo el set de kanas actual
+// function OnTakeNextButtonPress(event) {
+//     event.target.disabled = true;
+//     setTimeout(TakeNextQuizSet, 300);
+// }
 
-function OnTakeNextButtonPress(event) {
-    event.target.disabled = true;
-    setTimeout(TakeNextQuizSet, 300);
-}
+// //cambia al siguiente set de kana y arma la pagina
 
-//cambia al siguiente set de kana y arma la pagina
+// function OnExitButtonPress() {
+//     setTimeout(ReloadPage, 250);
+// }
 
-function OnExitButtonPress() {
-    setTimeout(ReloadPage, 250);
-}
+// //Sale a la pagina principal
+// function ExitQuiz() {
+//     location.reload();
+// }
 
-//Sale a la pagina principal
-function ExitQuiz() {
-    location.reload();
-}
+// // ---------------------- FUNCTIONS ----------------------  //
+// //esto deberia simplemente hacer toggle a la clase 'check'
+// function ToggleClass(element, clase) {
+//     element.classList.toggle(clase);
 
-// ---------------------- FUNCTIONS ----------------------  //
-//esto deberia simplemente hacer toggle a la clase 'check'
-function ToggleClass(element, clase) {
-    element.classList.toggle(clase);
+//     //FIX check si los aprete todos y prender el label de all tambien
+// }
 
-    //FIX check si los aprete todos y prender el label de all tambien
-}
+// //construye pagina de practica basada en seleccion
+// function CheckPracticeSelected() {
+//     //get all labels
+//     let buttons = document.querySelectorAll("div.checkboxes > div > label");
 
-//construye pagina de practica basada en seleccion
-function CheckPracticeSelected() {
-    //get all labels
-    let buttons = document.querySelectorAll("div.checkboxes > div > label");
+//     //hacer un array con todos los 'check'
+//     let checked = [];
 
-    //hacer un array con todos los 'check'
-    let checked = [];
+//     buttons.forEach((button) => {
+//         if (button.classList.contains("check")) {
+//             checked.push(button);
+//         }
+//     });
 
-    buttons.forEach((button) => {
-        if (button.classList.contains("check")) {
-            checked.push(button);
-        }
-    });
+//     if (checked.length < 1) {
+//         alert("Por favor selecciona cuales Kanas quieres practicar.");
+//         return;
+//     }
 
-    if (checked.length < 1) {
-        alert("Por favor selecciona cuales Kanas quieres practicar.");
-        return;
-    }
+//     //construir con lo seleccionado
+//     BuildPracticePage(checked);
+// }
 
-    //construir con lo seleccionado
-    BuildPracticePage(checked);
-}
+// //dumb but works
+// function WaitForMouseUp() {
+//     window.removeEventListener("mouseup", WaitForMouseUp);
+//     window.addEventListener("click", CheckClick);
+// }
 
-//dumb but works
-function WaitForMouseUp() {
-    window.removeEventListener("mouseup", WaitForMouseUp);
-    window.addEventListener("click", CheckClick);
-}
+// //check if clicked outside input in practice page
+// function CheckClick(event) {
+//     if (event.target.localName != "input" && event.target.localName != "form") {
+//         let card = document.querySelector(".focus-card");
+//         if (card != null) card.classList.remove("focus-card");
+//     }
+// }
 
-//check if clicked outside input in practice page
-function CheckClick(event) {
-    if (event.target.localName != "input" && event.target.localName != "form") {
-        let card = document.querySelector(".focus-card");
-        if (card != null) card.classList.remove("focus-card");
-    }
-}
+// function AddMissClickListener() {
+//     window.addEventListener("click", CheckClick);
+// }
 
-function AddMissClickListener() {
-    window.addEventListener("click", CheckClick);
-}
+// //construye la pagina de practica, basado en los kanas seleccionados
+// function BuildPracticePage(selected) {
+//     //scroll to top
+//     window.scrollTo(0, 0);
 
-//construye la pagina de practica, basado en los kanas seleccionados
-function BuildPracticePage(selected) {
-    //scroll to top
-    window.scrollTo(0, 0);
+//     failCounter = 0;
 
-    failCounter = 0;
+//     window.addEventListener("PageBuilt", AddMissClickListener);
 
-    window.addEventListener("PageBuilt", AddMissClickListener);
+//     state.currentPage = "practice";
+//     window.history.pushState(state, null, "");
 
-    state.currentPage = "practice";
-    window.history.pushState(state, null, "");
+//     //clean page
+//     let app = document.getElementById("app");
+//     app.innerHTML = "";
 
-    //clean page
-    let app = document.getElementById("app");
-    app.innerHTML = "";
+//     //populate instruccions
+//     let instContent = document.getElementById("instruccionescontent");
+//     instContent.textContent = instrucciones.kanatable;
 
-    //populate instruccions
-    let instContent = document.getElementById("instruccionescontent");
-    instContent.textContent = instrucciones.kanatable;
+//     //HACER UN ARRAY de kana base desde selected
+//     let kanasBase = [];
 
-    //HACER UN ARRAY de kana base desde selected
-    let kanasBase = [];
+//     selected.forEach((label) => {
+//         let kanaBase = label.getAttribute("for");
+//         kanasBase.push(kanaBase);
+//     });
 
-    selected.forEach((label) => {
-        let kanaBase = label.getAttribute("for");
-        kanasBase.push(kanaBase);
-    });
+//     //Hacer un array de todos los kanas necesarios ocupando los kana base
+//     let kanas = [];
+//     kanasBase.forEach((basekana) => {
+//         let base = allkana[basekana];
+//         base.forEach((kana) => {
+//             kanas.push(kana);
+//         });
+//     });
 
-    //Hacer un array de todos los kanas necesarios ocupando los kana base
-    let kanas = [];
-    kanasBase.forEach((basekana) => {
-        let base = allkana[basekana];
-        base.forEach((kana) => {
-            kanas.push(kana);
-        });
-    });
+//     //randomizar los kana
+//     let randomkanas = shuffleArray(kanas);
+//     //mandar a construir tarjetas con el array
+//     let elements = BuildCards(randomkanas);
+//     //agregar cada elemento al div correcto
+//     let practiceDiv = CreateAndClass("div", app, ["practiceDiv"]);
 
-    //randomizar los kana
-    let randomkanas = shuffleArray(kanas);
-    //mandar a construir tarjetas con el array
-    let elements = BuildCards(randomkanas);
-    //agregar cada elemento al div correcto
-    let practiceDiv = CreateAndClass("div", app, ["practiceDiv"]);
+//     elements.forEach((element) => {
+//         practiceDiv.appendChild(element);
+//     });
 
-    elements.forEach((element) => {
-        practiceDiv.appendChild(element);
-    });
+//     //select first card
+//     let firstInput = document.querySelector("input");
+//     firstInput.focus();
+//     firstInput.parentElement.parentElement.classList.add("focus-card");
 
-    //select first card
-    let firstInput = document.querySelector("input");
-    firstInput.focus();
-    firstInput.parentElement.parentElement.classList.add("focus-card");
+//     CreateAndClass("div", app, ["spacer"]);
+//     //crear div para botones de again and exit
+//     let buttonsDiv = CreateAndClass("div", app, ["practiceagainbuttons"]);
 
-    CreateAndClass("div", app, ["spacer"]);
-    //crear div para botones de again and exit
-    let buttonsDiv = CreateAndClass("div", app, ["practiceagainbuttons"]);
+//     let againButton = CreateAndClass("button", buttonsDiv, [
+//         "practiceagainbtn",
+//     ]);
+//     againButton.textContent = "Desde 0";
+//     againButton.addEventListener("click", () => BuildPracticePage(selected));
 
-    let againButton = CreateAndClass("button", buttonsDiv, [
-        "practiceagainbtn",
-    ]);
-    againButton.textContent = "Desde 0";
-    againButton.addEventListener("click", () => BuildPracticePage(selected));
+//     let changeButton = CreateAndClass("button", buttonsDiv, [
+//         "practicechangebtn",
+//     ]);
+//     changeButton.textContent = "Cambiar Kanas";
+//     changeButton.addEventListener("click", BuildPracticeSetupPage);
 
-    let changeButton = CreateAndClass("button", buttonsDiv, [
-        "practicechangebtn",
-    ]);
-    changeButton.textContent = "Cambiar Kanas";
-    changeButton.addEventListener("click", BuildPracticeSetupPage);
+//     window.addEventListener("mouseup", WaitForMouseUp);
+// }
 
-    window.addEventListener("mouseup", WaitForMouseUp);
-}
+// function BuildCards(kanas) {
+//     let cardElements = [];
 
-function BuildCards(kanas) {
-    let cardElements = [];
+//     kanas.forEach((kana) => {
+//         let newcard = BuildKanaCard(kana);
+//         cardElements.push(newcard);
+//     });
 
-    kanas.forEach((kana) => {
-        let newcard = BuildKanaCard(kana);
-        cardElements.push(newcard);
-    });
+//     return cardElements;
+// }
 
-    return cardElements;
-}
+// function BuildKanaCard(kana) {
+//     let cardDiv = document.createElement("div");
+//     cardDiv.classList.add("card");
+//     cardDiv.setAttribute("data-answer", kanaAnswers[kana]);
+//     let question = document.createElement("div");
+//     cardDiv.appendChild(question);
+//     question.classList.add("question");
+//     let span = document.createElement("span");
+//     span.classList.add("question-span");
+//     span.textContent = kana;
+//     question.appendChild(span);
+//     let form = document.createElement("form");
+//     cardDiv.appendChild(form);
+//     form.classList.add("form");
+//     let input = document.createElement("input");
+//     form.appendChild(input);
+//     form.addEventListener("submit", Submit);
+//     form.addEventListener("click", SelectInput);
+//     input.addEventListener("focus", checkFocus);
+//     input.type = "text";
+//     input.autocomplete = "off";
+//     input.size = 4;
+//     input.maxLength = 5;
+//     input.autocapitalize = "off";
 
-function BuildKanaCard(kana) {
-    let cardDiv = document.createElement("div");
-    cardDiv.classList.add("card");
-    cardDiv.setAttribute("data-answer", kanaAnswers[kana]);
-    let question = document.createElement("div");
-    cardDiv.appendChild(question);
-    question.classList.add("question");
-    let span = document.createElement("span");
-    span.classList.add("question-span");
-    span.textContent = kana;
-    question.appendChild(span);
-    let form = document.createElement("form");
-    cardDiv.appendChild(form);
-    form.classList.add("form");
-    let input = document.createElement("input");
-    form.appendChild(input);
-    form.addEventListener("submit", Submit);
-    form.addEventListener("click", SelectInput);
-    input.addEventListener("focus", checkFocus);
-    input.type = "text";
-    input.autocomplete = "off";
-    input.size = 4;
-    input.maxLength = 5;
-    input.autocapitalize = "off";
+//     let tooltipText = document.createElement("span");
+//     tooltipText.classList.add("tooltiptext");
 
-    let tooltipText = document.createElement("span");
-    tooltipText.classList.add("tooltiptext");
+//     let text = `Respuesta: '${kanaAnswers[kana]}'`;
+//     tooltipText.textContent = text;
+//     form.appendChild(tooltipText);
 
-    let text = `Respuesta: '${kanaAnswers[kana]}'`;
-    tooltipText.textContent = text;
-    form.appendChild(tooltipText);
+//     return cardDiv;
+// }
 
-    return cardDiv;
-}
+// function SelectInput(event) {
+//     event.currentTarget[0].focus();
+// }
 
-function SelectInput(event) {
-    event.currentTarget[0].focus();
-}
+// function checkFocus(event) {
+//     let card = document.querySelector(".focus-card");
+//     if (card != null) card.classList.remove("focus-card");
+//     event.target.parentElement.parentElement.classList.add("focus-card");
+//     failCounter = 0;
+// }
 
-function checkFocus(event) {
-    let card = document.querySelector(".focus-card");
-    if (card != null) card.classList.remove("focus-card");
-    event.target.parentElement.parentElement.classList.add("focus-card");
-    failCounter = 0;
-}
+// function FocusNext(event) {
+//     let inputs = Array.from(document.querySelectorAll("input"));
+//     let currentindex = inputs.indexOf(event.target[0]);
 
-function FocusNext(event) {
-    let inputs = Array.from(document.querySelectorAll("input"));
-    let currentindex = inputs.indexOf(event.target[0]);
+//     let indexToCheck = LoopingIncrement(currentindex, inputs.length);
 
-    let indexToCheck = LoopingIncrement(currentindex, inputs.length);
+//     //check todos los inputs hasta encontrar uno libre
+//     for (var i = 0; i < inputs.length; i++) {
+//         if (!inputs[indexToCheck].disabled) {
+//             inputs[indexToCheck].focus();
+//             return;
+//         } else {
+//             indexToCheck = LoopingIncrement(indexToCheck, inputs.length);
+//         }
+//     }
 
-    //check todos los inputs hasta encontrar uno libre
-    for (var i = 0; i < inputs.length; i++) {
-        if (!inputs[indexToCheck].disabled) {
-            inputs[indexToCheck].focus();
-            return;
-        } else {
-            indexToCheck = LoopingIncrement(indexToCheck, inputs.length);
-        }
-    }
+//     document.querySelector(".practiceagainbtn").focus();
+// }
 
-    document.querySelector(".practiceagainbtn").focus();
-}
+// function LoopingIncrement(index, length) {
+//     let newindex = 0;
 
-function LoopingIncrement(index, length) {
-    let newindex = 0;
+//     if (index + 1 > length - 1) {
+//         newindex = 0;
+//     } else {
+//         newindex = index + 1;
+//     }
 
-    if (index + 1 > length - 1) {
-        newindex = 0;
-    } else {
-        newindex = index + 1;
-    }
+//     return newindex;
+// }
 
-    return newindex;
-}
+// function GetRandomKana() {
+//     const keys = Object.keys(allkana);
 
-function GetRandomKana() {
-    const keys = Object.keys(allkana);
+//     return keys[Math.floor(Math.random() * keys.length)];
+// }
 
-    return keys[Math.floor(Math.random() * keys.length)];
-}
+// function GetRandomThatIsNot(array, nots) {
+//     // let keys = Object.keys(object);
+//     array = shuffleArray(array);
+//     let random;
 
-function GetRandomThatIsNot(array, nots) {
-    // let keys = Object.keys(object);
-    array = shuffleArray(array);
-    let random;
+//     do {
+//         random = array[Math.floor(Math.random() * array.length)];
+//     } while (IsEqual(nots, random));
 
-    do {
-        random = array[Math.floor(Math.random() * array.length)];
-    } while (IsEqual(nots, random));
-
-    return random;
-}
+//     return random;
+// }
