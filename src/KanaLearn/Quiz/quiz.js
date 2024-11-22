@@ -1,4 +1,19 @@
-function BuildQuiz() {
+import { instrucciones } from "../../data.js";
+import { CreateAndClass, CreateSimple } from "../../domHelpers.js";
+import {
+    CleanAppPage,
+    getObjKey,
+    PopulateInstructions,
+    shuffleArray,
+} from "../../helpers.js";
+import { kanaAnswers } from "../../romaji.js";
+import { sets } from "../../sets.js";
+import { setState, state } from "../../state.js";
+import { BuildLearnPage } from "../learnPage.js";
+
+let currentSetShuffled = state.currentSet;
+
+export function BuildQuiz() {
     let app = CleanAppPage();
     PopulateInstructions(instrucciones.kanaquiz);
 
@@ -6,15 +21,14 @@ function BuildQuiz() {
 
     //randomize kana set
     let base = getObjKey(sets.allkana, state.currentSet);
-
-    state.currentSet = shuffleArray(state.currentSet);
+    currentSetShuffled = shuffleArray(state.currentSet);
 
     //build kana
     let kanaQuizPrompt = CreateAndClass("div", quizDiv, ["quizprompt"]);
     let kanaQuizPromptText = CreateSimple("p", kanaQuizPrompt);
     kanaQuizPromptText.classList.add("fade");
     kanaQuizPromptText.classList.add("quizprompttext");
-    kanaQuizPromptText.textContent = state.currentSet[0];
+    kanaQuizPromptText.textContent = currentSetShuffled[0];
 
     CreateAndClass("div", quizDiv, ["spacer"]);
 
@@ -24,7 +38,7 @@ function BuildQuiz() {
     //first the answer button.
     let answerButton = document.createElement("button");
     answerButton.classList.add("correctquizanswerbtn");
-    let correctAnswer = kanaAnswers[state.currentSet[0]];
+    let correctAnswer = kanaAnswers[currentSetShuffled[0]];
     answerButton.textContent = correctAnswer;
     answerButton.addEventListener("click", AnswerQuiz);
     answerButtonsArray.push(answerButton);
@@ -32,7 +46,9 @@ function BuildQuiz() {
     let firstWrongAnswer = document.createElement("button");
     firstWrongAnswer.classList.add("incorrectquizanswerbtn");
 
-    let randomKana = GetRandomKanaFromBaseThatsNot(base, [state.currentSet[0]]);
+    let randomKana = GetRandomKanaFromBaseThatsNot(base, [
+        currentSetShuffled[0],
+    ]);
     firstWrongAnswer.textContent = kanaAnswers[randomKana];
     firstWrongAnswer.addEventListener("click", FailQuiz);
     answerButtonsArray.push(firstWrongAnswer);
@@ -41,7 +57,7 @@ function BuildQuiz() {
     secondWrongAnswer.classList.add("incorrectquizanswerbtn");
     //randomKanaBase = GetRandomThatIsNot(currentSet, nots = [currentSet[0], randomKanaBase]);
     randomKana = GetRandomKanaFromBaseThatsNot(base, [
-        state.currentSet[0],
+        currentSetShuffled[0],
         randomKana,
     ]);
     secondWrongAnswer.textContent = kanaAnswers[randomKana];
@@ -52,7 +68,6 @@ function BuildQuiz() {
 }
 
 function AppendQuizButtons(arr, parent) {
-    console.log("🚀 ~ AppendQuizButtons ~ arr:", arr);
     arr = shuffleArray(arr);
 
     arr.forEach((element) => {
@@ -100,15 +115,15 @@ function GoToNextQuiz() {
     let kanatext = document.querySelector(".quizprompt p");
     let kanaindisplay = kanatext.textContent;
     //see if can get next kana
-    let currentindex = state.currentSet.indexOf(kanaindisplay);
+    let currentindex = currentSetShuffled.indexOf(kanaindisplay);
     let nextindex = currentindex + 1;
-    if (nextindex >= state.currentSet.length) {
+    if (nextindex >= currentSetShuffled.length) {
         //aqui deberia reemplazar los botones
         ShowAgainNextButtons();
     } else {
         //change display kana
         //kanatext.textContent = currentSet[nextindex];
-        toggleTransitionWithTimeout(kanatext, state.currentSet[nextindex]);
+        toggleTransitionWithTimeout(kanatext, currentSetShuffled[nextindex]);
 
         //erase buttons
         let buttonsdiv = document.querySelector(".quizbuttonsdiv");
@@ -125,7 +140,7 @@ function CreateQuizButtons(currentindex, parent) {
     //first the answer button.
     let answerButton = document.createElement("button");
     answerButton.classList.add("correctquizanswerbtn");
-    let correctAnswer = kanaAnswers[state.currentSet[currentindex]];
+    let correctAnswer = kanaAnswers[currentSetShuffled[currentindex]];
     answerButton.textContent = correctAnswer;
     answerButton.addEventListener("click", AnswerQuiz);
     answerButtonsArray.push(answerButton);
@@ -134,9 +149,8 @@ function CreateQuizButtons(currentindex, parent) {
     firstWrongAnswer.classList.add("incorrectquizanswerbtn");
     //let randomKanaBase= GetRandomThatIsNot(currentSet, nots = [currentSet[currentindex]]);
     let base = getObjKey(sets.allkana, state.currentSet);
-
     let randomKana = GetRandomKanaFromBaseThatsNot(base, [
-        state.currentSet[currentindex],
+        currentSetShuffled[currentindex],
     ]);
     firstWrongAnswer.textContent = kanaAnswers[randomKana];
     firstWrongAnswer.addEventListener("click", FailQuiz);
@@ -146,7 +160,7 @@ function CreateQuizButtons(currentindex, parent) {
     secondWrongAnswer.classList.add("incorrectquizanswerbtn");
     //randomKanaBase = GetRandomThatIsNot(currentSet, nots = [currentSet[currentindex], randomKanaBase]);
     randomKana = GetRandomKanaFromBaseThatsNot(base, [
-        state.currentSet[currentindex],
+        currentSetShuffled[currentindex],
         randomKana,
     ]);
     secondWrongAnswer.textContent = kanaAnswers[randomKana];
@@ -221,10 +235,14 @@ function toggleTransitionWithTimeout(element, text) {
     }, 225);
 }
 
+/**
+ * Cambia el current set al siguiente, que haya un siguiente en existencia es verificado antes de la llamada a la funcion
+ */
 function TakeNextQuizSet() {
     let currentIndex = state.learnSets.indexOf(state.currentSet);
     let nextindex = currentIndex + 1;
 
-    state.currentSet = state.learnSets[nextindex];
+    setState({ ...state, currentSet: state.learnSets[nextindex] });
+
     BuildLearnPage();
 }

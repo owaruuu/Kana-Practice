@@ -98,7 +98,7 @@ export function JapaneseComaSeparatedArray(array) {
  * @returns {*[]}
  */
 export function shuffleArray(arr) {
-    let newArray = arr;
+    let newArray = [...arr];
     let currentIndex = arr.length,
         randomIndex;
 
@@ -119,11 +119,13 @@ export function shuffleArray(arr) {
 }
 
 /**
- *
- * @param {Record<string, string[]>} obj
- * @param {String[]} value
+ * Retorna la llave del grupo basado en el array de kanas
+ * @param {Record<string, string[]>} allKana
+ * @param {String[]} currentKanaArray
  * @returns {String}
  */
-export function getObjKey(obj, value) {
-    return Object.keys(obj).find((key) => obj[key] === value);
+export function getObjKey(allKana, currentKanaArray) {
+    return Object.keys(allKana).find(
+        (key) => allKana[key] === currentKanaArray
+    );
 }

@@ -11,6 +11,7 @@ import { instrucciones, explanationtext, KanaToInfo } from "../data.js";
 import { kanaAnswers } from "../romaji.js";
 import { sets } from "../sets.js";
 import { state } from "../state.js";
+import { BuildQuiz } from "./Quiz/quiz.js";
 
 export function BuildLearnPage() {
     let app = CleanAppPage();
