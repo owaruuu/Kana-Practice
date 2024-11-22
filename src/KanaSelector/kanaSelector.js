@@ -1,10 +1,10 @@
-import { CreateAndClass, CreateSimple } from "../domHelpers.js";
+import { CreateAndClass, CreateSimple } from "../helpers/domHelpers.js";
 import {
     groupButtonChangeEventName,
     normalButtonClickEventName,
-} from "../enums.js";
-import { JapaneseComaSeparatedArray } from "../helpers.js";
-import { sets } from "../sets.js";
+} from "../events/enums.js";
+import { JapaneseComaSeparatedArray } from "../helpers/helpers.js";
+import { sets } from "../data/sets.js";
 import {
     CreateGroupConfigButton,
     CreateNormalConfigButton,

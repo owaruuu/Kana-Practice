@@ -1,13 +1,13 @@
-import { instrucciones, bigButtonExplanations } from "./data.js";
+import { instrucciones, bigButtonExplanations } from "../data/data.js";
 import {
     CreateSimple,
     CreateComplex,
     CreateAndClass,
     CreateAndId,
 } from "./domHelpers.js";
-import { BuildLearnSetupPage } from "./KanaSelector/learnSetupPage.js";
-import { BuildLearnPage } from "./KanaLearn/learnPage.js";
-import { state } from "./state.js";
+import { BuildLearnSetupPage } from "../KanaSelector/learnSetupPage.js";
+import { BuildLearnPage } from "../KanaLearn/learnPage.js";
+import { state } from "../state/state.js";
 
 export function Render() {
     switch (state.currentPage) {

@@ -2,7 +2,7 @@ import { Render } from "./render.js";
 import { CreateComplex } from "./domHelpers.js";
 
 //global state variables
-import { state, setState } from "./state.js";
+import { state, setState } from "../state/state.js";
 
 /**
  * Hace todo lo necesario para cambiar de pantalla y crear un nuevo state en el browser history

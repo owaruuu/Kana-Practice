@@ -1,4 +1,4 @@
-import { sets } from "./sets.js";
+import { sets } from "../data/sets.js";
 
 /**
  * @typedef {Object} State

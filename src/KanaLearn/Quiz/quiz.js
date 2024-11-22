@@ -1,14 +1,14 @@
-import { instrucciones } from "../../data.js";
-import { CreateAndClass, CreateSimple } from "../../domHelpers.js";
+import { instrucciones } from "../../data/data.js";
+import { CreateAndClass, CreateSimple } from "../../helpers/domHelpers.js";
 import {
     CleanAppPage,
     getObjKey,
     PopulateInstructions,
     shuffleArray,
-} from "../../helpers.js";
-import { kanaAnswers } from "../../romaji.js";
-import { sets } from "../../sets.js";
-import { setState, state } from "../../state.js";
+} from "../../helpers/helpers.js";
+import { kanaAnswers } from "../../data/romaji.js";
+import { sets } from "../../data/sets.js";
+import { setState, state } from "../../state/state.js";
 import { BuildLearnPage } from "../learnPage.js";
 
 let currentSetShuffled = state.currentSet;

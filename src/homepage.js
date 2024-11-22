@@ -1,7 +1,7 @@
-import { CreateStackedButton, ChangeScreen } from "./helpers.js";
-import { state } from "./state.js";
-import { instrucciones, bigButtonExplanations } from "./data.js";
-import { CreateComplex, CreateAndClass } from "./domHelpers.js";
+import { CreateStackedButton, ChangeScreen } from "./helpers/helpers.js";
+import { state } from "./state/state.js";
+import { instrucciones, bigButtonExplanations } from "./data/data.js";
+import { CreateComplex, CreateAndClass } from "./helpers/domHelpers.js";
 
 export function BuildHomePage() {
     //popular instrucciones

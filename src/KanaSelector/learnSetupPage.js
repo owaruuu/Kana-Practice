@@ -3,17 +3,17 @@ import {
     PopulateInstructions,
     CreateStackedButton,
     ChangeScreen,
-} from "../helpers.js";
+} from "../helpers/helpers.js";
 import { CreateSetupButtons } from "./kanaSelector.js";
-import { instrucciones } from "../data.js";
-import { GetLearnSets, setState, state } from "../state.js";
+import { instrucciones } from "../data/data.js";
+import { GetLearnSets, setState, state } from "../state/state.js";
 
 import {
     CreateSimple,
     CreateComplex,
     CreateAndClass,
     CreateAndId,
-} from "../domHelpers.js";
+} from "../helpers/domHelpers.js";
 
 let startButton = null;
 

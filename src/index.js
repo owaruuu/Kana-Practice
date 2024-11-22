@@ -4,18 +4,22 @@ import {
     infotext,
     explanationtext,
     bigButtonExplanations,
-} from "./data.js";
+} from "./data/data.js";
 
 import { BuildHomePage } from "./homePage.js";
 
 // import { state } from "./helpers.js";
-import { state } from "./state.js";
+import { state } from "./state/state.js";
 
-import { romajiConsonants, kanaAnswers, kanaWrongs } from "./romaji.js";
+import { romajiConsonants, kanaAnswers, kanaWrongs } from "./data/romaji.js";
 
-import { CreateSimple, CreateAndClass, CreateAndId } from "./domHelpers.js";
+import {
+    CreateSimple,
+    CreateAndClass,
+    CreateAndId,
+} from "./helpers/domHelpers.js";
 
-import { SetWindowHistory, ChangeScreen } from "./helpers.js";
+import { SetWindowHistory, ChangeScreen } from "./helpers/helpers.js";
 
 SetWindowHistory();
 

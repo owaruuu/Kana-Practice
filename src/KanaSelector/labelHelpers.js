@@ -1,7 +1,10 @@
-import { CreateComplex, CreateAndClass } from "../domHelpers.js";
-import { GroupButtonChangeEvent, NormalButtonClickEvent } from "../events.js";
-import { romajiConsonants } from "../romaji.js";
-import { sets } from "../sets.js";
+import { CreateComplex, CreateAndClass } from "../helpers/domHelpers.js";
+import {
+    GroupButtonChangeEvent,
+    NormalButtonClickEvent,
+} from "../events/events.js";
+import { romajiConsonants } from "../data/romaji.js";
+import { sets } from "../data/sets.js";
 
 /**
  * Creates a group config button, this kind of button changes the state of other buttons and reacts to other buttons change in state

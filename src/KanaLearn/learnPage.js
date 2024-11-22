@@ -5,12 +5,12 @@ import {
     shuffleArray,
     getObjKey,
     CreateStackedButton,
-} from "../helpers.js";
-import { CreateSimple, CreateAndClass } from "../domHelpers.js";
-import { instrucciones, explanationtext, KanaToInfo } from "../data.js";
-import { kanaAnswers } from "../romaji.js";
-import { sets } from "../sets.js";
-import { state } from "../state.js";
+} from "../helpers/helpers.js";
+import { CreateSimple, CreateAndClass } from "../helpers/domHelpers.js";
+import { instrucciones, explanationtext, KanaToInfo } from "../data/data.js";
+import { kanaAnswers } from "../data/romaji.js";
+import { sets } from "../data/sets.js";
+import { state } from "../state/state.js";
 import { BuildQuiz } from "./Quiz/quiz.js";
 
 export function BuildLearnPage() {
