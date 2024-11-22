@@ -2,11 +2,8 @@ import {
     CleanAppPage,
     PopulateInstructions,
     JapaneseComaSeparatedArray,
-    shuffleArray,
-    getObjKey,
-    CreateStackedButton,
 } from "../helpers/helpers.js";
-import { CreateSimple, CreateAndClass } from "../helpers/domHelpers.js";
+import { CreateAndClass } from "../helpers/domHelpers.js";
 import { instrucciones, explanationtext, KanaToInfo } from "../data/data.js";
 import { kanaAnswers } from "../data/romaji.js";
 import { sets } from "../data/sets.js";
