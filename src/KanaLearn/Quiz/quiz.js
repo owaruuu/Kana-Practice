@@ -101,7 +101,6 @@ function GoToNextQuiz() {
         ShowAgainNextButtons();
     } else {
         //change display kana
-        //kanatext.textContent = currentSet[nextindex];
         toggleTransitionWithTimeout(kanatext, currentSetShuffled[nextindex]);
 
         let buttonsdiv = /**@type  {HTMLElement}*/ (
@@ -180,26 +179,43 @@ function ShowAgainNextButtons() {
     }
 }
 
+/**
+ *
+ * @param {MouseEvent} event
+ */
 function OnAgainButtonPress(event) {
-    event.target.disabled = true;
-    setTimeout(TakeQuizAgain, 300);
+    const button = /**@type {HTMLButtonElement} */ (event.target);
+    button.disabled = true;
+    setTimeout(BuildQuiz, 300);
 }
 
-function TakeQuizAgain() {
-    BuildQuiz();
-}
-
-function OnExitButtonPress() {
+/**
+ *
+ * @param {MouseEvent} event
+ */
+function OnExitButtonPress(event) {
+    const button = /**@type {HTMLButtonElement} */ (event.target);
+    button.disabled = true;
     setTimeout(() => {
         location.reload();
     }, 250);
 }
 
+/**
+ *
+ * @param {MouseEvent} event
+ */
 function OnTakeNextButtonPress(event) {
-    event.target.disabled = true;
+    const button = /**@type {HTMLButtonElement} */ (event.target);
+    button.disabled = true;
     setTimeout(TakeNextQuizSet, 300);
 }
 
+/**
+ *
+ * @param {Element} element
+ * @param {String} text
+ */
 function toggleTransitionWithTimeout(element, text) {
     element.classList.remove("fade");
     setTimeout(() => {
