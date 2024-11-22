@@ -1,10 +1,3 @@
-import { instrucciones, bigButtonExplanations } from "../data/data.js";
-import {
-    CreateSimple,
-    CreateComplex,
-    CreateAndClass,
-    CreateAndId,
-} from "./domHelpers.js";
 import { BuildSetupPage } from "../KanaSelector/learnSetupPage.js";
 import { BuildLearnPage } from "../KanaLearn/learnPage.js";
 import { state } from "../state/state.js";
