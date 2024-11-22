@@ -1,7 +1,7 @@
 export const instrucciones = {
     home: "Selecciona la opcion que quieres. Puedes aprender las letras de Hiragana/Katakana desde 0 o practicarlas si ya las sabes.",
-    aprender: `Selecciona cuales Kana quieres aprender y luego presiona 'Aprender' al fondo de la pagina.`,
-    practicar: `Selecciona cuales Kana quieres practicar y luego presiona 'Empezar' al fondo de la pagina.`,
+    learn: `Selecciona cuales Kana quieres aprender y luego presiona 'Aprender' al fondo de la pagina.`,
+    practice: `Selecciona cuales Kana quieres practicar y luego presiona 'Empezar' al fondo de la pagina.`,
     kanatable: `Ingresa en cada tarjeta la lectura en romaji del Kana.(Recuerda apretar 'Enter' para confirmar tu respuesta)`,
     explanation: `Aqui veras un poco de informacion adicional referente a este set de Kanas.`,
     kanalearn:

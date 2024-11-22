@@ -17,33 +17,34 @@ import {
 
 let startButton = null;
 
-export function BuildLearnSetupPage() {
+/**
+ *
+ * @param {"learn" | "practice"} type
+ */
+export function BuildSetupPage(type) {
     let app = CleanAppPage();
 
-    PopulateInstructions(instrucciones.aprender);
+    PopulateInstructions(instrucciones[type]);
 
-    let practiceSetupDiv = CreateAndClass("div", app, ["setupDiv"]);
+    let setupDiv = CreateAndClass("div", app, ["setupDiv"]);
 
-    CreateSetupButtons(practiceSetupDiv);
+    CreateSetupButtons(setupDiv);
 
     startButton = CreateComplex(
         "button",
         app,
         null,
         ["start-button"],
-        "Aprender"
+        type === "learn" ? "Aprender" : "Practicar"
     );
+    startButton.setAttribute("type", type);
 
-    startButton.addEventListener("click", CheckLearnSelected);
+    startButton.addEventListener("click", CheckSelected);
 }
 
-/**
- * Checks which config buttons are pressed and then builds the Learn Page
- *
- */
-function CheckLearnSelected() {
+function CheckSelected() {
     //remove listener
-    startButton.removeEventListener("click", CheckLearnSelected);
+    startButton.removeEventListener("click", CheckSelected);
 
     //get all labels
     let buttons = document.querySelectorAll("div.checkboxes > div > label");
@@ -58,7 +59,7 @@ function CheckLearnSelected() {
     });
 
     if (checked.length < 1) {
-        startButton.addEventListener("click", CheckLearnSelected);
+        startButton.addEventListener("click", CheckSelected);
         alert("Por favor selecciona lo que quieres practicar.");
         return;
     }
@@ -66,5 +67,57 @@ function CheckLearnSelected() {
     const sets = GetLearnSets(checked);
     setState({ ...state, learnSets: sets, currentSet: sets[0] });
 
-    ChangeScreen("learn");
+    ChangeScreen(startButton.getAttribute("type"));
 }
+
+// function BuildLearnSetupPage() {
+//     let app = CleanAppPage();
+
+//     PopulateInstructions(instrucciones.learn);
+
+//     let practiceSetupDiv = CreateAndClass("div", app, ["setupDiv"]);
+
+//     CreateSetupButtons(practiceSetupDiv);
+
+//     startButton = CreateComplex(
+//         "button",
+//         app,
+//         null,
+//         ["start-button"],
+//         "Aprender"
+//     );
+
+//     startButton.addEventListener("click", CheckLearnSelected);
+// }
+
+// /**
+//  * Checks which config buttons are pressed and then builds the Learn Page
+//  *
+//  */
+// function CheckLearnSelected() {
+//     //remove listener
+//     startButton.removeEventListener("click", CheckLearnSelected);
+
+//     //get all labels
+//     let buttons = document.querySelectorAll("div.checkboxes > div > label");
+
+//     //hacer un array con todos los 'check'
+//     let checked = [];
+
+//     buttons.forEach((button) => {
+//         if (button.classList.contains("check")) {
+//             checked.push(button);
+//         }
+//     });
+
+//     if (checked.length < 1) {
+//         startButton.addEventListener("click", CheckLearnSelected);
+//         alert("Por favor selecciona lo que quieres practicar.");
+//         return;
+//     }
+
+//     const sets = GetLearnSets(checked);
+//     setState({ ...state, learnSets: sets, currentSet: sets[0] });
+
+//     ChangeScreen("learn");
+// }

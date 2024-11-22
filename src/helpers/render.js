@@ -5,7 +5,7 @@ import {
     CreateAndClass,
     CreateAndId,
 } from "./domHelpers.js";
-import { BuildLearnSetupPage } from "../KanaSelector/learnSetupPage.js";
+import { BuildSetupPage } from "../KanaSelector/learnSetupPage.js";
 import { BuildLearnPage } from "../KanaLearn/learnPage.js";
 import { state } from "../state/state.js";
 
@@ -15,16 +15,16 @@ export function Render() {
             ReloadPage();
             break;
         case "learnSetup":
-            BuildLearnSetupPage();
+            BuildSetupPage("learn");
             break;
         case "learn":
             BuildLearnPage();
             break;
         case "practiceSetup":
-            // BuildPracticeSetupPage();
+            BuildSetupPage("practice");
             break;
         case "practice":
-            // BuildPracticeSetupPage(); //cambiar
+            BuildPracticePage();
             break;
         default:
             console.error("unknown page: " + state.currentPage);
@@ -35,22 +35,3 @@ export function Render() {
 function ReloadPage() {
     window.location.reload();
 }
-
-// function BuildPracticeSetupPage() {
-//     let app = CleanAppPage();
-
-//     //remove listeners
-//     window.removeEventListener("click", CheckClick);
-
-//     let instContent = document.getElementById("instruccionescontent");
-//     instContent.textContent = instrucciones.practicar;
-
-//     let setupDiv = document.createElement("div");
-//     setupDiv.classList.add("setupDiv");
-//     app.appendChild(setupDiv);
-
-//     CreateSetupButtons(setupDiv);
-
-//     let startButton = CreateUiButton(app, "Empezar Practica");
-//     startButton.addEventListener("click", CheckPracticeSelected);
-// }
