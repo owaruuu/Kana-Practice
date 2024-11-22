@@ -1,23 +1,25 @@
 import { sets } from "../data/sets.js";
 
 /**
+ * @typedef {String[]} KanaSet
+ */
+
+/**
  * @typedef {Object} State
- * @property {LearnSet[]} learnSets
+ * @property {KanaSet[]} learnSets
+ * @property {KanaSet[]} practiceSets
  * @property {String[]} currentSet
  * @property {String} currentPage
  * @property {Number} failCounter
  */
 
 /**
- * @typedef {String[]} LearnSet
- */
-
-/**
  * @type {State}
  */
 export let state = {
-    learnSets: /**@type {LearnSet[]} */ [],
+    learnSets: /**@type {KanaSet[]} */ [],
     currentSet: /**@type {String[]} */ [],
+    practiceSets: /**@type {KanaSet[]}*/ [],
     currentPage: "home",
     failCounter: 0,
 };
@@ -34,7 +36,7 @@ export function setState(newState) {
 /**
  *
  * @param {HTMLElement[]} elementsArray
- * @returns {LearnSet[]}
+ * @returns {KanaSet[]}
  */
 export function GetLearnSets(elementsArray) {
     let learnArray = [];
