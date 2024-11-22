@@ -94,11 +94,27 @@ function GetRandomKanaFromBaseThatsNot(nots) {
     return random;
 }
 
+/**
+ *
+ * @param {MouseEvent} event
+ */
 function AnswerQuiz(event) {
-    event.target.classList.add("correctquiz");
-    event.target.disabled = true;
+    const button = /**@type {HTMLButtonElement}  */ (event.target);
+    button.classList.add("correctquiz");
+    button.disabled = true;
+    button.removeEventListener("click", AnswerQuiz);
 
     setTimeout(GoToNextQuiz, 850);
+}
+
+/**
+ *
+ * @param {MouseEvent} event
+ */
+function FailQuiz(event) {
+    const button = /**@type {HTMLButtonElement}  */ (event.target);
+    button.classList.add("incorrectquiz");
+    button.removeEventListener("click", FailQuiz);
 }
 
 function GoToNextQuiz() {
@@ -138,8 +154,6 @@ function CreateQuizButtons(currentindex, parent) {
 
     let firstWrongAnswer = document.createElement("button");
     firstWrongAnswer.classList.add("incorrectquizanswerbtn");
-    //let randomKanaBase= GetRandomThatIsNot(currentSet, nots = [currentSet[currentindex]]);
-    let base = getObjKey(sets.allkana, state.currentSet);
     let randomKana = GetRandomKanaFromBaseThatsNot([
         currentSetShuffled[currentindex],
     ]);
@@ -149,7 +163,6 @@ function CreateQuizButtons(currentindex, parent) {
 
     let secondWrongAnswer = document.createElement("button");
     secondWrongAnswer.classList.add("incorrectquizanswerbtn");
-    //randomKanaBase = GetRandomThatIsNot(currentSet, nots = [currentSet[currentindex], randomKanaBase]);
     randomKana = GetRandomKanaFromBaseThatsNot([
         currentSetShuffled[currentindex],
         randomKana,
@@ -159,14 +172,6 @@ function CreateQuizButtons(currentindex, parent) {
     answerButtonsArray.push(secondWrongAnswer);
 
     AppendQuizButtons(answerButtonsArray, parent);
-}
-
-function FailQuiz(event) {
-    event.preventDefault();
-    event.target.classList.add("incorrectquiz");
-    //event.target.disabled = true;
-    //event.target.focus();
-    event.target.removeEventListener("click", FailQuiz);
 }
 
 function ShowAgainNextButtons() {
