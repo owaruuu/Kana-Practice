@@ -1,4 +1,4 @@
-import { BuildSetupPage } from "../KanaSelector/learnSetupPage.js";
+import { BuildSetupPage } from "../KanaSelector/setupPage.js";
 import { BuildLearnPage } from "../KanaLearn/learnPage.js";
 import { state } from "../state/state.js";
 import { BuildPracticePage } from "../KanaPractice/practicePage.js";
