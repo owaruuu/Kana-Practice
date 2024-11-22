@@ -32,36 +32,8 @@ export function BuildQuiz() {
     CreateAndClass("div", quizDiv, ["spacer"]);
 
     let answerButtons = CreateAndClass("div", quizDiv, ["quizbuttonsdiv"]);
-    //build answer button array
-    let answerButtonsArray = [];
-    //first the answer button.
-    let answerButton = document.createElement("button");
-    answerButton.classList.add("correctquizanswerbtn");
-    let correctAnswer = kanaAnswers[currentSetShuffled[0]];
-    answerButton.textContent = correctAnswer;
-    answerButton.addEventListener("click", AnswerQuiz);
-    answerButtonsArray.push(answerButton);
 
-    let firstWrongAnswer = document.createElement("button");
-    firstWrongAnswer.classList.add("incorrectquizanswerbtn");
-
-    let randomKana = GetRandomKanaFromBaseThatsNot([currentSetShuffled[0]]);
-    firstWrongAnswer.textContent = kanaAnswers[randomKana];
-    firstWrongAnswer.addEventListener("click", FailQuiz);
-    answerButtonsArray.push(firstWrongAnswer);
-
-    let secondWrongAnswer = document.createElement("button");
-    secondWrongAnswer.classList.add("incorrectquizanswerbtn");
-    //randomKanaBase = GetRandomThatIsNot(currentSet, nots = [currentSet[0], randomKanaBase]);
-    randomKana = GetRandomKanaFromBaseThatsNot([
-        currentSetShuffled[0],
-        randomKana,
-    ]);
-    secondWrongAnswer.textContent = kanaAnswers[randomKana];
-    secondWrongAnswer.addEventListener("click", FailQuiz);
-    answerButtonsArray.push(secondWrongAnswer);
-
-    AppendQuizButtons(answerButtonsArray, answerButtons);
+    CreateQuizButtons(0, answerButtons);
 }
 
 /**
@@ -132,16 +104,23 @@ function GoToNextQuiz() {
         //kanatext.textContent = currentSet[nextindex];
         toggleTransitionWithTimeout(kanatext, currentSetShuffled[nextindex]);
 
-        //erase buttons
-        let buttonsdiv = document.querySelector(".quizbuttonsdiv");
-        buttonsdiv.innerHTML = "";
+        let buttonsdiv = /**@type  {HTMLElement}*/ (
+            document.querySelector(".quizbuttonsdiv")
+        );
 
         //create buttons again
         CreateQuizButtons(nextindex, buttonsdiv);
     }
 }
 
+/**
+ *
+ * @param {number} currentindex
+ * @param {HTMLElement} parent
+ */
 function CreateQuizButtons(currentindex, parent) {
+    parent.innerHTML = "";
+
     //build answer button array
     let answerButtonsArray = [];
     //first the answer button.
