@@ -1,5 +1,4 @@
 import { CreateStackedButton, ChangeScreen } from "./helpers/helpers.js";
-import { state } from "./state/state.js";
 import { instrucciones, bigButtonExplanations } from "./data/data.js";
 import { CreateComplex, CreateAndClass } from "./helpers/domHelpers.js";
 
@@ -58,7 +57,13 @@ export function BuildHomePage() {
     buttonPractica.addEventListener("click", OnPracticeButtonPress);
 }
 
-//Helper functions
+/**
+ *
+ * @param {String} cardTitle
+ * @param {String} explanationText
+ * @param {HTMLElement} parent
+ * @returns
+ */
 function CreateDesktopButton(cardTitle, explanationText, parent) {
     let button = CreateAndClass("button", parent, ["desktopButton"]);
 
