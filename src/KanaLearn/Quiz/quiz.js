@@ -20,7 +20,6 @@ export function BuildQuiz() {
     let quizDiv = CreateAndClass("div", app, ["quizdiv"]);
 
     //randomize kana set
-    let base = getObjKey(sets.allkana, state.currentSet);
     currentSetShuffled = shuffleArray(state.currentSet);
 
     //build kana
@@ -46,9 +45,7 @@ export function BuildQuiz() {
     let firstWrongAnswer = document.createElement("button");
     firstWrongAnswer.classList.add("incorrectquizanswerbtn");
 
-    let randomKana = GetRandomKanaFromBaseThatsNot(base, [
-        currentSetShuffled[0],
-    ]);
+    let randomKana = GetRandomKanaFromBaseThatsNot([currentSetShuffled[0]]);
     firstWrongAnswer.textContent = kanaAnswers[randomKana];
     firstWrongAnswer.addEventListener("click", FailQuiz);
     answerButtonsArray.push(firstWrongAnswer);
@@ -56,7 +53,7 @@ export function BuildQuiz() {
     let secondWrongAnswer = document.createElement("button");
     secondWrongAnswer.classList.add("incorrectquizanswerbtn");
     //randomKanaBase = GetRandomThatIsNot(currentSet, nots = [currentSet[0], randomKanaBase]);
-    randomKana = GetRandomKanaFromBaseThatsNot(base, [
+    randomKana = GetRandomKanaFromBaseThatsNot([
         currentSetShuffled[0],
         randomKana,
     ]);
@@ -67,40 +64,34 @@ export function BuildQuiz() {
     AppendQuizButtons(answerButtonsArray, answerButtons);
 }
 
+/**
+ * Mezcla los botones elegidos para el quiz
+ * @param {HTMLButtonElement[]} arr
+ * @param {HTMLElement} parent
+ */
 function AppendQuizButtons(arr, parent) {
-    arr = shuffleArray(arr);
+    let shuffledButtonsArray = shuffleArray(arr);
 
-    arr.forEach((element) => {
-        parent.appendChild(element);
+    shuffledButtonsArray.forEach((button) => {
+        parent.appendChild(button);
     });
 }
 
-function GetRandomKanaFromBaseThatsNot(base, nots) {
-    let arr = sets.allkana[base];
+/**
+ * Obtiene un kana que no existe aun en el set, eligiendo de los kana actuales
+ * @param {*} nots
+ * @returns
+ */
+function GetRandomKanaFromBaseThatsNot(nots) {
+    let arr = state.currentSet;
 
     let random;
 
     do {
         random = arr[Math.floor(Math.random() * arr.length)];
-    } while (IsEqual(nots, random));
+    } while (nots.includes(random));
 
     return random;
-
-    // arr = shuffleArray(arr);
-    // return arr[0];
-}
-
-function IsEqual(obj, prompt) {
-    let exit = false;
-
-    obj.forEach((key) => {
-        // thekey = key;
-        if (key === prompt) {
-            exit = true;
-        }
-    });
-
-    return exit;
 }
 
 function AnswerQuiz(event) {
@@ -149,7 +140,7 @@ function CreateQuizButtons(currentindex, parent) {
     firstWrongAnswer.classList.add("incorrectquizanswerbtn");
     //let randomKanaBase= GetRandomThatIsNot(currentSet, nots = [currentSet[currentindex]]);
     let base = getObjKey(sets.allkana, state.currentSet);
-    let randomKana = GetRandomKanaFromBaseThatsNot(base, [
+    let randomKana = GetRandomKanaFromBaseThatsNot([
         currentSetShuffled[currentindex],
     ]);
     firstWrongAnswer.textContent = kanaAnswers[randomKana];
@@ -159,7 +150,7 @@ function CreateQuizButtons(currentindex, parent) {
     let secondWrongAnswer = document.createElement("button");
     secondWrongAnswer.classList.add("incorrectquizanswerbtn");
     //randomKanaBase = GetRandomThatIsNot(currentSet, nots = [currentSet[currentindex], randomKanaBase]);
-    randomKana = GetRandomKanaFromBaseThatsNot(base, [
+    randomKana = GetRandomKanaFromBaseThatsNot([
         currentSetShuffled[currentindex],
         randomKana,
     ]);
