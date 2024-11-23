@@ -19,7 +19,7 @@ import { sets } from "../data/sets.js";
 export let state = {
     learnSets: /**@type {KanaSet[]} */ [],
     currentSet: /**@type {String[]} */ [],
-    practiceSets: /**@type {KanaSet[]}*/ [],
+    practiceSets: /**@type {KanaSet[]} */ [],
     currentPage: "home",
     failCounter: 0,
 };
@@ -38,12 +38,12 @@ export function setState(newState) {
  * @param {HTMLElement[]} elementsArray
  * @returns {KanaSet[]}
  */
-export function GetLearnSets(elementsArray) {
-    let learnArray = [];
+export function GetKanaSets(elementsArray) {
+    let kanaArray = [];
     elementsArray.forEach((element) => {
         let kana = element.getAttribute("for");
-        learnArray.push(sets.allkana[kana]);
+        kanaArray.push(sets.allkana[kana]);
     });
 
-    return learnArray;
+    return kanaArray;
 }

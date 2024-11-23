@@ -5,7 +5,7 @@ import {
 } from "../helpers/helpers.js";
 import { CreateSetupButtons } from "./kanaSelector.js";
 import { instrucciones } from "../data/data.js";
-import { GetLearnSets, setState, state } from "../state/state.js";
+import { GetKanaSets, setState, state } from "../state/state.js";
 
 import { CreateComplex, CreateAndClass } from "../helpers/domHelpers.js";
 
@@ -41,14 +41,16 @@ function CheckSelected() {
     startButton.removeEventListener("click", CheckSelected);
 
     //get all labels
-    let buttons = document.querySelectorAll("div.checkboxes > div > label");
+    let labels = /**@type {NodeListOf<HTMLElement>} */ (
+        document.querySelectorAll("div.checkboxes > div > label")
+    );
 
     //hacer un array con todos los 'check'
-    let checked = [];
+    let checked = /**@type {HTMLElement[]} */ ([]);
 
-    buttons.forEach((button) => {
-        if (button.classList.contains("check")) {
-            checked.push(button);
+    labels.forEach((label) => {
+        if (label.classList.contains("check")) {
+            checked.push(label);
         }
     });
 
@@ -58,8 +60,15 @@ function CheckSelected() {
         return;
     }
 
-    const sets = GetLearnSets(checked);
-    setState({ ...state, learnSets: sets, currentSet: sets[0] });
+    const type = startButton.getAttribute("type");
+
+    if (type === "learn") {
+        const sets = GetKanaSets(checked);
+        setState({ ...state, learnSets: sets, currentSet: sets[0] });
+    } else {
+        const sets = GetKanaSets(checked);
+        setState({ ...state, practiceSets: sets });
+    }
 
     ChangeScreen(startButton.getAttribute("type"));
 }

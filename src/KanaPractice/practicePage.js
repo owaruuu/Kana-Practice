@@ -1,11 +1,11 @@
 import { instrucciones } from "../data/data.js";
 import { kanaAnswers } from "../data/romaji.js";
-import { sets } from "../data/sets.js";
 import { CreateAndClass } from "../helpers/domHelpers.js";
 import { shuffleArray } from "../helpers/helpers.js";
+import { BuildSetupPage } from "../KanaSelector/setupPage.js";
 import { state, setState } from "../state/state.js";
 
-export function BuildPracticePage(selected) {
+export function BuildPracticePage() {
     setState({ ...state, failCounter: 0 });
 
     window.addEventListener("PageBuilt", AddMissClickListener);
@@ -21,19 +21,11 @@ export function BuildPracticePage(selected) {
     let instContent = document.getElementById("instruccionescontent");
     instContent.textContent = instrucciones.kanatable;
 
-    //HACER UN ARRAY de kana base desde selected
-    let kanasBase = [];
-
-    selected.forEach((label) => {
-        let kanaBase = label.getAttribute("for");
-        kanasBase.push(kanaBase);
-    });
-
-    //Hacer un array de todos los kanas necesarios ocupando los kana base
+    const selected = state.practiceSets;
     let kanas = [];
-    kanasBase.forEach((basekana) => {
-        let base = sets.allkana[basekana];
-        base.forEach((kana) => {
+
+    selected.forEach((array) => {
+        array.forEach((kana) => {
             kanas.push(kana);
         });
     });
@@ -62,13 +54,13 @@ export function BuildPracticePage(selected) {
         "practiceagainbtn",
     ]);
     againButton.textContent = "Desde 0";
-    againButton.addEventListener("click", () => BuildPracticePage(selected));
+    againButton.addEventListener("click", BuildPracticePage);
 
     let changeButton = CreateAndClass("button", buttonsDiv, [
         "practicechangebtn",
     ]);
     changeButton.textContent = "Cambiar Kanas";
-    changeButton.addEventListener("click", () => BuildPracticePage("practice"));
+    changeButton.addEventListener("click", () => BuildSetupPage("practice"));
 
     window.addEventListener("mouseup", WaitForMouseUp);
 }
