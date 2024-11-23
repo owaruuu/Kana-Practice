@@ -1,4 +1,3 @@
-//Deberian estar las funciones de creacion de DOM basicas
 /**
  * Creates a HTML element and parents it to another HTML element.
  * @template {keyof HTMLElementTagNameMap} T

@@ -1,7 +1,5 @@
 import { Render } from "./render.js";
 import { CreateComplex } from "./domHelpers.js";
-
-//global state variables
 import { state, setState } from "../state/state.js";
 
 /**
