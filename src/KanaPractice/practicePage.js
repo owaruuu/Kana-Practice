@@ -1,19 +1,22 @@
 import { instrucciones } from "../data/data.js";
 import { kanaAnswers } from "../data/romaji.js";
 import { CreateAndClass } from "../helpers/domHelpers.js";
-import { CleanAppPage, shuffleArray } from "../helpers/helpers.js";
+import {
+    CleanAppPage,
+    PopulateInstructions,
+    shuffleArray,
+} from "../helpers/helpers.js";
 import { BuildSetupPage } from "../KanaSelector/setupPage.js";
 import { state, setState } from "../state/state.js";
 
 export function BuildPracticePage() {
     setState({ ...state, failCounter: 0 });
-    window.addEventListener("PageBuilt", AddMissClickListener);
+
     //clean page
     let app = CleanAppPage();
 
     //populate instruccions
-    let instContent = document.getElementById("instruccionescontent");
-    instContent.textContent = instrucciones.kanatable;
+    PopulateInstructions(instrucciones.kanalearn);
 
     const selected = state.practiceSets;
     let kanas = [];
@@ -56,9 +59,14 @@ export function BuildPracticePage() {
     changeButton.textContent = "Cambiar Kanas";
     changeButton.addEventListener("click", () => BuildSetupPage("practice"));
 
-    window.addEventListener("mouseup", WaitForMouseUp);
+    window.addEventListener("click", CheckClick);
 }
 
+/**
+ *
+ * @param {String[]} kanas
+ * @returns {HTMLDivElement[]}
+ */
 function BuildCards(kanas) {
     let cardElements = [];
 
@@ -70,6 +78,11 @@ function BuildCards(kanas) {
     return cardElements;
 }
 
+/**
+ *
+ * @param {String} kana
+ * @returns {HTMLDivElement}
+ */
 function BuildKanaCard(kana) {
     let cardDiv = document.createElement("div");
     cardDiv.classList.add("card");
@@ -105,11 +118,15 @@ function BuildKanaCard(kana) {
     return cardDiv;
 }
 
+/**
+ *
+ * @param {SubmitEvent} event
+ */
 function Submit(event) {
-    let cardDiv = event.target.parentElement;
-    let form = event.target;
-    let input = event.target[0];
-    let inputValue = event.target[0].value;
+    const form = /**@type {HTMLFormElement} */ (event.target);
+    const input = /**@type {HTMLInputElement} */ (event.target[0]);
+    let cardDiv = form.parentElement;
+    let inputValue = input.value;
     inputValue = inputValue.toLowerCase();
     let answer = cardDiv.dataset.answer;
 
@@ -123,7 +140,6 @@ function Submit(event) {
         //pass focus
         FocusNext(event);
     } else {
-        //TODO aqui incrementar contador
         setState({ ...state, failCounter: state.failCounter + 1 });
         if (state.failCounter > 1) {
             form.children[1].classList.add("show");
@@ -133,11 +149,14 @@ function Submit(event) {
         input.value = "";
     }
 
-    //cardDiv.setAttribute('data-some', 20);
-
     event.preventDefault();
 }
 
+/**
+ *
+ * @param {SubmitEvent} event
+ * @returns
+ */
 function FocusNext(event) {
     let inputs = Array.from(document.querySelectorAll("input"));
     let currentindex = inputs.indexOf(event.target[0]);
@@ -160,6 +179,12 @@ function FocusNext(event) {
     button.focus();
 }
 
+/**
+ *
+ * @param {number} index
+ * @param {number} length
+ * @returns
+ */
 function LoopingIncrement(index, length) {
     let newindex = 0;
 
@@ -172,31 +197,34 @@ function LoopingIncrement(index, length) {
     return newindex;
 }
 
+/**
+ *
+ * @param {MouseEvent} event
+ */
 function SelectInput(event) {
     event.currentTarget[0].focus();
 }
 
+/**
+ *  Remueve el focus (la clase) del otro input que tenia focus y agrega la clase focus a la que fue seleccionada
+ * @param {FocusEvent} event
+ */
 function checkFocus(event) {
+    const target = /**@type {HTMLInputElement} */ (event.target);
     let card = document.querySelector(".focus-card");
     if (card != null) card.classList.remove("focus-card");
-    event.target.parentElement.parentElement.classList.add("focus-card");
+    target.parentElement.parentElement.classList.add("focus-card");
     setState({ ...state, failCounter: 0 });
 }
 
-function AddMissClickListener() {
-    window.addEventListener("click", CheckClick);
-}
-
-//check if clicked outside input in practice page
+/**
+ * check if clicked outside input in practice page
+ * @param {MouseEvent} event
+ */
 function CheckClick(event) {
-    if (event.target.localName != "input" && event.target.localName != "form") {
+    const target = /**@type {Element} */ (event.target);
+    if (target.localName != "input" && target.localName != "form") {
         let card = document.querySelector(".focus-card");
         if (card != null) card.classList.remove("focus-card");
     }
-}
-
-//dumb but works
-function WaitForMouseUp() {
-    window.removeEventListener("mouseup", WaitForMouseUp);
-    window.addEventListener("click", CheckClick);
 }
