@@ -1,21 +1,15 @@
 import { instrucciones } from "../data/data.js";
 import { kanaAnswers } from "../data/romaji.js";
 import { CreateAndClass } from "../helpers/domHelpers.js";
-import { shuffleArray } from "../helpers/helpers.js";
+import { CleanAppPage, shuffleArray } from "../helpers/helpers.js";
 import { BuildSetupPage } from "../KanaSelector/setupPage.js";
 import { state, setState } from "../state/state.js";
 
 export function BuildPracticePage() {
     setState({ ...state, failCounter: 0 });
-
     window.addEventListener("PageBuilt", AddMissClickListener);
-
-    state.currentPage = "practice";
-    window.history.pushState(state, null, "");
-
     //clean page
-    let app = document.getElementById("app");
-    app.innerHTML = "";
+    let app = CleanAppPage();
 
     //populate instruccions
     let instContent = document.getElementById("instruccionescontent");
