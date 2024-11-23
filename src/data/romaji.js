@@ -1,3 +1,5 @@
+import { infotext } from "./data.js";
+
 export const romajiConsonants = {
     あ: `a`,
     か: `ka`,
