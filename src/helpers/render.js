@@ -2,11 +2,12 @@ import { BuildSetupPage } from "../KanaSelector/setupPage.js";
 import { BuildLearnPage } from "../KanaLearn/learnPage.js";
 import { state } from "../state/state.js";
 import { BuildPracticePage } from "../KanaPractice/practicePage.js";
+import { BuildHomePage } from "../homepage.js";
 
 export function Render() {
     switch (state.currentPage) {
         case "home":
-            ReloadPage();
+            BuildHomePage();
             break;
         case "learnSetup":
             BuildSetupPage("learn");
@@ -24,8 +25,4 @@ export function Render() {
             console.error("unknown page: " + state.currentPage);
             break;
     }
-}
-
-function ReloadPage() {
-    window.location.reload();
 }

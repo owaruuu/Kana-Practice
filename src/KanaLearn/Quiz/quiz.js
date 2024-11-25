@@ -1,6 +1,7 @@
 import { instrucciones } from "../../data/data.js";
 import { CreateAndClass, CreateSimple } from "../../helpers/domHelpers.js";
 import {
+    ChangeScreen,
     CleanAppPage,
     PopulateInstructions,
     shuffleArray,
@@ -8,6 +9,7 @@ import {
 import { kanaAnswers } from "../../data/romaji.js";
 import { setState, state } from "../../state/state.js";
 import { BuildLearnPage } from "../learnPage.js";
+import { BuildHomePage } from "../../homepage.js";
 
 let currentSetShuffled = state.currentSet;
 
@@ -195,7 +197,7 @@ function OnExitButtonPress(event) {
     const button = /**@type {HTMLButtonElement} */ (event.target);
     button.disabled = true;
     setTimeout(() => {
-        location.reload();
+        ChangeScreen("home");
     }, 250);
 }
 

@@ -1,4 +1,8 @@
-import { CreateStackedButton, ChangeScreen } from "./helpers/helpers.js";
+import {
+    CreateStackedButton,
+    ChangeScreen,
+    CleanAppPage,
+} from "./helpers/helpers.js";
 import { instrucciones, bigButtonExplanations } from "./data/data.js";
 import { CreateComplex, CreateAndClass } from "./helpers/domHelpers.js";
 
@@ -9,7 +13,7 @@ export function BuildHomePage() {
 
     //Build both buttons
     //Get app element
-    let appDiv = document.getElementById("app");
+    let appDiv = CleanAppPage();
 
     //Create desktop buttons container
     let desktopButtonsContainer = CreateComplex(
