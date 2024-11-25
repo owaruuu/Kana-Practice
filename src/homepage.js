@@ -81,10 +81,10 @@ function CreateDesktopButton(cardTitle, explanationText, parent) {
 
     switch (cardTitle) {
         case "Aprender":
-            imgFile = "../images/LearnButtonImg3.png";
+            imgFile = "assets/images/LearnButtonImg3.png";
             break;
         case "Practicar":
-            imgFile = "../images/PracticeButtonImg1.png";
+            imgFile = "assets/images/PracticeButtonImg1.png";
             break;
     }
 
