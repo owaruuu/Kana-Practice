@@ -1,0 +1,16 @@
+.start-button {
+    color: #420039;
+    padding: 10px 30px;
+    background-color: #f7c7db;
+    border: solid 3px #420039;
+    border-radius: 15px;
+    font-size: medium;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 20px;
+
+    &:hover {
+        background-color: #f79ad3;
+        cursor: pointer;
+    }
+}
